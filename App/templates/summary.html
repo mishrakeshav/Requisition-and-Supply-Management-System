@@ -23,9 +23,6 @@
                 <thead>
                     <tr>
                         <th scope="row">Request Id </th>
-                        {% if current_user.isAdmin %}
-                        <th scope="row">Name</th>
-                        {% endif %}
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Timestamp</th>
@@ -37,25 +34,22 @@
                     {% for element in requests %}
                     <tr>
                         
-                        <td>{{ srno }}</td>
-                        {% if current_user.isAdmin %}
-                            <td><%= element.name %></td>
-                        {% endif %}
-                        <td><%= element.item %></td>
-                        <td><%= element.qty %></td>
-                        <td><%=element.date_time%></td>
+                        <td>{{ element.id }}</td>
+                        <td>{{ element.item }}</td>
+                        <td>{{ element.qty }}</td>
+                        <td>{{element.date_applied }}</td>
                         <td class="text-center">
-                            <% if(element.req_status==1) {%>
+                            {% if(element.req_status==1) %}
                                 <h3 style="color: #58b368;"><i class="far fa-check-circle"></i></h3>
-                            <%} else if(element.req_status==-1){%>
+                            {% elif(element.req_status==-1) %}
                                 <h3 style="color: #e84545;"><i class="fas fa-times"></i></h3>
-                            <%}else {%>
+                            {% else %}
                                 <h3 style="color: #454d66;"><i class="far fa-clock"></i></h3>
-                            <%}%>
+                            {% endif %}
 
                         </td>
                     </tr>
-                    <% srno++;}); %>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>

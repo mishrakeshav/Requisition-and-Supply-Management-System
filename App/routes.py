@@ -115,7 +115,10 @@ def user_home():
 @app.route('/user/request/summary')
 @login_required
 def user_summary():
-    pass
+    requests = Request.query\
+        .join(Stock, Request.stock_id == Stock.id, Request.user_id == current_user.id)\
+        
+    return render_template('summary.html', requests = requests)
 
 #---------------- General Routes --------------------
 

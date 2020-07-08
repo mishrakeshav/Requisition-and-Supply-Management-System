@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 
 app.config['SECRET_KEY'] = "fb40965f2a290c9e3cf71459eb611fe5"
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///site.db"
+app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:root@localhost/sms"
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 login_manager = LoginManager(app)

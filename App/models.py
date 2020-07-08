@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(255), nullable = False)
     password = db.Column(db.String(60), nullable = False)
     isAdmin = db.Column(db.Boolean, default = False)
+    # posts = db.relationship('Request', backref = 'requests', lazy = True)
     
     def __repr__(self):
         return str({
@@ -28,12 +29,13 @@ class Stock(db.Model):
     avail = db.Column(db.Integer, nullable = False)
     qty_req = db.Column(db.Integer, nullable = False)
     qty_pres = db.Column(db.Integer, default = 0)
+    # posts = db.relationship('Request', backref = 'requestsmade', lazy = True)
     
 
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer,  nullable = False)
-    stock_id = db.Column(db.Integer,  nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id') ,nullable = False)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'),  nullable = False)
     qty = db.Column(db.Integer)
     date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     status = db.Column(db.Integer, default = 0)
