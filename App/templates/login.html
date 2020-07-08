@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/docs/4.0/assets/img/favicons/favicon.ico">
+    <link rel="shortcut icon" type="image/vnd.Microsoft.icon" 
+    href="https://kjsieit.somaiya.edu/assets/kjsieit/images/icons/favicon.png">
+
+    <title>Login Page</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/sign-in/">
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ url_for('static', filename = 'css/login.css' )  }}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+    <form method = "POST" class="form-signin">
+        <img class="mb-4" src="{{ url_for('static', filename='images/svv.png') }}" alt="" width="102">
+        <h1 class="h3 mb-3  colors">KJ Somaiya Institute of Engineering and IT</h1>
+        <h1 class="h4 mb-3">Department of IT</h1>
+        <h3 class="h5 mb-3   font-weight-normal">Stationery Inventory System</h3>
+        
+            {% with messages = get_flashed_messages(with_categories = true) %}
+            {% if messages %}
+                {% for category,message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label(class="sr-only") }}
+                {% if form.email.errors %}
+                    {{ form.email(class="form-control is-invalid", placeholder="Email address") }}
+                    <div class = "invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class = "form-control", placeholder = 'Email address') }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="sr-only") }}
+                {% if form.password.errors %}
+                    {{ form.password(class = "form-control invalid", placeholder = 'password') }}
+                    <div class = "invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class = "form-control", placeholder = 'password') }}
+                {% endif %}
+            </div>
+        <button type="submit" class = "btn btn-lg btn-dark btn-block" >Login</button>
+    <!-- <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a> -->
+        
+    </form>
+</body>
+
+</html>

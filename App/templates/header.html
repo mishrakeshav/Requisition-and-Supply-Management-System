@@ -16,16 +16,22 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
 </script>
+
 <!-- font awesome -->
 <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+<link rel="shortcut icon" type="image/vnd.Microsoft.icon" 
+    href="https://kjsieit.somaiya.edu/assets/kjsieit/images/icons/favicon.png">
 
-<!-- google fonts -->
+    <!-- google fonts -->
 <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+
 <!--  Javascript for search -->
-<script src="js/search.js"></script>
-<link rel="stylesheet" href="css/search.css">
-<link rel="stylesheet" href="/css/request.css">
-<link rel="stylesheet" href="/css/navbar.css">
+<script src="{{ url_for('static', filename = 'js/search.js') }}"></script>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/search.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename = 'css/request.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename = '/css/navbar.css') }}">
 <style>
 h4{
     font-family: 'Ubuntu', sans-serif;
@@ -39,7 +45,7 @@ nav{
 <header>
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color:dff6f0;">
         <a class="navbar-brand" href="/request">
-            <img src="/images/svv.ico" alt="">
+            <img src="{{ url_for('static', filename = 'images/svv.ico') }}" alt="LOGO">
 
         </a>
         <a class="navbar-brand" href="/request">
@@ -63,31 +69,31 @@ nav{
                         <span class="sr-only">(current)</span>
                     </a>
                 </li>
-                <% if(admin) {%>
+                
                     <li class="nav-item">
-                        <a class="nav-link" href="/request">Requests</a>
+                        <a class="nav-link" href="">Requests</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/stocks">Stocks</a>
+                        <a class="nav-link" href="">Stocks</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/summary/admin">Summary</a>
+                        <a class="nav-link" href="">Summary</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/edit">Edit Profile</a>
+                        <a class="nav-link" href="">Edit Profile</a>
                     </li>
-                <% } %>
+                
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">Request</a>
+                    <a class="nav-link" href="">Request</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/summary/user">Summary</a>
+                    <a class="nav-link" href="">Summary</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/edit">Edit Profile</a>
+                    <a class="nav-link" href="#">Profile</a>
                 </li>
                 <li class="nav-item">
-                    <form action="/logout" method="POST" class="form-inline my-2 my-lg-0">
+                    <form action="{{ url_for('logout') }}" method="POST" class="form-inline my-2 my-lg-0">
                         <button class="btn btn-danger my-2 my-sm-0 mybtn" type="submit">Signout</button>
                     </form>
                 </li>

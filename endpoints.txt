@@ -3,6 +3,7 @@
 /login
 /logout
 /update
+/profile
 -----------------------------
 for admin 
 

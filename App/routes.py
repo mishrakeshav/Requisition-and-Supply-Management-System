@@ -3,13 +3,11 @@ from flask import (
 )
 
 from App.forms import (
-    LoginForm, RegistrationForm, ExtendedHoursForm, 
-    LocalConveyanceForm, OfficeExpensesForm, ClientEntertainmentForm
+    LoginForm, RegistrationForm
 )
 
 from App.models import (
-    User, ExtendedHoursClaim, ClientEntertainmentClaim, 
-    LocalConveyanceClaim, OfficeExpensesClaim, Claims
+    User, Stock, Request
 )
 
 import os
