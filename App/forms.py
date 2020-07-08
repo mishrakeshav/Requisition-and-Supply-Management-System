@@ -14,11 +14,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators = [DataRequired(), Length(min = 8,max=20)])
     submit = SubmitField('Login')
 
-class NewItemForm(FlaskForm):
-    item = StringField('Item', validators=[DataRequired()])
-    quantity_req = IntegerField('Required Qty.', validators=[DataRequired()])
-    avail = IntegerField('Qty', validators=[DataRequired()])
-
 
 class RequestForm(FlaskForm):
     item = StringField('Item', validators=[DataRequired()])

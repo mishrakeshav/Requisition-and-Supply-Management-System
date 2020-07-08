@@ -3,17 +3,13 @@ from flask import (
 )
 
 from App.forms import (
-    LoginForm, EditStocks, RequestForm, Profile, NewItemForm
+    LoginForm, EditStocks, RequestForm, Profile
 )
 
 from App.models import (
     User, Stock, Request
 )
 
-import os
-import secrets
-from PIL import Image
-import functools
 
 
 from App import app, db, bcrypt
@@ -49,17 +45,39 @@ def stocks():
         flash(f'Stock Updated', 'success')
         return redirect(url_for('stocks'))
 
-        
 
 
-@app.route('/admin/stocks/edit')
-def edit_stocks():
-    pass
 
 
-@app.route('/admin/stocks/add')
+@app.route('/admin/stocks/add', methods=['POST'])
 def add_stocks():
-    pass
+    err_flag = False
+    form = request.form
+    item_name = form['item']
+    try:
+        qty_req = int(form['qty_req'])
+    except :
+        err_flag = True
+    try:
+        qty = int(form['qty'])
+    except :
+        err_flag = True
+    
+    if err_flag:
+        flash(f'Invalid Details', 'danger')
+    else:
+        stck = Stock(
+            item = item_name,
+            qty_prev = 0,
+            avail = qty,
+            qty_req = qty_req,
+            qty_pres = 0
+        )
+        db.session.add(stck)
+        db.session.commit()
+        flash(f'Stock added Succeddfully', 'success')
+    return redirect(url_for('stocks'))
+
 
 @app.route('/admin/request/accept')
 def accept_request():
