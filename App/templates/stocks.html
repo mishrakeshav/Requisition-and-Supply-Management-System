@@ -1,5 +1,3 @@
-
-
 {% extends "layout.html" %}
 
 {% block content %}
@@ -28,22 +26,25 @@
                     <div class="collapse multi-collapse" id="multiCollapseExample1" style="margin: 2%;">
                         <div class="fluid container" style="width: 40%;">
                             <div class="card card-body">
-                                <form action="/add_item" , method="POST">
-                                    <h5 class="display-4" style="font-size: 2rem">New Item Details</h5>
-
-                                    <div class="form-group">
-                                        <input name="item" type="text" class="form-control" 
-                                            placeholder="ItemName" required>
+                                <form action="{{ url_for('add_stocks') }}" method="POST">
+                                    <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">New Item Details</legend>
+                                        <div class='form-group'>
+                                            <label for="item">Item Name</label>
+                                            <input class='form-control' type="text" id="item" name="item">
+                                        </div>
+                                        <div class='form-group'>
+                                            <label for="qty_req">Qty Required</label>
+                                            <input class='form-control' type="text" id="qty_req" name="qty_req">
+                                        </div>
+                                        <div class='form-group'>
+                                            <label for="qty">Qty</label>
+                                            <input class='form-control' type="text" id="qty" name="qty">
+                                        </div>
+                                    </fieldset>
+                                    <div class='form-group'>
+                                        <button class = 'btn btn-primary' type="submit">Add Item</button>
                                     </div>
-                                    <div class="form-group">
-                                        <input name="stock" type="number" class="form-control" 
-                                            placeholder="Stock in hand" min="0" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <input name="qty_req" type="number" class="form-control" 
-                                            placeholder="Quantity required" min="0" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Add</button>
                                 </form>
                             </div>
                         </div>
