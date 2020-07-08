@@ -28,9 +28,7 @@ def home():
 @app.route('/admin/requests')
 @login_required
 def admin_request():
-    request = [
-        
-    ]
+    request = Request.query.all()[::-1]
     return render_template('request.html', requests = request) 
 
 
@@ -88,7 +86,8 @@ def reject_request():
 @app.route('/admin/requests/summary')
 @login_required
 def admin_summary():
-    pass
+    requests = Request.query.all()[::-1]
+    return render_template('summary.html', requests = requests)
 
 
 # ----------------- User routes ------------------
@@ -115,9 +114,7 @@ def user_home():
 @app.route('/user/request/summary')
 @login_required
 def user_summary():
-    requests = Request.query\
-        .join(Stock, Request.stock_id == Stock.id, Request.user_id == current_user.id)\
-        
+    requests = User.query.get(current_user.id).requests[::-1]
     return render_template('summary.html', requests = requests)
 
 #---------------- General Routes --------------------

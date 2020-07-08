@@ -23,6 +23,10 @@
                 <thead>
                     <tr>
                         <th scope="row">Request Id </th>
+                        {% if current_user.isAdmin %}
+                        <th scope='col'> User Id </th>
+                        <th scope='col'> Name </th>
+                        {% endif %}
                         <th scope="col">Item</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Timestamp</th>
@@ -30,14 +34,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
                     {% for element in requests %}
                     <tr>
                         
                         <td>{{ element.id }}</td>
-                        <td>{{ element.item }}</td>
+                        {% if current_user.isAdmin %}
+                        <td scope='col'>{{ element.user_id }}</td>
+                        <td scope='col'>{{ element.user.first_name + " " + element.user.last_name }}</td>
+                        {% endif %}
+                        <td>{{ element.stock.item }}</td>
                         <td>{{ element.qty }}</td>
-                        <td>{{element.date_applied }}</td>
+                        <td>{{element.date_applied.strftime('%Y-%m-%d') }}</td>
                         <td class="text-center">
                             {% if(element.req_status==1) %}
                                 <h3 style="color: #58b368;"><i class="far fa-check-circle"></i></h3>

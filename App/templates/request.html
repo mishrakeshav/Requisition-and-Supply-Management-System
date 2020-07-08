@@ -32,40 +32,39 @@
                 </thead>
                 <tbody>
                     {% for element in requests %}
-                    <tr>
-                        <td>{{ element.fname + " " + element.lname }}</td>
-                        <td>{{ element.item }}</td>
-                        <td>{{ element.qty }}</td>
-                        <td>{{element.date_time }}</td>
-                        <td class="text-center">
-                            <div class="row">
-
-                                {% if(element.qty_flag >= 0) %}>
+                        <tr>
+                            <td>{{ element.user.first_name + " " + element.user.last_name }}</td>
+                            <td>{{ element.stock.item }}</td>
+                            <td>{{ element.qty }}</td>
+                            <td>{{element.date_applied.strftime('%Y-%m-%d') }}</td>
+                            <td class="text-center">
+                                <div class="row">
+=                                    {% if( element.stock.avail - element.qty  >= 0) %}>
+                                        <div class="col-lg-6">
+                                            <a class='btn btn-success btn-xs' style="margin-right: 2rem;"
+                                                href="/edit_requests/accept/<%= element.req_id %>/<%= element.stock_id %>/<%= element.qty %>">
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                                <i class="fas fa-check"></i> Accept
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-lg-6">
+                                            <button class='btn btn-success btn-xs' style="margin-right: 2rem;" disabled>
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                                <i class="fas fa-check"></i> Accept
+                                            </button>
+                                        </div>
+                                    {% endif %}
                                     <div class="col-lg-6">
-                                        <a class='btn btn-success btn-xs' style="margin-right: 2rem;"
-                                            href="/edit_requests/accept/<%= element.req_id %>/<%= element.stock_id %>/<%= element.qty %>">
-                                            <span class="glyphicon glyphicon-edit"></span>
-                                            <i class="fas fa-check"></i> Accept
+                                        <a class="btn btn-danger btn-xs"
+                                            href="/edit_requests/reject/<%= element.req_id %>/<%= element.stock_id %>/<%= element.qty %>">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                            <i class="far fa-trash-alt"></i> Delete
                                         </a>
                                     </div>
-                                {% else %}
-                                    <div class="col-lg-6">
-                                        <button class='btn btn-success btn-xs' style="margin-right: 2rem;" disabled>
-                                            <span class="glyphicon glyphicon-edit"></span>
-                                            <i class="fas fa-check"></i> Accept
-                                        </button>
-                                    </div>
-                                {% endif %}
-                                <div class="col-lg-6">
-                                    <a class="btn btn-danger btn-xs"
-                                        href="/edit_requests/reject/<%= element.req_id %>/<%= element.stock_id %>/<%= element.qty %>">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                        <i class="far fa-trash-alt"></i> Delete
-                                    </a>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
                     {% endfor %}
                 </tbody>
             </table>
