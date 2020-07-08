@@ -35,7 +35,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{ for element in stocks }}
+                {% for element in stocks %}
                     <form action="{{ url_for('user_home') }}" method="post">
                             <tr>
                                 <td><input class="no-outline" name="id" type="text" value='{{ element.id }}' readonly></td>
