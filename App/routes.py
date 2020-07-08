@@ -19,12 +19,14 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 
 @app.route('/')
+@login_required
 def home():
     pass
 
 
 # ----------------- Admin routes ------------------
 @app.route('/admin/requests')
+@login_required
 def admin_request():
     request = [
         
@@ -33,6 +35,7 @@ def admin_request():
 
 
 @app.route('/admin/stocks', methods = ['GET','POST'])
+@login_required
 def stocks():
     if request.method == 'GET':
         stocks = Stock.query.all()
@@ -50,6 +53,7 @@ def stocks():
 
 
 @app.route('/admin/stocks/add', methods=['POST'])
+@login_required
 def add_stocks():
     err_flag = False
     form = request.form
@@ -71,21 +75,25 @@ def add_stocks():
 
 
 @app.route('/admin/request/accept')
+@login_required
 def accept_request():
     pass
 
 
 @app.route('/admin/request/delete')
+@login_required
 def reject_request():
     pass
 
 @app.route('/admin/requests/summary')
+@login_required
 def admin_summary():
     pass
 
 
 # ----------------- User routes ------------------
 @app.route('/user/home', methods=['GET', 'POST'])
+@login_required
 def user_home():
     if request.method == 'POST':
         form = request.form
@@ -105,6 +113,7 @@ def user_home():
 
 
 @app.route('/user/request/summary')
+@login_required
 def user_summary():
     pass
 
@@ -127,8 +136,8 @@ def login():
         
     return render_template('login.html',form = form)
 
+@app.route("/logout", methods=["POST"])
 @login_required
-@app.route("/logout")
 def logout():
     logout_user()
     return redirect(url_for('login'))
