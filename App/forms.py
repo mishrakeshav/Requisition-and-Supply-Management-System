@@ -26,6 +26,7 @@ class RequestForm(FlaskForm):
 
 
 class EditStocks(FlaskForm):
+    stock_id = IntegerField('Stock Id', validators=[DataRequired()])
     avail = IntegerField('Qty', validators=[DataRequired()])
     quantity_req = IntegerField('Required Qty.', validators=[DataRequired()])
 

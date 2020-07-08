@@ -3,7 +3,7 @@ from flask import (
 )
 
 from App.forms import (
-    LoginForm
+    LoginForm, EditStocks, RequestForm, Profile, NewItemForm
 )
 
 from App.models import (
@@ -35,11 +35,22 @@ def admin_request():
     ]
     return render_template('request.html', requests = request) 
 
-@app.route('/admin/stocks')
-def stocks():
-    stocks = Stock.query.all()
 
-    return render_template('stocks.html', stocks = stocks)
+@app.route('/admin/stocks', methods = ['GET','POST'])
+def stocks():
+    
+    if request.method == 'GET':
+        stocks = Stock.query.all()
+        return render_template('stocks.html', stocks = stocks)
+    else:
+        stock = Stock.query.filter_by(id = request.form['id']).first()
+        stock.avail = int(request.form['avail_text'] )
+        stock.qty_req  = int(request.form['qty_text'] )
+        db.session.commit()
+        flash(f'Stock Updated', 'success')
+        return redirect(url_for('stocks'))
+
+        
 
 
 @app.route('/admin/stocks/edit')
