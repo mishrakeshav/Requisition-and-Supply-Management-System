@@ -30,3 +30,18 @@ for user
 
 
 
+
+
+stock1 = Stock(item = 'Box File', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
+stock2 = Stock(item = 'Register', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
+stock3 = Stock(item = 'Whitener', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
+stock4 = Stock(item = 'Tissue Paper', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
+stock5 = Stock(item = 'Chalk Box', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
+
+db.session.add(stock1)
+db.session.add(stock2)
+db.session.add(stock3)
+db.session.add(stock4)
+db.session.add(stock5)
+
+db.session.commit()

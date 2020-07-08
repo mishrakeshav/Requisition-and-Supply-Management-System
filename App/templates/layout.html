@@ -1,0 +1,122 @@
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+
+    <!-- JavaScript and jQuery link -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <!-- font awesome -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+    <link rel="shortcut icon" type="image/vnd.Microsoft.icon" 
+        href="https://kjsieit.somaiya.edu/assets/kjsieit/images/icons/favicon.png">
+
+        <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+
+    <!--  Javascript for search -->
+    <script src="{{ url_for('static', filename = 'js/search.js') }}"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'css/request.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = '/css/navbar.css') }}">
+</head>
+<style>
+h4{
+    font-family: 'Ubuntu', sans-serif;
+    
+}
+nav{
+    background-color: #e8f1f5;
+}
+</style>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:dff6f0;">
+            <a class="navbar-brand" href="/request">
+                <img src="{{ url_for('static', filename = 'images/svv.ico') }}" alt="LOGO">
+
+            </a>
+            <a class="navbar-brand" href="/request">
+                <h4 id="sis">Stationery Inventory System ... <i class="fas fa-pencil-alt"></i></h4>
+
+                <p class="sis-desktop">KJSIEIT,<br>Dept of IT</p>
+            </a>
+
+
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">
+                            <p class="sis-desktop">Stationery Inventory System</p>
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Requests</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Stocks</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Summary</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Edit Profile</a>
+                        </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Request</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Summary</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <form action="{{ url_for('logout') }}" method="POST" class="form-inline my-2 my-lg-0">
+                            <button class="btn btn-danger my-2 my-sm-0 mybtn" type="submit">Signout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+            </div>
+        </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+    <div class="footer">
+        <footer style="color: black; font-size: small;"> © 2019 
+            <a id "footer-link" href="https://github.com/Phoenix009/TaskMasters">Taskmasters</a> KJSIEIT ,Inc All rights reserved .
+        </footer>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    
+    <script src="{{ url_for('static', filename = 'js/user.js') }}"></script>
+    <script src = "{{ url_for('static', filename = 'js/search.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/stocks.js') }}"></script>
+</body>

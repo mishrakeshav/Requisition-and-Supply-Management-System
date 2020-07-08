@@ -27,5 +27,6 @@ function edit_row(no)
  item.innerHTML=`<input type='text' class=" form-control"  name='item_text'  value ='${item_data}' readonly>`;
  avail.innerHTML=`<input type='number' class=" form-control"  name='avail_text'  value ='${avail_data}' min="0">`;
  qty_req.innerHTML=`<input type='number' class=" form-control"  name='qty_text'  value ='${Qty_data}' min="0">`;
+
 }
 

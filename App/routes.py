@@ -3,7 +3,7 @@ from flask import (
 )
 
 from App.forms import (
-    LoginForm, RegistrationForm
+    LoginForm
 )
 
 from App.models import (
@@ -30,11 +30,16 @@ def home():
 # ----------------- Admin routes ------------------
 @app.route('/admin/requests')
 def admin_request():
-    pass
+    request = [
+        
+    ]
+    return render_template('request.html', requests = request) 
 
 @app.route('/admin/stocks')
 def stocks():
-    pass
+    stocks = Stock.query.all()
+
+    return render_template('stocks.html', stocks = stocks)
 
 
 @app.route('/admin/stocks/edit')
@@ -68,3 +73,28 @@ def user_home():
 @app.route('/user/request/summary')
 def user_summary():
     pass
+
+#---------------- General Routes --------------------
+
+@app.route("/login",methods = ['GET','POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email = form.email.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            next_page = request.args.get('next')
+            login_user(user)
+            flash('Your are now logged in', 'success')
+            return redirect(next_page) if next_page else  redirect(url_for('home'))
+        else:
+            flash(f"Your login credentials don't match")
+        
+    return render_template('login.html',form = form)
+
+@login_required
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
