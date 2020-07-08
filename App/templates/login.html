@@ -1,0 +1,48 @@
+{% extends "login_form_layout.html" %}
+
+{% block content %}
+<div>
+    {% with messages = get_flashed_messages(with_categories = true) %}
+        {% if messages %}
+            {% for category,message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+  </div>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.email.label(class = "form-control-label") }}
+                {% if form.email.errors %}
+                    {{ form.email(class = "form-control is-invalid") }}
+                    <div class = "invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.email(class = "form-control") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class = "form-control-label") }}
+                {% if form.password.errors %}
+                    {{ form.password(class = "form-control invalid") }}
+                    <div class = "invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.password(class = "form-control") }}
+                {% endif %}
+            </div>
+        <button type="submit" class="btn btn-black">Login</button>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    </form>
+ 
+{% endblock content %}

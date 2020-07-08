@@ -1,0 +1,45 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+      <h2>Section title</h2>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th>Claim id</th>
+              <th>Claim type</th>
+              <th>Employee id</th>
+              <th>Date applied</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for claim in claims %}
+              
+              <tr>
+                <td><a >{{ claim.id }}</a></td>
+                <td>{{ claim.claim_type }}</td>
+                <td>{{ claim.user_id }}</td>
+                <td>{{ claim.date_applied }}</td>
+                {% if claim.approved == 0 %}
+                  <td>
+                    <a type="button" href = "{{ url_for('view_claim', type_of_claim = claim.claim_type, claim_id = claim.claim_id, claim = claim.id) }}">
+                     <button class = 'pt-1' style="width: 100px;"><i class="large material-icons">access_time</i></button> 
+                    </a>
+                  </td>
+                {% elif claim.approved == 1 %}
+                  <td><i class="large material-icons">check</i></td>
+                {% else %}
+                  <td><i class="large material-icons">close</i></td>
+                {% endif %}
+              </tr>
+              
+            {% endfor %}
+
+            
+          </tbody>
+        </table>
+      
+{% endblock content %}

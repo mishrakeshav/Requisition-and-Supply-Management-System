@@ -1,0 +1,38 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+      <!-- <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas> -->
+
+      <h2>Client Entertainment</h2>
+      <form class="w-75" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+          <div class="mt-2">
+                {{ form.client_name.label(class="form-label") }}
+                {{ form.client_name(class = "form-control",placeholder = "Name of the client") }}
+          </div>
+          <div class="mt-2">
+            {{ form.hotel_name.label(class="form-label") }}
+            {{ form.hotel_name(class = "form-control",placeholder = "Name of Hotel/Restaurant") }}
+          </div>
+        
+        <div class="row mt-3">
+          <div class="col">
+            {{ form.bill_date.label(class="form-label") }}
+            {{ form.bill_date(class = "form-control",placeholder = "YY:MM:DD") }}
+          </div>
+          <div class="col mb-1">
+            {{ form.bill_amount.label(class="form-label") }}
+            {{ form.bill_amount(class = "form-control",placeholder = "Bill Amount") }}
+          </div>
+      </div>
+      <div class="mt-3">
+          {{ form.bill_image.label(class="form-label") }}
+          {{ form.bill_image(class = "form-control",placeholder = "Bill Amount") }}
+      </div>
+      <div class="mt-4">       
+        {{ form.submit(class = "btn btn-secondary") }}
+      </div>
+      </form>
+{% endblock content %}

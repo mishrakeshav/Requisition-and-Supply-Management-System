@@ -1,0 +1,47 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+      <div class="row">
+          <div class="col-lg-12 mb-2">
+            <h4>{{ mapped.claim_type }}</h4>
+          </div>
+          <div class="card col-6 mt-1 mb-3 pt-3 ml">
+            <h5>Name of employee: {{ user.first_name + " " + user.last_name }}</h5>
+            
+            <p>
+            {% if clients_claim.bill_amount %}
+              <strong>Bill Amount: </strong>{{ clients_claim.bill_amount }}<br>
+            {% endif %}
+            {% if clients_claim.bill_no %}
+              <strong>Bill no. : </strong>{{ clients_claim.bill_no }}<br>
+            {% endif %}
+            {% if clients_claim.bill_date %}
+              <strong>Bill date : </strong>{{ clients_claim.bill_date }}<br>
+            {% endif %}
+            {% if clients_claim.from_time %}
+              <strong>from</strong>  {{ clients_claim.from_time }} <strong>to</strong> {{ clients_claim.to_time }}<br>
+            {% endif  %}
+            {% if clients_claim.from_location %}
+              <strong>from</strong>  {{ clients_claim.from_location }} <strong>to</strong> {{ clients_claim.to_location }}<br>
+            {% endif  %}
+            {% if clients_claim.client_name %}
+                <strong>Client Name: </strong> {{ clients_claim.client_name }}<br>
+                <strong>Hotel Name : </strong> {{ clients_claim.hotel_name }}<br>
+            {% endif %}
+            </p>
+          </div>
+          <div id="carouselExampleControls" class="card col-5 ml-4 p-3 carousel slide" data-ride="carousel">
+            <a href="{{ url_for('static', filename = 'bills/' + clients_claim.bill_image ) }}"  class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{{ url_for('static', filename = 'bills/' + clients_claim.bill_image ) }}" class="d-block w-100" alt="...">
+               </div>
+              </a>
+          </div>
+
+          <div class="col-12 mt-3 mb-5 ml-3">
+            <a class = "btn btn-secondary" href = "{{ url_for('approve_claim', approved = 1,type_of_claim = mapped.claim_type, claim_id = mapped.claim_id, claim = mapped.id) }}">Approve</a>
+            <a class = "btn btn-danger"  href = "{{ url_for('approve_claim', approved = 2, type_of_claim = mapped.claim_type, claim_id = mapped.claim_id, claim = mapped.id) }}">Reject</a>
+          </div>
+      </div>
+{% endblock content %}
