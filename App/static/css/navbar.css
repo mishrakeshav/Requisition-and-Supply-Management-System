@@ -1,0 +1,12 @@
+@media screen and (max-width: 600px) {
+  #sis {
+    display: none;
+  }
+
+}
+@media screen and (min-width: 600px) {
+    .sis-desktop {
+        display: none;
+        font-weight: bold;
+      }    
+}

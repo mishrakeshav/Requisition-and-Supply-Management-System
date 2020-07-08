@@ -1,4 +1,4 @@
-from ClaimSettlementApp import db, login_manager
+from App import db, login_manager
 from datetime import datetime
 from flask_login import UserMixin
 
@@ -8,11 +8,12 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key = True)
-    email = db.Column(db.String(20), unique = True , nullable = False)
-    first_name = db.Column(db.String(30), nullable = False)
-    last_name = db.Column(db.String(30), nullable = False)
+    email = db.Column(db.String(250), unique = True , nullable = False)
+    first_name = db.Column(db.String(255), nullable = False)
+    last_name = db.Column(db.String(255), nullable = False)
     password = db.Column(db.String(60), nullable = False)
     isAdmin = db.Column(db.Boolean, default = False)
+    requests_made  = db.relationship('Request', backref = 'request', lazy = True)
 
     def __repr__(self):
         return str({
@@ -27,5 +28,15 @@ class Stock(db.Model):
     qty_prev = db.Column(db.Integer, nullable = False)
     avail = db.Column(db.Integer, nullable = False)
     qty_req = db.Column(db.Integer, nullable = False)
-    isAdmin = db.Column(db.Integer, default = False)
+    qty_pres = db.Column(db.Integer, default = 0)
+    requests_made  = db.relationship('Request', backref = 'request', lazy = True)
+
+class Request(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), nullable = False)
+    qty = db.Column(db.Integer)
+    date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    status = db.Column(db.Integer, default = 0)
+
 

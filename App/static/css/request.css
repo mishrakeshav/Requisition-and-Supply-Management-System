@@ -1,0 +1,72 @@
+
+/* NAVBAR */
+#navbarSupportedContent{
+    text-align: right;
+    width: 100%;
+}
+#nav-item{
+    margin: 0 0 0 35rem;
+}
+.mybtn{
+    margin-right: 1rem;
+}
+.mybtn:hover{
+    background-color: black;
+}
+.footer{
+    text-align: center;
+}
+.mainhead{
+    text-align: center;
+    margin-top: 2%;
+}
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+}
+    
+h4{
+    margin-left: 1rem;
+}
+
+input {
+    border: none;
+    background: none;
+}
+
+.no-outline:focus{
+    outline:none;
+}
+
+
+h3{
+    opacity: 0.8;
+}
+
+#close{
+    float: right;
+    margin-top: 3px;
+    margin-right: 3px;
+    background: none;
+    border: none;
+    color: rgb(0, 118, 0);
+}
+
+.alert-success{
+    border-radius: 4px;
+
+}
+
+.alert-success p{
+    margin: 10px;
+    text-align: center;
+}
+/* stocks CSS */
+

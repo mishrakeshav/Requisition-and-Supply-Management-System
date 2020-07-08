@@ -1,0 +1,115 @@
+<link rel="shortcut icon" type="image/vnd.Microsoft.icon" 
+    href="https://kjsieit.somaiya.edu/assets/kjsieit/images/icons/favicon.png">
+<title>Stock List</title>
+<%- include('header'); -%>
+
+<div class="container-fluid">
+<div class="row head">
+    <div class="mainhead col-md-12 row">
+        <div class="col-md-6">
+            <h3>Stock List</h3>
+        </div>
+        
+        <div class="col-md-3">
+            <input type="text" class = " form-control" id="myInput" onkeyup="myFunction()" placeholder="Search" /><span></span>
+        </div>
+    </div>
+    
+</div>
+</div>
+<div class="container-fluid row head">
+    <div class="mainhead col-md-12">
+        
+        <a class="btn btn-outline-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button"
+            aria-expanded="false" aria-controls="multiCollapseExample1" style="margin: 1%;">Click to add new Item</a>
+        <div class="row">
+            <div class="col">
+                <div class="collapse multi-collapse" id="multiCollapseExample1" style="margin: 2%;">
+                    <div class="fluid container" style="width: 40%;">
+                        <div class="card card-body">
+                            <form action="/add_item" , method="POST">
+                                <h5 class="display-4" style="font-size: 2rem">New Item Details</h5>
+
+                                <div class="form-group">
+                                    <input name="item" type="text" class="form-control" 
+                                        placeholder="ItemName" required>
+                                </div>
+                                <div class="form-group">
+                                    <input name="stock" type="number" class="form-control" 
+                                        placeholder="Stock in hand" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <input name="qty_req" type="number" class="form-control" 
+                                        placeholder="Quantity required" min="0" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+</div>
+<div class="container d-flex justify-content-center">
+    <div class="col-md-offset-2 custyle table-responsive">
+        <form action="/edit_stocks" method="POST">
+        <table id="myTable" class="table table-list-search table-striped custab">
+            <thead>
+                <tr>
+                    <th scope="row">Sr.No</th>
+                    <th scope="col">Stationery Item</th>
+                    <th scope="col">Qty<br>(previous sem)</th>
+                    <th scope="col">Stock in hand</th >
+                    <th scope="col">Quantity required</th >
+                    <th scope="col">Qty<br>(present sem)</th >
+                    <th scope="col" class="text-center" >Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% body.forEach(element => { %>
+                
+                
+                    
+                    <tr id="row<%= element.id %>">
+
+                        <td id="<%=element.id%>"><%= element.id %></td>
+                        <td id="item<%= element.id  %>"><%= element.item %></td>
+                        <td><%= element.qty_prev %></td>
+                        <td id="avail<%= element.id %>"><%= element.avail %></td>
+                        <td id="qty-req<%= element.id %>"><%= element.qty_req %></td>
+                        <td><%= element.qty_pres %></td>
+                        <td>    
+                            <button type="submit" class="btn btn-success" style="display: none;" id = "save_button<%= element.id %>"><i class="fas fa-check"></i> Save Changes   </button>
+                            <input type="button" class="btn btn-outline-danger" id="edit_button<%= element.id %>" value="Edit items" class="edit"
+                                onclick="edit_row('<%= element.id %>')">
+                        </td>
+
+                    </tr>
+                
+                <% }); %>
+            </tbody>
+        </form>
+        </table>
+    </div>
+</div>
+<div class="footer">
+    <footer style="color: black; font-size: small;"> 
+        <div class="row d-flex justify-content-center">
+            <div class="col-2">
+                <form action="/export" method="POST">
+                    <button type="submit" class="btn btn-dark"><i class="fa fa-download"></i> Download</button>
+                </form>
+            </div>
+            <div class="col-">
+                <form action="/export" method="POST">
+                    <button type="submit" class="btn btn-outline-dark">Reset</button>
+                </form>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<%- include('footer'); -%>
