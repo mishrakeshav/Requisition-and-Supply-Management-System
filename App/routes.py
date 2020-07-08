@@ -53,29 +53,20 @@ def stocks():
 def add_stocks():
     err_flag = False
     form = request.form
-    item_name = form['item']
-    try:
-        qty_req = int(form['qty_req'])
-    except :
-        err_flag = True
-    try:
-        qty = int(form['qty'])
-    except :
-        err_flag = True
-    
-    if err_flag:
-        flash(f'Invalid Details', 'danger')
-    else:
+    if form['qty_req'].isnumeric() and form['qty'].isnumeric():
         stck = Stock(
-            item = item_name,
+            item = form['item_name'],
             qty_prev = 0,
-            avail = qty,
-            qty_req = qty_req,
+            avail = int(form['qty']),
+            qty_req = int(form['qty_req']),
             qty_pres = 0
         )
         db.session.add(stck)
         db.session.commit()
-        flash(f'Stock added Succeddfully', 'success')
+        flash(f'Stock added Successfully', 'success')
+    else:
+        flash(f'Invalid Details', 'danger')
+
     return redirect(url_for('stocks'))
 
 
@@ -94,9 +85,24 @@ def admin_summary():
 
 
 # ----------------- User routes ------------------
-@app.route('/user/home')
+@app.route('/user/home', methods=['GET', 'POST'])
 def user_home():
-    pass
+    if request.method == 'POST':
+        form = request.form
+        if form['id'].isnumeric() and form['qty'].isnumeric():
+            stock = Stock.query.get_or_404(int(form['id']))
+            req = Request(
+                user_id = current_user.id,
+                stock_id = int(form['id']),
+                qty = int(form['qty'])
+            )
+            db.session.add(req)
+            db.session.commit()
+        else:
+            flash(f'Invalid Details')
+    stocks = Stock.query.all()
+    return render_template("user.html", stocks = stocks)
+
 
 @app.route('/user/request/summary')
 def user_summary():
