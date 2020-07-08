@@ -124,15 +124,20 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
+    print(form.validate_on_submit())
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
+        print(user)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
+            print("here 1")
             next_page = request.args.get('next')
             login_user(user)
+            print('here2')
             flash('Your are now logged in', 'success')
-            return redirect(next_page) if next_page else  redirect(url_for('home'))
+            return redirect(next_page) if next_page else  redirect(url_for('admin_request'))
         else:
             flash(f"Your login credentials don't match")
+    
         
     return render_template('login.html',form = form)
 
