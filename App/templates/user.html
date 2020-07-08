@@ -1,9 +1,7 @@
-<link rel="shortcut icon" type="image/vnd.Microsoft.icon" 
-    href="https://kjsieit.somaiya.edu/assets/kjsieit/images/icons/favicon.png">
-<title>User Page</title>
 
-<!-- HEADER    -->
-<%- include('header_user'); -%>
+{% extends "layout.html" %}
+
+{% block content %}
 
 
 <div class="container-fluid justify-content-center row head">
@@ -25,11 +23,7 @@
 
     <div class="col-md-offset-2 custyle table-responsive">
 
-        <% if(req_status) { %>
-        <div id="req_msg" class="req_stat_msg alert-success">
-            <p>Request Made Sussessfully</p>
-        </div>
-        <% } %> 
+         
         
         <table id="myTable" class="table table-list-search table-striped custab">
             <thead>
@@ -41,32 +35,32 @@
                 </tr>
             </thead>
             <tbody>
-                <% body.forEach(element => { %>
-                    <form action="/make_request" method="post">
-                        <tr>
-                            <td><input class="no-outline" name="id" type="text" value='<%= element.id %>' readonly></td>
-                            <td><input class="no-outline" name="item" type="text" value='<%= element.item %>' readonly></td>
-                            <td class="placeholder" style="width: 12rem;">
-                                <div class="form-group" id="div<%=element.id%>">
-                                    <input id="qty<%=element.id%>" name="qty" type="number" class="form-control" placeholder="Required Quantity" min="0" required>
-                                </div>
-                            </td>
-                            <td class="text-center">
-                                <div class="row">
-                                    <div class="col-lg-12" style="justify-content: center;">
-                                        <button type="submit" class="btn btn-success" style="display: none;" id = "confirm<%= element.id %>"><i class="fas fa-check"></i>Confirm Request</button>
-                                        <input type="button" class="btn btn-primary" id="request<%= element.id %>" value="Request" class="edit"
-                                        onclick="editRow('<%= element.id %>')">
+                {{ for element in stocks }}
+                    <form action="{{ url_for('user_home') }}" method="post">
+                            <tr>
+                                <td><input class="no-outline" name="id" type="text" value='{{ element.id }}' readonly></td>
+                                <td><input class="no-outline" name="item" type="text" value='{{ element.item }}' readonly></td>
+                                <td class="placeholder" style="width: 12rem;">
+                                    <div class="form-group" id="div{{ element.id }}">
+                                        <input id="qty{{ element.id }}" name="qty" type="number" class="form-control" placeholder="Required Quantity" min="0" required>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                                <td class="text-center">
+                                    <div class="row">
+                                        <div class="col-lg-12" style="justify-content: center;">
+                                            <button type="submit" class="btn btn-success" style="display: none;" id = "confirm{{ element.id }}"><i class="fas fa-check"></i>Confirm Request</button>
+                                            <input type="button" class="btn btn-primary" id="request{{ element.id }}" value="Request" class="edit"
+                                            onclick="editRow('{{ element.id }}')">
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
                         </form>
-                    <% }); %>
+                    {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
 
 
-<%- include('footer'); -%>
+{% endblock content %}
