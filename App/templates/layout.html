@@ -97,11 +97,13 @@ nav{
                     <li class="nav-item">
                         <a class="nav-link" href="#">Profile</a>
                     </li>
-                    <li class="nav-item">
-                        <form action="{{ url_for('logout') }}" method="POST" class="form-inline my-2 my-lg-0">
-                            <button class="btn btn-danger my-2 my-sm-0 mybtn" type="submit">Signout</button>
-                        </form>
-                    </li>
+                    {% if current_user.is_authenticated %}
+                        <li class="nav-item">
+                            <form action="{{ url_for('logout') }}" method="POST" class="form-inline my-2 my-lg-0">
+                                <button class="btn btn-danger my-2 my-sm-0 mybtn" type="submit">Signout</button>
+                            </form>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             </div>
