@@ -38,7 +38,6 @@ def admin_request():
 
 @app.route('/admin/stocks', methods = ['GET','POST'])
 def stocks():
-    
     if request.method == 'GET':
         stocks = Stock.query.all()
         return render_template('stocks.html', stocks = stocks)

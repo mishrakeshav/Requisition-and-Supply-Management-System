@@ -33,7 +33,7 @@ class Stock(db.Model):
 
 class Request(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    user_id = db.Column(db.Integer, nullable = False)
+    user_id = db.Column(db.Integer,  nullable = False)
     stock_id = db.Column(db.Integer,  nullable = False)
     qty = db.Column(db.Integer)
     date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
