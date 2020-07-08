@@ -1,0 +1,31 @@
+
+
+/login
+/logout
+/update
+-----------------------------
+for admin 
+
+/admin/requests
+
+/admin/stocks
+/admin/stocks/edit
+/admin/stocks/add 
+
+
+/admin/request/accept
+/admin/request/delete 
+
+/admin/requests/summary 
+-----------------------------
+for user 
+
+
+/user/home 
+
+/user/request/new 
+
+/user/requests/summary
+
+
+

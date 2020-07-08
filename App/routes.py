@@ -2,12 +2,12 @@ from flask import (
     render_template, url_for, flash, redirect, request, abort
 )
 
-from ClaimSettlementApp.forms import (
+from App.forms import (
     LoginForm, RegistrationForm, ExtendedHoursForm, 
     LocalConveyanceForm, OfficeExpensesForm, ClientEntertainmentForm
 )
 
-from ClaimSettlementApp.models import (
+from App.models import (
     User, ExtendedHoursClaim, ClientEntertainmentClaim, 
     LocalConveyanceClaim, OfficeExpensesClaim, Claims
 )
@@ -18,7 +18,7 @@ from PIL import Image
 import functools
 
 
-from ClaimSettlementApp import app, db, bcrypt
+from App import app, db, bcrypt
 
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -52,8 +52,9 @@ def save_picture(form_picture):
 ###########################################################
 
 @app.route("/")
+@login_required
 def home():
-    return redirect(url_for('login'))
+    return "Your are at your home"
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
@@ -92,6 +93,7 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html',form = form)
 
+
 @login_required
 @app.route("/logout")
 def logout():
@@ -103,180 +105,13 @@ def logout():
 ##################################################################
 ################### END POINTS FOR ADMIN #########################
 ##################################################################
-@app.route("/claims")
-@login_required
-@only_admins
-def claims():
-    claims = Claims.query.all()[::-1]
-    return render_template('claims_list.html', claims = claims)
 
-@app.route("/claims/<string:type_of_claim>/<int:claim_id>/<int:claim>")
-@login_required
-def view_claim(type_of_claim,claim_id,claim):
-    if current_user.isAdmin:
-        if type_of_claim == "Extended Working Hours":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = ExtendedHoursClaim.query.filter_by(id = claim_id).first()
-        elif type_of_claim == "Local Conveyance":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = LocalConveyanceClaim.query.filter_by(id = claim_id).first()
-        elif type_of_claim == "Client Entertainment":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = ClientEntertainmentClaim.query.filter_by(id = claim_id).first()
-        elif type_of_claim == "Office Expenses":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = OfficeExpensesClaim.query.filter_by(id = claim_id).first()
-        return render_template('display_claim.html',user = user, mapped = mapped, clients_claim = clients_claim )
-    else:
-        return "URL NOT FOUND"
 
-@app.route("/claims/<int:approved>/<string:type_of_claim>/<int:claim_id>/<int:claim>")
-@login_required
-def approve_claim(approved, type_of_claim, claim_id, claim):
-    if current_user.isAdmin:
-        if type_of_claim == "Extended Working Hours":
-            mapped = Claims.query.filter_by(id = claim).first()
-            mapped.approved = approved
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = ExtendedHoursClaim.query.filter_by(id = claim_id).first()
-        elif type_of_claim == "Local Conveyance":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = LocalConveyanceClaim.query.filter_by(id = claim_id).first()
-        elif type_of_claim == "Client Entertainment":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = ClientEntertainmentClaim.query.filter_by(id = claim_id).first()
-        elif type_of_claim == "Office Expenses":
-            mapped = Claims.query.filter_by(id = claim).first()
-            user = User.query.filter_by(id = mapped.user_id).first()
-            clients_claim = OfficeExpensesClaim.query.filter_by(id = claim_id).first()
-        mapped.approved = approved
-        db.session.commit()
-        return redirect(url_for('claims'))
-    else:
-        return "URL NOT FOUND"
+
 
 #######################################################################
 #################### END POINTS FOR USER ##############################
 #######################################################################
-@app.route("/claims/apply/extended-working-hours", methods = ['GET', 'POST'])
-@login_required
-def extendedWorkingHours():
-    form = ExtendedHoursForm()
-    if form.validate_on_submit():
-        bill_image = save_picture(form.bill_image.data)
-        claim = ExtendedHoursClaim(
-            from_time = str(form.from_time.data), 
-            to_time = str(form.to_time.data),
-            bill_amount = float(form.bill_amount.data),
-            bill_date = form.bill_date.data,
-            bill_image = bill_image
-        )
-        db.session.add(claim)
-        db.session.commit()
-        mapping_claim = Claims(
-            claim_type = "Extended Working Hours",
-            claim_id = claim.id ,
-            user_id = current_user.id,
-        )
-        db.session.add(mapping_claim)
-        db.session.commit()
-        flash(f"Your claim has been made!", 'success')
-        return redirect(url_for('client_history'))
-    return render_template('extended_working_hours.html', form = form)
 
-@app.route("/claims/apply/local-conveyance", methods = ['GET', 'POST'])
-@login_required
-def localConveyance():
-    form = LocalConveyanceForm()
-    
-    if form.validate_on_submit():
-        bill_image = save_picture(form.bill_image.data)
-        claim = LocalConveyanceClaim(
-            from_location = form.from_location.data,
-            to_location = form.to_location.data,
-            bill_amount = float(form.bill_amount.data),
-            bill_date = form.bill_date.data,
-            bill_image = bill_image
-        )
-        db.session.add(claim)
-        db.session.commit()
-        mapping_claim = Claims(
-            claim_type = "Local Conveyance",
-            claim_id = claim.id ,
-            user_id = current_user.id,
-        )
-        db.session.add(mapping_claim)
-        db.session.commit()
-        flash(f"Your claim has been made!", 'success')
-        return redirect(url_for('client_history'))
-    return render_template('local_conveyance.html', form = form)
-
-@app.route("/claims/apply/client-entertainment", methods = ['GET', 'POST'])
-@login_required
-def clientEntertainment():
-    form = ClientEntertainmentForm()
-    if form.validate_on_submit():
-        bill_image = save_picture(form.bill_image.data)
-        claim = ClientEntertainmentClaim(
-            client_name = form.client_name.data,
-            hotel_name = form.hotel_name.data,
-            bill_amount = float(form.bill_amount.data),
-            bill_date = form.bill_date.data,
-            bill_image = bill_image
-        )
-        db.session.add(claim)
-        db.session.commit()
-        mapping_claim = Claims(
-            claim_type = "Client Entertainment",
-            claim_id = claim.id ,
-            user_id = current_user.id,
-        )
-        db.session.add(mapping_claim)
-        db.session.commit()
-        flash(f"Your claim has been made!", 'success')
-        return redirect(url_for('client_history'))
-    return render_template('client_entertainment.html', form = form)
-
-@app.route("/claims/apply/office-expenses", methods = ['GET', 'POST'])
-@login_required
-def officeExpenses():
-    form = OfficeExpensesForm()
-    if form.validate_on_submit():
-        bill_image = save_picture(form.bill_image.data)
-        claim = OfficeExpensesClaim(
-            bill_no = form.bill_no.data,
-            bill_amount = float(form.bill_amount.data),
-            bill_date = form.bill_date.data,
-            bill_image = bill_image
-        )
-        db.session.add(claim)
-        db.session.commit()
-        mapping_claim = Claims(
-            claim_type = "Office Expenses",
-            claim_id = claim.id,
-            user_id = current_user.id,
-        )
-        db.session.add(mapping_claim)
-        db.session.commit()
-        flash(f"Your claim has been made!", 'success')
-        return redirect(url_for('client_history'))
-    return render_template('office_expenses.html', form = form)
-
-@app.route("/claims/history")
-@login_required
-def client_history():
-    history = Claims.query.filter_by(user_id = current_user.id)
-    return render_template('history.html', history = history)
-
-@app.route("/profile")
-@login_required
-def profile():
-    return render_template('profile.html')
 
 #####################################################################
