@@ -21,13 +21,14 @@ from flask_login import login_user, current_user, logout_user, login_required
 @app.route('/')
 @login_required
 def home():
-    pass
+    return redirect(url_for('user_home'))
 
 
 # ----------------- Admin routes ------------------
 @app.route('/admin/requests')
 @login_required
 def admin_request():
+    if not current_user.isAdmin: abort(403) 
     request = Request.query.all()[::-1]
     return render_template('request.html', requests = request) 
 
@@ -35,6 +36,7 @@ def admin_request():
 @app.route('/admin/stocks', methods = ['GET','POST'])
 @login_required
 def stocks():
+    if not current_user.isAdmin: abort(403) 
     if request.method == 'GET':
         stocks = Stock.query.all()
         return render_template('stocks.html', stocks = stocks)
@@ -53,6 +55,7 @@ def stocks():
 @app.route('/admin/stocks/add', methods=['POST'])
 @login_required
 def add_stocks():
+    if not current_user.isAdmin: abort(403) 
     err_flag = False
     form = request.form
     if form['qty_req'].isnumeric() and form['qty'].isnumeric():
@@ -74,6 +77,7 @@ def add_stocks():
 @app.route('/admin/stock/download', methods = ['POST'])
 @login_required
 def download():
+    if not current_user.isAdmin: abort(403) 
     stocks = Stock.query.all()
     path =os.path.join(app.root_path , 'static/downloads/stock.csv')
     with open(path, 'w', newline='') as file:
@@ -88,6 +92,7 @@ def download():
 @app.route('/admin/stock/reset')
 @login_required
 def reset():
+    if not current_user.isAdmin: abort(403) 
     stocks = Stock.query.all()
     path =os.path.join(app.root_path , 'static/downloads/stock.csv')
     with open(path, 'w', newline='') as file:
@@ -107,6 +112,7 @@ def reset():
 @app.route('/admin/request/accept/<int:req_id>', methods = ['POST'])
 @login_required
 def accept_request(req_id):
+    if not current_user.isAdmin: abort(403) 
     req  = Request.query.get_or_404(req_id)
     if req.qty > req.stock.avail:
         new_req = Request(user_id = req.user_id, stock_id = req.stock_id, qty = req.stock.avail, status = 1)
@@ -130,6 +136,7 @@ def accept_request(req_id):
 @app.route('/admin/request/delete/<int:req_id>', methods = ['POST'])
 @login_required
 def reject_request(req_id):
+    if not current_user.isAdmin: abort(403) 
     req  = Request.query.get_or_404(req_id)
     req.status = -1
     db.session.commit()
@@ -140,6 +147,7 @@ def reject_request(req_id):
 @app.route('/admin/requests/summary')
 @login_required
 def admin_summary():
+    if not current_user.isAdmin: abort(403) 
     requests = Request.query.all()[::-1]
     return render_template('summary.html', requests = requests)
 
@@ -159,6 +167,7 @@ def user_home():
             )
             db.session.add(req)
             db.session.commit()
+            flash(f'Request Made Successfully')
         else:
             flash(f'Invalid Details')
     stocks = Stock.query.all()
@@ -174,8 +183,7 @@ def user_summary():
 #---------------- General Routes --------------------
 @app.route("/logout")
 @login_required
-def profile():  
-      
+def profile():
     return render_template('profile.html')
 
 @app.route("/login",methods = ['GET','POST'])
@@ -183,15 +191,11 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
-    print(form.validate_on_submit())
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
-        print(user)
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            print("here 1")
             next_page = request.args.get('next')
             login_user(user)
-            print('here2')
             flash('Your are now logged in', 'success')
             return redirect(next_page) if next_page else  redirect(url_for('admin_request'))
         else:
