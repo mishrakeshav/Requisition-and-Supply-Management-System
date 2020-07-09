@@ -31,7 +31,7 @@
                     <th scope="row" style="width:5%;">Sr.no</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Quantity</th>
-                    <th scope="col" class="text-center">Action</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,19 +40,14 @@
                             <tr>
                                 <td><input class="no-outline" name="id" type="text" value='{{ element.id }}' readonly></td>
                                 <td><input class="no-outline" name="item" type="text" value='{{ element.item }}' readonly></td>
-                                <td class="placeholder" style="width: 12rem;">
+                                <td  style="width: 20rem;">
                                     <div class="form-group" id="div{{ element.id }}">
-                                        <input id="qty{{ element.id }}" name="qty" type="number" class="form-control" placeholder="Required Quantity" min="0" required>
+                                        <input id="qty{{ element.id }}" name="qty" type="number" class="form-control" placeholder="Required Quantity" min="1" required>
                                     </div>
                                 </td>
-                                <td class="text-center">
-                                    <div class="row">
-                                        <div class="col-lg-12" style="justify-content: center;">
-                                            <button type="submit" class="btn btn-success" style="display: none;" id = "confirm{{ element.id }}"><i class="fas fa-check"></i>Confirm Request</button>
-                                            <input type="button" class="btn btn-primary" id="request{{ element.id }}" value="Request" class="edit"
-                                            onclick="editRow('{{ element.id }}')">
-                                        </div>
-                                    </div>
+                                <td>
+                                        <button type="submit" class="btn btn-success" style="display: none;" id = "confirm{{ element.id }}">Confirm</button>
+                                        <button type="button" class="btn btn-primary" id="request{{ element.id }}" onclick="editRow('{{ element.id }}')">Request </button> 
                                 </td>
                             </tr>
                         </form>

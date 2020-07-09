@@ -1,5 +1,5 @@
 from flask import (
-    render_template, url_for, flash, redirect, request, abort
+    render_template, url_for, flash, redirect, request, abort, send_file
 )
 
 from App.forms import (
@@ -9,7 +9,7 @@ from App.forms import (
 from App.models import (
     User, Stock, Request
 )
-
+import csv, os
 
 
 from App import app, db, bcrypt
@@ -71,14 +71,55 @@ def add_stocks():
 
     return redirect(url_for('stocks'))
 
+@app.route('/admin/stock/download', methods = ['POST'])
+@login_required
+def download():
+    stocks = Stock.query.all()
+    path =os.path.join(app.root_path , 'static/downloads/stock.csv')
+    with open(path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Id', 'Previous semester', 'Available', 'Quantity Required', 'Quantity present'])
+        for element in stocks:
+            writer.writerow([element.id, element.qty_prev, element.avail, element.qty_req, element.qty_pres])
+    return send_file(path, as_attachment=True)
+
+
+
+@app.route('/admin/stock/reset')
+@login_required
+def reset():
+    stocks = Stock.query.all()
+    path =os.path.join(app.root_path , 'static/downloads/stock.csv')
+    with open(path, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['Id', 'Previous semester', 'Available', 'Quantity Required', 'Quantity present'])
+        for element in stocks:
+            writer.writerow([element.id, element.qty_prev, element.avail, element.qty_req, element.qty_pres])
+    for element in stocks:
+        element.qty_prev = element.qty_pres
+        element.qty_pres = 0 
+    return send_file(path, as_attachment=True)
+
+     
+
+
 
 @app.route('/admin/request/accept/<int:req_id>', methods = ['POST'])
 @login_required
 def accept_request(req_id):
     req  = Request.query.get_or_404(req_id)
-    req.status = 1
-    req.stock.avail = req.stock.avail - req.qty
-    db.session.commit()
+    if req.qty > req.stock.avail:
+        new_req = Request(user_id = req.user_id, stock_id = req.stock_id, qty = req.stock.avail, status = 1)
+        db.session.add(new_req)
+        req.qty = req.qty - req.stock.avail 
+        req.stock.qty_pres +=  req.stock.avail
+        req.stock.avail = 0
+        
+    else:
+        req.stock.avail -= req.qty 
+        req.stock.qty_pres += req.qty
+        req.status = 1
+    db.session.commit() 
     flash('Request Accepted','success')
     return redirect(url_for('admin_request'))
 
@@ -101,6 +142,10 @@ def reject_request(req_id):
 def admin_summary():
     requests = Request.query.all()[::-1]
     return render_template('summary.html', requests = requests)
+
+
+
+
 
 
 # ----------------- User routes ------------------

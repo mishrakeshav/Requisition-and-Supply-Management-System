@@ -18,6 +18,10 @@ for admin
 /admin/request/delete 
 
 /admin/requests/summary 
+
+
+/admin/stock/download 
+/admin/stock/reset
 -----------------------------
 for user 
 

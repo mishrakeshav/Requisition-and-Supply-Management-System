@@ -40,22 +40,35 @@
                                 <td>{{ element.qty }}</td>
                                 <td>{{element.date_applied.strftime('%Y-%m-%d') }}</td>
                                 <td>
-                                    {% if( element.stock.avail - element.qty  >= 0) %}
-                                            <form action="{{ url_for('accept_request', req_id = element.id) }}" method = "POST">                                           
-                                                    <button class='btn btn-success btn-xs' 
-                                                        type = 'submit'>
-                                                        <span class="glyphicon glyphicon-edit"></span>
-                                                        <i class="fas fa-check"></i> Accept
-                                                    </button>    
-                                            </form>
-                                        {% else %}                                       
-                                            
-                                                <button class='btn btn-success btn-xs'  disabled>
+                                    
+                                    <form action="{{ url_for('accept_request', req_id = element.id) }}" method = "POST">                                           
+                                            {% if element.stock.avail == 0 %}
+                                                <button class='btn btn-success btn-xs' 
+                                                type = 'submit' disabled>
                                                     <span class="glyphicon glyphicon-edit"></span>
-                                                    <i class="fas fa-check"></i> Accept
-                                                </button>
+                                                    Send 
+                
+                                                    {% if element.qty > element.stock.avail %}
+                                                        {{ element.stock.avail }}
+                                                    {% else %}
+                                                        {{ element.qty }}
+                                                    {% endif %}
+                                                </button> 
+                                            {% else %}
+                                                <button class='btn btn-success btn-xs' 
+                                                    type = 'submit'>
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    Send 
+                                                    
+                                                    {% if element.qty > element.stock.avail %}
+                                                        {{ element.stock.avail }}
+                                                    {% else %}
+                                                        {{ element.qty }}
+                                                    {% endif %}
+                                                </button> 
+                                            {% endif %}   
+                                    </form>
                                         
-                                        {% endif %}
                                 </td>
                                 <td>
                                     <form action="{{ url_for('reject_request', req_id = element.id) }}" method = 'POST'>                                   
