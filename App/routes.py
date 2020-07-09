@@ -144,10 +144,6 @@ def admin_summary():
     return render_template('summary.html', requests = requests)
 
 
-
-
-
-
 # ----------------- User routes ------------------
 @app.route('/user/home', methods=['GET', 'POST'])
 @login_required
@@ -176,6 +172,11 @@ def user_summary():
     return render_template('summary.html', requests = requests)
 
 #---------------- General Routes --------------------
+@app.route("/logout")
+@login_required
+def profile():  
+      
+    return render_template('profile.html')
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
