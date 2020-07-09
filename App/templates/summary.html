@@ -46,14 +46,13 @@
                         <td>{{ element.qty }}</td>
                         <td>{{element.date_applied.strftime('%Y-%m-%d') }}</td>
                         <td class="text-center">
-                            {% if(element.req_status==1) %}
+                            {% if(element.status==1) %}
                                 <h3 style="color: #58b368;"><i class="far fa-check-circle"></i></h3>
-                            {% elif(element.req_status==-1) %}
+                            {% elif(element.status==-1) %}
                                 <h3 style="color: #e84545;"><i class="fas fa-times"></i></h3>
                             {% else %}
                                 <h3 style="color: #454d66;"><i class="far fa-clock"></i></h3>
                             {% endif %}
-
                         </td>
                     </tr>
                     {% endfor %}

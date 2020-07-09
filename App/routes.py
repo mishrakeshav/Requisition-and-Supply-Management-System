@@ -72,16 +72,29 @@ def add_stocks():
     return redirect(url_for('stocks'))
 
 
-@app.route('/admin/request/accept')
+@app.route('/admin/request/accept/<int:req_id>', methods = ['POST'])
 @login_required
-def accept_request():
-    pass
+def accept_request(req_id):
+    req  = Request.query.get_or_404(req_id)
+    req.status = 1
+    req.stock.avail = req.stock.avail - req.qty
+    db.session.commit()
+    flash('Request Accepted','success')
+    return redirect(url_for('admin_request'))
 
 
-@app.route('/admin/request/delete')
+    
+
+
+@app.route('/admin/request/delete/<int:req_id>', methods = ['POST'])
 @login_required
-def reject_request():
-    pass
+def reject_request(req_id):
+    req  = Request.query.get_or_404(req_id)
+    req.status = -1
+    db.session.commit()
+    flash('Request rejected','success')
+    return redirect(url_for('admin_request'))
+
 
 @app.route('/admin/requests/summary')
 @login_required
