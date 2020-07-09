@@ -106,23 +106,26 @@ nav{
         </nav>
         <main role="main" class="container">
             
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                        <div class="p-2 m-5">
-                                {% for category, message in messages %}
-                                    <div class='alert alert-{{category}}'>
-                                        {{ message }}
-                                    </div>
-                                {% endfor %}
-                        </div>
-                        {% endif %}
-                {% endwith %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    <div class="p-2 m-5">
+                            {% for category, message in messages %}
+                                <div class='alert alert-{{category}}'>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                    </div>
+                    {% endif %}
+            {% endwith %}
             
             
         </main>
     </header>
 
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
+    
+    
     <div class="footer">
         <footer style="color: black; font-size: small;"> © 2019 
             <a id "footer-link" href="https://github.com/Phoenix009/TaskMasters">Taskmasters</a> KJSIEIT ,Inc All rights reserved .
