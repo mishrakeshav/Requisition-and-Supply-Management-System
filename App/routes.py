@@ -3,7 +3,7 @@ from flask import (
 )
 
 from App.forms import (
-    LoginForm, EditStocks, RequestForm, Profile
+    LoginForm, EditStocks, RequestForm, ProfileForm
 )
 
 from App.models import (
@@ -184,6 +184,20 @@ def user_summary():
 @app.route("/profile")
 @login_required
 def profile():
+    form = ProfileForm()
+    form.first_name.data = current_user.first_name
+    form.last_name.data = current_user.last_name
+    form.email.data = current_user.email
+    if form.validate_on_submit():
+        if not bcrypt.check_password_hash(currrent_user.password, form.prev_password.data): 
+            flash(f'Incorrect Password', danger)
+            return redirect(url_for('profile'))
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.email = form.email.data
+        current_user.password = bcrypt.generate_password_hash(form.new_password.data)
+        db.session.commit()
+        flash('Account was Updated', 'success')
     return render_template('profile.html')
 
 @app.route("/login",methods = ['GET','POST'])
