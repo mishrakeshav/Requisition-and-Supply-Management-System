@@ -16,43 +16,52 @@
         
     </div>
     </div>
+    
     <div class="container-fluid row head">
         <div class="mainhead col-md-12">
             
-            <a class="btn btn-outline-primary" data-toggle="collapse" href="#multiCollapseExample1" role="button"
-                aria-expanded="false" aria-controls="multiCollapseExample1" style="margin: 1%;">Click to add new Item</a>
-            <div class="row">
-                <div class="col">
-                    <div class="collapse multi-collapse" id="multiCollapseExample1" style="margin: 2%;">
-                        <div class="fluid container" style="width: 40%;">
-                            <div class="card card-body">
-                                <form action="{{ url_for('add_stocks') }}" method="POST">
-                                    <fieldset class="form-group">
-                                        <legend class="border-bottom mb-4">New Item Details</legend>
-                                        <div class='form-group'>
-                                            <label for="item">Item Name</label>
-                                            <input class='form-control' type="text" id="item" name="item">
-                                        </div>
-                                        <div class='form-group'>
-                                            <label for="qty_req">Qty Required</label>
+                       
+           <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Click here to add Items.
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New Item Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <fieldset class="form-group">
+                        <form action="{{ url_for('add_stocks') }}" method="POST">
+                            <legend class="border-bottom mb-4">New Item Details</legend>
+                                <div class='form-group'>
+                                    <label for="item">Item Name</label>
+                                        <input class='form-control' type="text" id="item" name="item_name">
+                                </div>
+                                <div class='form-group'>
+                                    <label for="qty_req">Qty Required</label>
                                             <input class='form-control' type="text" id="qty_req" name="qty_req">
-                                        </div>
-                                        <div class='form-group'>
-                                            <label for="qty">Qty</label>
+                                </div>
+                                <div class='form-group'>
+                                        <label for="qty">Qty</label>
                                             <input class='form-control' type="text" id="qty" name="qty">
-                                        </div>
-                                    </fieldset>
-                                    <div class='form-group'>
-                                        <button class = 'btn btn-primary' type="submit">Add Item</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                </div>
+                                <div class="modal-footer" style="justify-content: center;">
+                                    <button type="submit" class="btn btn-primary">Add item</button>
+                                </div>
+                            </form>
+                    </fieldset> 
             </div>
             
-        </div>
+      </div>
+    </div>
+  </div>
 
     </div>
     <div class="container d-flex justify-content-center">
