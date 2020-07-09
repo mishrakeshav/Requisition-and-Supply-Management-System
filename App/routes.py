@@ -181,7 +181,7 @@ def user_summary():
     return render_template('summary.html', requests = requests)
 
 #---------------- General Routes --------------------
-@app.route("/logout")
+@app.route("/profile")
 @login_required
 def profile():
     return render_template('profile.html')
