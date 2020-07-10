@@ -18,10 +18,6 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 
 
-@app.route('/')
-@login_required
-def home():
-    return redirect(url_for('user_home'))
 
 
 # ----------------- Admin routes ------------------
@@ -150,6 +146,7 @@ def admin_summary():
 
 
 # ----------------- User routes ------------------
+@app.route('/')
 @app.route('/user/home', methods=['GET', 'POST'])
 @login_required
 def user_home():

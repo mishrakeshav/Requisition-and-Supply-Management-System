@@ -1,5 +1,4 @@
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +22,7 @@
     <!-- font awesome -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
     <link rel="shortcut icon" type="image/vnd.Microsoft.icon" 
-        href="https://kjsieit.somaiya.edu/assets/kjsieit/images/icons/favicon.png">
+        href="{{ url_for('static', filename = 'images/svv.png') }}">
 
         <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
@@ -126,11 +125,48 @@ nav{
     {% endblock %}
     
     
-    <div class="footer">
-        <footer style="color: black; font-size: small;"> © 2019 
-            <a id "footer-link" href="https://github.com/Phoenix009/TaskMasters">Taskmasters</a> KJSIEIT ,Inc All rights reserved .
-        </footer>
-    </div>
+    <footer class="container">
+        <hr>
+        <div class="row">
+            <div class="col-12 col-md-3 pl-lg-=2 text-center">
+                <img class="mb-2" src="{{ url_for('static', filename = 'images/svv.png') }}" alt="" width="100" height="100">
+                <small class="d-block mb-3 text-muted">&copy; 2020</small>
+              </div>
+          
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <h5>Resources</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" href="{{ url_for('user_home') }}">Home</a></li>
+              <li><a class="text-muted" href="{{ url_for('user_summary') }}">Requests Log</a></li>
+              {% if current_user.isAdmin %}
+                <li><a class="text-muted" href="{{ url_for('admin_request') }}">Requests</a></li>
+                <li><a class="text-muted" href="{{ url_for('stocks') }}">Stocks</a></li>
+                <li><a class="text-muted" href="{{ url_for('admin_summary') }}">Summary</a></li>
+              {% endif %}
+              <li><a class="text-muted" href="{{ url_for('profile') }}">Profile</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <h5>Team</h5>
+            <ul class="list-unstyled text-small">
+                <li><a class="text-muted" href="https://www.linkedin.com/in/keshav-mishra-912728173/" target="_blank">Keshav Mishra</a></li>
+                <li><a class="text-muted" href="https://www.linkedin.com/in/jaideep-more-a9733015a/" target="_blank">Jaideep More</a></li>
+                <li><a class="text-muted" href="https://www.linkedin.com/in/vedant-manelkar-7509771a3/" target="_blank">Vedant Manelkar</a></li>
+                <li><a class="text-muted" href="" target="_blank">Dhruv Panchal</a></li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12">
+            <h5>Terms and Conditions</h5>
+            <ul class="list-unstyled text-small">
+              <li><a class="text-muted" href="#">Locations</a></li>
+              <li><a class="text-muted" href="#">Privacy</a></li>
+              <li><a class="text-muted" href="#">Terms</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        
+      </footer>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     
     <script src="{{ url_for('static', filename = 'js/user.js') }}"></script>

@@ -55,3 +55,5 @@ user = User(email = 'keshav.sm@somaiya.edu', first_name = 'Keshav', last_name = 
 user.isAdmin = True
 db.session.add(user)
 db.session.commit()
+
+user = User(email = 'more.jaideep@somaiya.edu', first_name = 'jaideep', last_name = 'More', password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm')
