@@ -49,7 +49,7 @@ db.session.add(stock4)
 db.session.add(stock5)
 
 db.session.commit()
-
+password : root
 from App.models import User
 user = User(email = 'keshav.sm@somaiya.edu', first_name = 'Keshav', last_name = 'Mishra', password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm')
 user.isAdmin = True

@@ -11,7 +11,7 @@
         </div>
 
         <div class="col-md-3" style="justify-content: center;">
-            <input type="text" class=" form-control" id="myInput" onkeyup="myFunction()"
+            <input type="text" class=" form-control" id="reqstock_input" onkeyup="myFunctionReq()"
                 placeholder="Search" /><span></span>
         </div>
 
@@ -25,7 +25,7 @@
 
          
         
-        <table id="myTable" class="table table-list-search table-striped custab">
+        <table id="reqstock_table" class="table table-list-search table-striped custab">
             <thead>
                 <tr>
                     <th scope="row" style="width:5%;">Sr.no</th>
@@ -39,7 +39,7 @@
                     <form action="{{ url_for('user_home') }}" method="post">
                             <tr>
                                 <td><input class="no-outline" name="id" type="text" value='{{ element.id }}' readonly></td>
-                                <td><input class="no-outline" name="item" type="text" value='{{ element.item }}' readonly></td>
+                                <td>{{ element.item }}</td>
                                 <td  style="width: 20rem;">
                                     <div class="form-group" id="div{{ element.id }}">
                                         <input id="qty{{ element.id }}" name="qty" type="number" class="form-control" placeholder="Required Quantity" min="1" required>
