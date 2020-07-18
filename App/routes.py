@@ -161,7 +161,7 @@ def user_home():
             )
             db.session.add(req)
             db.session.commit()
-            flash(f'Request Made Successfully')
+            flash(f'Request Made Successfully', 'success')
         else:
             flash(f'Invalid Details')
     stocks = Stock.query.all()
@@ -207,9 +207,9 @@ def login():
             next_page = request.args.get('next')
             login_user(user)
             flash('Your are now logged in', 'success')
-            return redirect(next_page) if next_page else  redirect(url_for('admin_request'))
+            return redirect(next_page) if next_page else  redirect(url_for('user_home'))
         else:
-            flash(f"Your login credentials don't match")
+            flash(f"Your login credentials don't match", 'danger')
     
         
     return render_template('login.html',form = form)
