@@ -56,4 +56,7 @@ user.isAdmin = True
 db.session.add(user)
 db.session.commit()
 
-user = User(email = 'more.jaideep@somaiya.edu', first_name = 'jaideep', last_name = 'More', password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm')
+user = User(email = 'panchal.dh@somaiya.edu', first_name = 'Dhruv', last_name = 'Panchal', password = b'$2b$12$L7r.7NsCOdqeo3a99Xm70ew220/avgUgHLL0oxYfd8UbQoU3R4Chu')
+
+
+user = User(email = 'vedant.manelkar@somaiya.edu', first_name = 'Dhruv', last_name = 'Panchal', password = b'$2b$12$L7r.7NsCOdqeo3a99Xm70ew220/avgUgHLL0oxYfd8UbQoU3R4Chu')
