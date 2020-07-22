@@ -1,5 +1,5 @@
 
-
+Routes 
 /login
 /logout
 /update
@@ -33,30 +33,71 @@ for user
 /user/requests/summary
 
 
+----------------------------------------------------------------------------------------------
+New home page, Help Page and changes in the UI
+
+New Features 
+
+User 
+1. Minimum and Maximum for Each Item 
+2. Quota for Each user(For each item)
+3. Special requests if quota exceeded
+4. request comment 
+
+User summary 
+1. Message 
+2. Processed by 
+
+
+Admin requests
+1. Input for quantity 
+2. Stock available
+3. admin Message 
+
+Add new item 
+1. Add new input columns 
+	1. Date at which item was received (required)
+	2. Date at which was entered into the system(Auto)
+	3. Bill no (blank = False)
+	4. Maximum and Minimum amount
+Stock
+1. Download columns(stationery item, stocks available , quantity required)
+2. Download columns(all columns)
+
+
+User management for admin
+1. Admin can add new users 
+2. Admin can delete new user 
+3. Admin can make other users admin
+
+
+Superuser 
+1. Admin Privileges 
+2. will approve special requests which can be later accepted by admin
+ 
+ 
+	
 
 
 
-stock1 = Stock(item = 'Box File', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
-stock2 = Stock(item = 'Register', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
-stock3 = Stock(item = 'Whitener', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
-stock4 = Stock(item = 'Tissue Paper', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
-stock5 = Stock(item = 'Chalk Box', qty_prev = 4, avail = 100, qty_req = 0, qty_pres = 0)
-
-db.session.add(stock1)
-db.session.add(stock2)
-db.session.add(stock3)
-db.session.add(stock4)
-db.session.add(stock5)
-
-db.session.commit()
-password : root
-from App.models import User
-user = User(email = 'keshav.sm@somaiya.edu', first_name = 'Keshav', last_name = 'Mishra', password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm')
-user.isAdmin = True
-db.session.add(user)
-db.session.commit()
-
-user = User(email = 'panchal.dh@somaiya.edu', first_name = 'Dhruv', last_name = 'Panchal', password = b'$2b$12$L7r.7NsCOdqeo3a99Xm70ew220/avgUgHLL0oxYfd8UbQoU3R4Chu')
 
 
-user = User(email = 'vedant.manelkar@somaiya.edu', first_name = 'Dhruv', last_name = 'Panchal', password = b'$2b$12$L7r.7NsCOdqeo3a99Xm70ew220/avgUgHLL0oxYfd8UbQoU3R4Chu')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
