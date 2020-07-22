@@ -2,7 +2,9 @@ from flask_wtf import FlaskForm
 from wtforms import ( 
     StringField, PasswordField ,
     DateTimeField,
-    IntegerField, SubmitField)
+    IntegerField, SubmitField,
+    TextAreaField
+    )
 
 # from wtforms.fields.html5  import DateField,TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -18,6 +20,8 @@ class LoginForm(FlaskForm):
 class RequestForm(FlaskForm):
     item = StringField('Item', validators=[DataRequired()])
     quantity_req = IntegerField('Required Qty.', validators=[DataRequired()])
+    message = TextAreaField('Request Message', validators=[DataRequired()])
+    submit = SubmitField('Confirm Request')
 
 
 class EditStocks(FlaskForm):
