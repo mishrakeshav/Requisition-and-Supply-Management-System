@@ -3,7 +3,8 @@ from flask import (
 )
 
 from App.forms import (
-    LoginForm, EditStocks, RequestForm, ProfileForm
+    LoginForm, EditStocks, RequestForm, ProfileForm, RegistrationForm,
+    UpdatePassword
 )
 
 from App.models import (
@@ -122,9 +123,6 @@ def accept_request(req_id):
     return redirect(url_for('admin_request'))
 
 
-    
-
-
 @app.route('/admin/request/delete/<int:req_id>', methods = ['POST'])
 @login_required
 def reject_request(req_id):
@@ -142,6 +140,46 @@ def admin_summary():
     if not current_user.isAdmin: abort(403) 
     requests = Request.query.all()[::-1]
     return render_template('summary.html', requests = requests)
+
+@app.route('/admin/users')
+@login_required
+def display_users():
+    if not current_user.isAdmin: abort(403) 
+    users = User.query.all()
+    return render_template('display_users.html', users = users)
+
+@app.route('/admin/users/add', methods = ['GET', 'POST'])
+@login_required
+def add_users():
+    if not current_user.isAdmin: abort(403) 
+    form = RegistrationForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email = form.email.data).first()
+        if user:
+            flash(f"This email is already registered. Please try with another email id","info")
+        else:
+            password = bcrypt.generate_password_hash(form.password.data)
+            user = User(
+                first_name = form.first_name.data, 
+                last_name = form.last_name.data,
+                email = form.email.data, 
+                password = password
+                )
+            db.session.add(user)
+            db.session.commit()
+            flash(f"User Added","success")
+            return redirect(url_for('login'))
+    return render_template('register.html',title = 'Register', form = form)
+
+# @app.route('/profile/<int:user_id>')
+# @login_required
+# def view_user(user_id):
+#     if not current_user.isAdmin: abort(403)
+#     user = User.query.filter_by(id = user_id)
+#     return render_template('account.html', user = user)
+
+
+
 
 
 # ----------------- User routes ------------------
@@ -187,21 +225,34 @@ def account():
 def profile():
     form = ProfileForm()
     if form.validate_on_submit():
-        if not bcrypt.check_password_hash(current_user.password, form.prev_password.data): 
+        if not bcrypt.check_password_hash(current_user.password, form.password.data): 
             flash(f'Incorrect Password', 'danger')
         else:
             current_user.first_name = form.first_name.data
             current_user.last_name = form.last_name.data
             current_user.email = form.email.data
-            current_user.password = bcrypt.generate_password_hash(form.new_password.data)
             db.session.commit()
             flash('Account was Updated', 'success')
     elif request.method == 'GET':
         form.first_name.data = current_user.first_name
         form.last_name.data = current_user.last_name
         form.email.data = current_user.email
-
     return render_template('profile.html', form = form)
+
+@app.route("/profile/update/password", methods=['POST', 'GET'])
+@login_required
+def update_password():
+    form = UpdatePassword()
+    if form.validate_on_submit():
+        if not bcrypt.check_password_hash(current_user.password, form.prev_password.data): 
+            flash(f'Incorrect Password', 'danger')
+        else:
+            current_user.password = bcrypt.generate_password_hash(form.password.data)
+            db.session.commit()
+            flash('Password was Updated', 'success')
+    return render_template('update_password.html', form = form)
+
+
 
 @app.route("/login",methods = ['GET','POST'])
 def login():
