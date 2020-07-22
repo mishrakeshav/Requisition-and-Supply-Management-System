@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(255), nullable = False)
     password = db.Column(db.String(60), nullable = False)
     isAdmin = db.Column(db.Boolean, default = False)
+    isSuperUser = db.Column(db.Boolean, default = False)
     requests = db.relationship('Request', backref='user', lazy=True)
     
     def __repr__(self):
@@ -29,7 +30,16 @@ class Stock(db.Model):
     avail = db.Column(db.Integer, nullable = False)
     qty_req = db.Column(db.Integer, nullable = False)
     qty_pres = db.Column(db.Integer, default = 0)
+    minimum_limit = db.Column(db.Integer, nullable = False)
+    maximum_limit = db.Column(db.Integer, nullable = False)
+    quota = db.Column(db.Integer, nullable = False)
     requests = db.relationship('Request', backref='stock', lazy=True)
+
+    def __repr__(self):
+        return str({
+            'stock id ': self.id ,
+            'item name' : self.item
+        })
 
 
 class Request(db.Model):
@@ -39,6 +49,11 @@ class Request(db.Model):
     qty = db.Column(db.Integer)
     date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     status = db.Column(db.Integer, default = 0)
+    accepted = db.Column(db.Boolean, default = False)
+    admins_comment = db.Column(db.Text, nullable = False)
+    users_comment = db.Column(db.Text, nullable = False)
+
+    
     
 
 

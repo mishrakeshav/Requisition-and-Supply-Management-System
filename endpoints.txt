@@ -34,6 +34,9 @@ for user
 
 
 ----------------------------------------------------------------------------------------------
+
+
+
 New home page, Help Page and changes in the UI
 
 New Features 
@@ -43,6 +46,8 @@ User
 2. Quota for Each user(For each item)
 3. Special requests if quota exceeded
 4. request comment 
+5. Received 
+6. Received comment
 
 User summary 
 1. Message 
@@ -59,7 +64,9 @@ Add new item
 	1. Date at which item was received (required)
 	2. Date at which was entered into the system(Auto)
 	3. Bill no (blank = False)
-	4. Maximum and Minimum amount
+	4. Bill photo
+	5. Maximum and Minimum amount
+
 Stock
 1. Download columns(stationery item, stocks available , quantity required)
 2. Download columns(all columns)
@@ -74,7 +81,75 @@ User management for admin
 Superuser 
 1. Admin Privileges 
 2. will approve special requests which can be later accepted by admin
+
+
+New Features 
+1. Threshold value 
+
+
+
+
+
+
+##Request Stock
+1. req id  
+2. User Id 
+3. stock id 
+3. Qty 
+4. Date applied 
+5. Status (0, 1,-1)
+6. Comment from Admin 
+7. Comment from User
+8. received (Boolean)
+
+
+##Stock 
+1. Id 
+2. Item name 
+3. Qty Previous 
+4. Available
+5. Qty required 
+6. Qty used in present semester 
+7. Maximum Limit 
+8. Minimum Limit 
+9. Quota for each user
+10. category(Foreign key)
+
+
+
+## Category 
+1. id 
+2. Category name 
+
+
+
+
  
+
+#User 
+1.First Name 
+2.Last Name
+3.Email 
+4.Password 
+5.isAdmin 
+6.isSuperUser 
+7.Requests 
+ 
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
  
 	
 

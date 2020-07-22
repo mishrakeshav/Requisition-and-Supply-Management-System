@@ -113,7 +113,6 @@ def accept_request(req_id):
         req.qty = req.qty - req.stock.avail 
         req.stock.qty_pres +=  req.stock.avail
         req.stock.avail = 0
-        
     else:
         req.stock.avail -= req.qty 
         req.stock.qty_pres += req.qty
