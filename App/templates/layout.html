@@ -31,6 +31,7 @@
     <script src="{{ url_for('static', filename = 'js/search.js') }}"></script>
 
     <!-- Custom CSS -->
+    
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/search.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename = 'css/request.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename = '/css/navbar.css') }}">
@@ -67,14 +68,17 @@ nav{
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="{{ url_for('user_home') }}">
+                        <a class="nav-link" href="{{ url_for('home') }}">
                             <p class="sis-desktop">Requisition And Supply Management System</p>
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>  
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('user_home') }}">Home</a>
+                            <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('user_home') }}">Make Request</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('user_summary') }}">Requests Log</a>
@@ -92,7 +96,7 @@ nav{
                         {% endif %} 
                                          
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('profile') }}">Profile</a>
+                            <a class="nav-link" href="{{ url_for('account') }}">Profile</a>
                         </li>                    
                         <li class="nav-item">
                             <form action="{{ url_for('logout') }}" method="POST" class="form-inline my-2 my-lg-0">
@@ -120,9 +124,11 @@ nav{
             
         </main>
     </header>
-
-    {% block content %}
-    {% endblock %}
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
     
     
     <footer class="container">
@@ -136,14 +142,15 @@ nav{
           <div class="col-lg-3 col-md-3 col-sm-12">
             <h5>Resources</h5>
             <ul class="list-unstyled text-small">
-              <li><a class="text-muted" href="{{ url_for('user_home') }}">Home</a></li>
+              <li><a class="text-muted" href="{{ url_for('home') }}">Home</a></li>
+              <li><a class="text-muted" href="{{ url_for('user_home') }}">Make requests</a></li>
               <li><a class="text-muted" href="{{ url_for('user_summary') }}">Requests Log</a></li>
               {% if current_user.isAdmin %}
                 <li><a class="text-muted" href="{{ url_for('admin_request') }}">Requests</a></li>
                 <li><a class="text-muted" href="{{ url_for('stocks') }}">Stocks</a></li>
                 <li><a class="text-muted" href="{{ url_for('admin_summary') }}">Summary</a></li>
               {% endif %}
-              <li><a class="text-muted" href="{{ url_for('profile') }}">Profile</a></li>
+              <li><a class="text-muted" href="{{ url_for('account') }}">Profile</a></li>
             </ul>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-12">

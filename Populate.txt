@@ -16,19 +16,23 @@ from App.models import User
 
 Password: root
 
+user = User(email = 'jaideep.more@somaiya.edu', first_name = 'Jaideep', last_name = 'More', password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm')
+user.isAdmin = True
+db.session.add(user)
+db.session.commit()
+
+
 user = User(email = 'keshav.sm@somaiya.edu', first_name = 'Keshav', last_name = 'Mishra', password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm')
 user.isAdmin = True
 db.session.add(user)
 db.session.commit()
 
 user = User(email = 'panchal.dh@somaiya.edu', first_name = 'Dhruv', last_name = 'Panchal', password = b'$2b$12$L7r.7NsCOdqeo3a99Xm70ew220/avgUgHLL0oxYfd8UbQoU3R4Chu')
-user.isAdmin = True
 db.session.add(user)
 db.session.commit()
 
 
 user = User(email = 'vedant.manelkar@somaiya.edu', first_name = 'Vedant', last_name = 'Manelkar', password = b'$2b$12$L7r.7NsCOdqeo3a99Xm70ew220/avgUgHLL0oxYfd8UbQoU3R4Chu')
-user.isAdmin = True
 db.session.add(user)
 db.session.commit()
 

@@ -147,6 +147,9 @@ def admin_summary():
 
 # ----------------- User routes ------------------
 @app.route('/')
+def home():
+    return render_template('home.html')
+
 @app.route('/user/home', methods=['GET', 'POST'])
 @login_required
 def user_home():
@@ -175,7 +178,12 @@ def user_summary():
     return render_template('summary.html', requests = requests)
 
 #---------------- General Routes --------------------
-@app.route("/profile", methods=['POST', 'GET'])
+@app.route('/profile')
+@login_required
+def account():
+    return render_template('account.html')
+
+@app.route("/profile/update", methods=['POST', 'GET'])
 @login_required
 def profile():
     form = ProfileForm()

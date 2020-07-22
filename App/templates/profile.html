@@ -1,94 +1,106 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<div class="container mt-3" style="width: 80%;">
-    <h2>Credentials</h2>
-    <form class="form-horizontal" method='POST'>
-        {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.first_name.label(class="control-label col-sm-2") }}
-            {% if form.first_name.errors %}
-                {{ form.first_name(class="form-control is-invalid", placeholder="First name") }}
-                <div class = "invalid-feedback">
-                    {% for error in form.first_name.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
+
+    <div class="row mt-5 d-flex justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card border-dark p-lg-5 p-3">
+                <h2>Credentials</h2>
+                    
+                    <form class="form-horizontal" method='POST'>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.first_name.label(class="control-label") }}
+                            {% if form.first_name.errors %}
+                                {{ form.first_name(class="form-control is-invalid", placeholder="First name") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.first_name.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.first_name(class = "form-control", placeholder = 'First Name') }}
+                            {% endif %}
+                    </div>
+                    <div class="form-group">
+                                {{ form.last_name.label(class="control-label") }}
+                                {% if form.last_name.errors %}
+                                    {{ form.last_name(class="form-control is-invalid", placeholder="Last name") }}
+                                    <div class = "invalid-feedback">
+                                        {% for error in form.last_name.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.last_name(class = "form-control", placeholder = 'Email address') }}
+                                {% endif %}
+                    </div>
+                    <div class="form-group">
+                                {{ form.email.label(class="control-label ") }}
+                                {% if form.email.errors %}
+                                    {{ form.email(class="form-control is-invalid", placeholder="Email address") }}
+                                    <div class = "invalid-feedback">
+                                        {% for error in form.email.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.email(class = "form-control", placeholder = 'Email address') }}
+                                {% endif %}
+                    </div>
+                    <div class="form-group">
+                                {{ form.prev_password.label(class="control-label") }}
+                                {% if form.prev_password.errors %}
+                                    {{ form.prev_password(class = "form-control invalid", placeholder = 'Previous Password') }}
+                                    <div class = "invalid-feedback">
+                                        {% for error in form.prev_password.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.prev_password(class = "form-control", placeholder = 'Previous Password') }}
+                                {% endif %}
+                    </div>
+                    <div class="form-group">
+                                {{ form.new_password.label(class="control-label") }}
+                                {% if form.new_password.errors %}
+                                    {{ form.new_password(class = "form-control invalid", placeholder = 'New Password') }}
+                                    <div class = "invalid-feedback">
+                                        {% for error in form.new_password.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.new_password(class = "form-control", placeholder = 'New Password') }}
+                                {% endif %}
+                    </div>
+                    <div class="form-group">
+                            {{ form.confirm_password.label(class="control-label") }}
+                            {% if form.confirm_password.errors %}
+                                {{ form.confirm_password(class = "form-control invalid", placeholder = 'Confirm Password') }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.confirm_password.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.confirm_password(class = "form-control", placeholder = 'Confirm Password') }}
+                            {% endif %}
+                    </div>
+                    <div class="form-group">        
+                        <div class='form-group'>
+                            {{ form.submit(class='btn btn-outline-info') }}
+                        </div>
+                    </div>
+                    </form>
+
+                    
                 </div>
-            {% else %}
-                {{ form.first_name(class = "form-control", placeholder = 'First Name') }}
-            {% endif %}
-      </div>
-      <div class="form-group">
-                {{ form.last_name.label(class="control-label col-sm-2") }}
-                {% if form.last_name.errors %}
-                    {{ form.last_name(class="form-control is-invalid", placeholder="First name") }}
-                    <div class = "invalid-feedback">
-                        {% for error in form.last_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.last_name(class = "form-control", placeholder = 'Email address') }}
-                {% endif %}
-      </div>
-      <div class="form-group">
-                {{ form.email.label(class="control-label col-sm-2") }}
-                {% if form.email.errors %}
-                    {{ form.email(class="form-control is-invalid", placeholder="Email address") }}
-                    <div class = "invalid-feedback">
-                        {% for error in form.email.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.email(class = "form-control", placeholder = 'Email address') }}
-                {% endif %}
-      </div>
-      <div class="form-group">
-                {{ form.prev_password.label(class="control-label col-sm-2") }}
-                {% if form.prev_password.errors %}
-                    {{ form.prev_password(class = "form-control invalid", placeholder = 'Previous Password') }}
-                    <div class = "invalid-feedback">
-                        {% for error in form.prev_password.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.prev_password(class = "form-control", placeholder = 'Previous Password') }}
-                {% endif %}
-      </div>
-      <div class="form-group">
-                {{ form.new_password.label(class="control-label col-sm-2") }}
-                {% if form.new_password.errors %}
-                    {{ form.new_password(class = "form-control invalid", placeholder = 'New Password') }}
-                    <div class = "invalid-feedback">
-                        {% for error in form.new_password.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                {% else %}
-                    {{ form.new_password(class = "form-control", placeholder = 'New Password') }}
-                {% endif %}
-      </div>
-      <div class="form-group">
-            {{ form.confirm_password.label(class="control-label col-sm-2") }}
-            {% if form.confirm_password.errors %}
-                {{ form.confirm_password(class = "form-control invalid", placeholder = 'Confirm Password') }}
-                <div class = "invalid-feedback">
-                    {% for error in form.confirm_password.errors %}
-                        <span>{{ error }}</span>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {{ form.confirm_password(class = "form-control", placeholder = 'Confirm Password') }}
-            {% endif %}
-      </div>
-      <div class="form-group">        
-        <div class='form-group'>
-            {{ form.submit(class='btn btn-outline-info') }}
+            </div>
         </div>
-      </div>
-    </form>
-  </div>
+
+    </div>
+    
 
 {% endblock content %}
