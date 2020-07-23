@@ -31,31 +31,24 @@
                     <th scope="row" style="width:5%;">Sr.no</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Quantity</th>
+                    <th scope="col">Quota</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                {% for element in stocks %}
-                    <form action="{{ url_for('user_home') }}" method="post">
-                            <tr>
-                                <td><input class="no-outline" name="id" type="text" value='{{ element.id }}' readonly></td>
-                                <td>{{ element.item }}</td>
-                                <td  style="width: 20rem;">
-                                    <div class="form-group" id="div{{ element.id }}">
-                                        <input id="qty{{ element.id }}" name="qty" type="number" class="form-control" placeholder="Required Quantity" min="1" required>
-                                    </div>
-                                </td>
-                                <td>
-                                        <button type="submit" class="btn btn-success" style="display: none;" id = "confirm{{ element.id }}">Confirm</button>
-                                        <button type="button" class="btn btn-primary" id="request{{ element.id }}" onclick="editRow('{{ element.id }}')">Request </button> 
-                                </td>
-                            </tr>
-                        </form>
-                    {% endfor %}
+                {% for i in range(length) %}
+                    <tr>
+                        <td>1</td>
+                        <td> {{stocks[i].item}} </td>
+                        <td> {{stocks[i].avail}} </td>
+                        <td> {{ quota[i] }} </td>
+                        <td><a href="{{ url_for('make_request', stock_id=stocks[i].id) }}"><button type="button" class="btn btn-primary")">Request</button></a></td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>
 </div>
-
+        
 
 {% endblock content %}

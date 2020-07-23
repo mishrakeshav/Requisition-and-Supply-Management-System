@@ -50,10 +50,7 @@ class Request(db.Model):
     date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     status = db.Column(db.Integer, default = 0)
     accepted = db.Column(db.Boolean, default = False)
-    admins_comment = db.Column(db.Text, nullable = False)
-    users_comment = db.Column(db.Text, nullable = False)
-
-    
-    
+    admins_comment = db.Column(db.Text, nullable = False, default='How dare you!')
+    users_comment = db.Column(db.Text, nullable = False, default='Meherbaani sarkar')
 
 

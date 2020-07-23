@@ -99,7 +99,6 @@ def reset():
         element.qty_pres = 0 
     return send_file(path, as_attachment=True)
 
-     
 
 
 
@@ -229,29 +228,53 @@ def toggle_superuser(user_id):
 
 
 # ----------------- User routes ------------------
-@app.route('/')
-def home():
-    return render_template('home.html')
+
+
 
 @app.route('/user/home', methods=['GET', 'POST'])
 @login_required
 def user_home():
-    if request.method == 'POST':
-        form = request.form
-        if form['id'].isnumeric() and form['qty'].isnumeric():
-            stock = Stock.query.get_or_404(int(form['id']))
-            req = Request(
-                user_id = current_user.id,
-                stock_id = int(form['id']),
-                qty = int(form['qty'])
-            )
-            db.session.add(req)
-            db.session.commit()
-            flash(f'Request Made Successfully', 'success')
-        else:
-            flash(f'Invalid Details')
     stocks = Stock.query.all()
-    return render_template("user.html", stocks = stocks)
+    quota = []
+    for stock in stocks:
+        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
+        temp = 0
+        for i in requests:
+            if i.status == 0 or i.status == 1:
+                temp += i.qty
+        quota_left = max(0, stock.quota - temp)
+        quota.append(quota_left)
+
+    return render_template("user.html", stocks = stocks, quota = quota, length = len(quota))
+
+
+@app.route('/make/request/<int:stock_id>', methods=['GET', 'POST'])
+@login_required
+def make_request(stock_id):
+    form = RequestForm()
+    stock = Stock.query.get_or_404(stock_id)
+    if form.validate_on_submit():
+        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
+        temp = 0
+        for i in requests:
+            if i.status == 0 or i.status == 1:
+                temp += i.qty
+        quota_left = max(0, stock.quota - temp)
+        if quota_left >= form.quantity_req.data:
+            request = Request(
+                user_id = current_user.id,
+                stock_id=stock.id,
+                qty = form.quantity_req.data,
+                users_comment = form.message.data
+            )
+            db.session.add(request)
+            db.session.commit()
+            flash('Request Made Successfully', 'success')
+        else:
+            flash('You cannot request more than the available quota', 'danger')
+    form.item.data = stock.item
+    return render_template('request_stock.html', form=form, stock=stock)
+
 
 
 @app.route('/user/request/summary')
@@ -261,6 +284,12 @@ def user_summary():
     return render_template('summary.html', requests = requests)
 
 #---------------- General Routes --------------------
+
+@app.route('/')
+@login_required
+def home():
+    return render_template('home.html')
+
 @app.route('/profile')
 @login_required
 def account():
@@ -310,7 +339,7 @@ def login():
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             next_page = request.args.get('next')
             login_user(user)
-            flash('Your are now logged in', 'success')
+            flash(f'Welcome {current_user.first_name}!', 'success')
             return redirect(next_page) if next_page else  redirect(url_for('user_home'))
         else:
             flash(f"Your login credentials don't match", 'danger')
