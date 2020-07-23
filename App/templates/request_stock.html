@@ -5,58 +5,46 @@
     <div class="row mt-5 d-flex justify-content-center">
         <div class="col-lg-8">
             <div class="card border-dark p-lg-5 p-3">
-                <h2>Request Stock</h2>
+                <h2>Request {{ stock.item }}</h2>
+                <p> Minimum Limit :{{ stock.minimum_limit }}  and Maximum Limit:{{ stock.maximum_limit }}  per order</p>
                     <form class="form-horizontal" method='POST'>
                         {{ form.hidden_tag() }}
+
                         <div class="form-group">
-                            {{ form.item.label(class="control-label") }}
-                            {% if form.item.errors %}
-                                {{ form.item(class="form-control is-invalid", placeholder="First name") }}
-                                <div class = "invalid-feedback">
-                                    {% for error in form.item.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ form.item(class = "form-control", placeholder = 'Item') }}
-                            {% endif %}
-                    </div>
-                    <div class="form-group">
-                                {{ form.quantity_req.label(class="control-label") }}
-                                {% if form.quantity_req.errors %}
-                                    {{ form.quantity_req(class="form-control is-invalid", placeholder="Last name") }}
-                                    <div class = "invalid-feedback">
-                                        {% for error in form.quantity_req.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.quantity_req(class = "form-control", placeholder = 'Quantity Required', max=stock.maximum_limit, min=stock.minimum_limit) }}
-                                {% endif %}
-                    </div>
-                    <div class="form-group">
-                                {{ form.message.label(class="control-label ") }}
-                                {% if form.message.errors %}
-                                    {{ form.message(class="form-control is-invalid", placeholder="Email address") }}
-                                    <div class = "invalid-feedback">
-                                        {% for error in form.message.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ form.message(class = "form-control", placeholder = 'Request Message') }}
-                                {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <div class='form-group'>
-                            {{ form.submit(class='btn btn-outline-info') }}
+                                    {{ form.quantity_req.label(class="control-label") }}
+                                    {% if form.quantity_req.errors %}
+                                        {{ form.quantity_req(class="form-control is-invalid", placeholder="Quantity Required") }}
+                                        <div class = "invalid-feedback">
+                                            {% for error in form.quantity_req.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.quantity_req(class = "form-control", placeholder = 'Quantity Required', max=stock.maximum_limit, min=stock.minimum_limit) }}
+                                    {% endif %}
                         </div>
-                    </div>
+                        <div class="form-group">
+                                    {{ form.message.label(class="control-label ") }}
+                                    {% if form.message.errors %}
+                                        {{ form.message(class="form-control is-invalid", placeholder="Request Message") }}
+                                        <div class = "invalid-feedback">
+                                            {% for error in form.message.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.message(class = "form-control", placeholder = 'Request Message') }}
+                                    {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <div class='form-group'>
+                                {{ form.submit(class='btn btn-outline-info') }}
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
-    </div>
 
 
 {% endblock content %}
