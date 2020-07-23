@@ -144,6 +144,7 @@ nav{
             <ul class="list-unstyled text-small">
               <li><a class="text-muted" href="{{ url_for('home') }}">Home</a></li>
               <li><a class="text-muted" href="{{ url_for('user_home') }}">Make requests</a></li>
+              
               <li><a class="text-muted" href="{{ url_for('user_summary') }}">Requests Log</a></li>
               {% if current_user.isAdmin %}
                 <li><a class="text-muted" href="{{ url_for('admin_request') }}">Requests</a></li>

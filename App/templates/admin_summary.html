@@ -31,8 +31,8 @@
                         <th scope="col">Quantity</th>
                         <th scope="col">Timestamp</th>
                         <th scope="col" class="text-center">Status</th>
-                        <th scope="col" >Received</th>
                         <th scope="col" >Comment</th>
+                        <th scope="col" >Received</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,21 +57,16 @@
                             {% endif %}
                         </td>
                         
-                        <td>
-                            {% if element.status == 1 and not element.accepted %}
-                                <a href = "javascript:{document.getElementById('request{{ element.id }}').submit()}" class="btn btn-outline-success btn-sm"> Received</a>                                
-                            {% else %}
-                                <button class="btn btn-secondary btn-sm" disabled> Received</button>
-                            {% endif %}
+                        <td>  
+                            <Textarea disabled>{{ element.received_comment }}</Textarea>                          
+                            
                         </td>
                         <td>
-                            <form  method="POST" id = "request{{ element.id }}" action="{{ url_for('request_received', request_id = element.id ) }}" >
-                                {% if element.status == 1 and not element.accepted %}
-                                    <Textarea name = "textarea" ></Textarea>
-                                {% else %}
-                                    <Textarea disabled>{{ element.received_comment }}</Textarea>
-                                {% endif %}
-                            </form>
+                            {% if  element.accepted %}
+                                <h3 style="color: #58b368;"><i class="far fa-check-circle"></i></h3>                    
+                            {% else %}
+                                <h3 style="color: #454d66;"><i class="far fa-clock"></i></h3>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

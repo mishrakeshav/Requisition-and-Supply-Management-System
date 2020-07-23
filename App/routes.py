@@ -138,7 +138,7 @@ def reject_request(req_id):
 def admin_summary():
     if not current_user.isAdmin: abort(403) 
     requests = Request.query.all()[::-1]
-    return render_template('summary.html', requests = requests)
+    return render_template('admin_summary.html', requests = requests)
 
 
 @app.route('/admin/users')
@@ -276,6 +276,20 @@ def make_request(stock_id):
             flash('You cannot request more than the available quota', 'danger')
     return render_template('request_stock.html', form=form, stock=stock)
 
+@app.route('/user/requests/received/<int:request_id>', methods=['POST'])
+@login_required
+def request_received(request_id):
+    req = Request.query.get_or_404(request_id)
+    if current_user.id != req.user_id:  abort(403)
+    req.accepted = True
+    req.received_comment = str(request.form['textarea'])
+    db.session.commit()
+    flash('Request Updated')
+    return redirect(url_for('user_summary'))
+
+
+
+    
 
 
 @app.route('/user/request/summary')

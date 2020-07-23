@@ -52,5 +52,6 @@ class Request(db.Model):
     accepted = db.Column(db.Boolean, default = False)
     admins_comment = db.Column(db.Text, nullable = False, default='How dare you!')
     users_comment = db.Column(db.Text, nullable = False)
+    received_comment = db.Column(db.Text, default = "No Comments")
 
 
