@@ -270,9 +270,10 @@ def make_request(stock_id):
             db.session.add(request)
             db.session.commit()
             flash('Request Made Successfully', 'success')
+            print('Request Sucessful')
         else:
+            print('Quota exceeded')
             flash('You cannot request more than the available quota', 'danger')
-    form.item.data = stock.item
     return render_template('request_stock.html', form=form, stock=stock)
 
 

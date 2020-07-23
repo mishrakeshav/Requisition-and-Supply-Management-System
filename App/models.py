@@ -51,6 +51,6 @@ class Request(db.Model):
     status = db.Column(db.Integer, default = 0)
     accepted = db.Column(db.Boolean, default = False)
     admins_comment = db.Column(db.Text, nullable = False, default='How dare you!')
-    users_comment = db.Column(db.Text, nullable = False, default='Meherbaani sarkar')
+    users_comment = db.Column(db.Text, nullable = False)
 
 

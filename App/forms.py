@@ -35,9 +35,8 @@ class UpdatePassword(FlaskForm):
 
 
 class RequestForm(FlaskForm):
-    item = StringField('Item', validators=[DataRequired()])
     quantity_req = IntegerField('Required Qty.', validators=[DataRequired()])
-    message = TextAreaField('Request Message', validators=[DataRequired()])
+    message = TextAreaField('Request Message', validators=[DataRequired(), Length(min = 0,max=100)])
     submit = SubmitField('Confirm Request')
 
 
