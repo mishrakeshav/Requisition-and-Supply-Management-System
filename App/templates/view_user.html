@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="row mt-5 d-flex justify-content-center">
+        <div class="col-lg-8">
+            
+                <div class="card bg-light border-dark">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card-body">
+                    <h1 class="card-title display-4">{{ user.first_name + " " + user.last_name }}</h1>
+                    <p class="card-text"><strong>Email : </strong> {{ user.email }}</p>
+                    <p class="card-text">
+                        <strong>Account Type : </strong>
+                        {% if user.isSuperUser %}
+                            Super User
+                        {% elif user.isAdmin %}
+                            Admin
+                        {% else %}
+                            User
+                        {% endif %}
+                    </p>
+                    <div class="row">
+                        <div class="col-lg-2 m-2">
+                            <a href="{{ url_for('admin_update_password',user_id = user.id ) }}" class="mt-2 mb-2 btn btn-dark btn-sm">Update Password</a>
+                        </div>
+                        <div class="col-lg-8 m-2">                            
+                            <button type="button" class="mt-2 mb-2 btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAccount">
+                                Delete Account
+                            </button>
+                        </div>
+                        <div class="col-lg-3 m-1">
+                            {% if current_user.isAdmin %}
+                                {% if user.isAdmin %}                                                                
+                                    <a href = "javascript:{document.getElementById('toggleadmin').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                        Remove Admin privileges
+                                    </a>                                   
+                                {% else %}                                                                
+                                    <a href = "javascript:{document.getElementById('toggleadmin').submit()}"  class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                        Give Admin privileges
+                                    </a>                                    
+                                {% endif %}
+                                <form id = 'toggleadmin' action="{{ url_for('toggle_admin',user_id = user.id)  }}" method="POST">
+                                    <input type="hidden">
+                                </form>
+                            {% endif %}
+                        </div>
+                        <div class="col-lg-3 m-1">                            
+                            {% if current_user.isSuperUser %}
+                                {% if user.isSuperUser %}
+                                    <a href = "javascript:{document.getElementById('togglesuperuser').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                        Remove superuser privileges
+                                    </a>
+                                {% else %}
+                                    <a href = "javascript:{document.getElementById('togglesuperuser').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                        Give superuser privileges 
+                                    </a>
+                                {% endif %}
+                                <form id = 'togglesuperuser' action="{{ url_for('toggle_superuser',user_id = user.id)  }}" method="POST">
+                                    <input type="hidden">
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <br>
+                    
+                    <!-- Button trigger modal -->
+                    
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- Modal -->
+<div class="modal fade" id="deleteAccount" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Delete Account</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Do you want to delete <strong>{{ user.first_name + " " + user.last_name + "'s"  }}</strong> account
+            <br>
+            <strong>Email :</strong> {{ user.email }}
+            <br>
+            Account along with its all data will be permanently deleted
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <a href="javascript:{document.getElementById('delete').submit()}"  class="btn btn-danger">Delete</a>
+          <form id = 'delete' action="{{ url_for('admin_delete_account',user_id = user.id)  }}" method="POST">
+                <input type="hidden">
+         </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    
+
+{% endblock content %}

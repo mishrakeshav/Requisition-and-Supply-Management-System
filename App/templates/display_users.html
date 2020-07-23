@@ -41,7 +41,7 @@
                         Normal User
                     {% endif %}
                 
-                <td><a href="" class="btn btn-dark btn-sm">View</a></td>
+                <td><a href="{{ url_for('view_user', user_id = user.id) }}" class="btn btn-dark btn-sm">View</a></td>
             </tr>
         {% endfor %}
         

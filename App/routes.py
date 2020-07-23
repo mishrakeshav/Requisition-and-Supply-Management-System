@@ -141,6 +141,7 @@ def admin_summary():
     requests = Request.query.all()[::-1]
     return render_template('summary.html', requests = requests)
 
+
 @app.route('/admin/users')
 @login_required
 def display_users():
@@ -168,18 +169,63 @@ def add_users():
             db.session.add(user)
             db.session.commit()
             flash(f"User Added","success")
-            return redirect(url_for('login'))
+            return redirect(url_for('display_users'))
     return render_template('register.html',title = 'Register', form = form)
 
-# @app.route('/profile/<int:user_id>')
-# @login_required
-# def view_user(user_id):
-#     if not current_user.isAdmin: abort(403)
-#     user = User.query.filter_by(id = user_id)
-#     return render_template('account.html', user = user)
+@app.route('/profile/<int:user_id>')
+@login_required
+def view_user(user_id):
+    if not current_user.isAdmin: abort(403)
+    user = User.query.get_or_404(user_id)
+    return render_template('view_user.html', user = user)
 
+@app.route('/profile/update/password/<int:user_id>', methods = ['GET', 'POST'])
+@login_required
+def admin_update_password(user_id):
+    if not current_user.isAdmin: abort(403)
+    user = User.query.get_or_404(user_id)
+    form = UpdatePassword()
+    if form.validate_on_submit():
+        if not bcrypt.check_password_hash(current_user.password, form.prev_password.data): 
+            flash(f'Incorrect Password', 'danger')
+        else:
+            user.password = bcrypt.generate_password_hash(form.password.data)
+            db.session.commit()
+            flash(user.first_name + "'s Password was Updated", 'success')
+    return render_template('update_password.html', form = form, user = user)
 
+@app.route('/profile/delete/account/<int:user_id>', methods = ['POST'])
+@login_required
+def admin_delete_account(user_id):
+    if not current_user.isAdmin: abort(403)
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash("Account Deleted", 'success')
+    return redirect(url_for('display_users'))
 
+@app.route('/profile/toggleadmin/<int:user_id>', methods = ['POST'])
+@login_required
+def toggle_admin(user_id):
+    if not current_user.isAdmin: abort(403)
+    user = User.query.get_or_404(user_id)
+    user.isAdmin = not user.isAdmin
+    db.session.commit()
+    flash("Account Updated", 'success')
+    return redirect(url_for('view_user', user_id = user.id))
+
+@app.route('/profile/togglesuperuser/<int:user_id>', methods = ['POST'])
+@login_required
+def toggle_superuser(user_id):
+    if not current_user.isAdmin: abort(403)
+    user = User.query.get_or_404(user_id)
+    user.isAdmin = not user.isAdmin
+    user.isSuperUser = not user.isSuperUser
+    db.session.commit()
+    flash("Account Updated", 'success')
+    return redirect(url_for('view_user', user_id = user.id))
+    
+    
 
 
 # ----------------- User routes ------------------
