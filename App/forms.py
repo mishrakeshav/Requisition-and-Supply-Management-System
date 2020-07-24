@@ -30,8 +30,6 @@ class UpdatePassword(FlaskForm):
     confirm_password =PasswordField('Confirm Password', validators = [DataRequired(), EqualTo('password')])
     submit = SubmitField('Update Password')
 
-    
-
 
 
 class RequestForm(FlaskForm):

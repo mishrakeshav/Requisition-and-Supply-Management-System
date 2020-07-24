@@ -4,7 +4,7 @@ body {
 }
 
 body {
-    background: url('/static/images/background') no-repeat center center fixed;
+    background: url('/static/images/background.JPG') no-repeat center center fixed;
     display: -ms-flexbox;
     display: -webkit-box;
     display: flex;
@@ -13,9 +13,10 @@ body {
     -webkit-box-align: center;
     align-items: center;
     -webkit-box-pack: center;
-    justify-content: center;
+    justify-content: right;
     padding-top: 40px;
     padding-bottom: 40px;
+    margin-right: 5em;
 }
 
 .form-signin {
