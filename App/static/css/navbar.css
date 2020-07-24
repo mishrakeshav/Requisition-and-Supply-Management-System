@@ -2,6 +2,9 @@
   #sis {
     display: none;
   }
+  #responsivelogo {
+    display: none;
+  }
 
 }
 @media screen and (min-width: 600px) {
@@ -9,4 +12,9 @@
         display: none;
         font-weight: bold;
       }    
+}
+
+.bg{
+  background-color: #cf1b1b;
+  color: white;
 }

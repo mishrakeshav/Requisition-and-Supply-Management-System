@@ -48,15 +48,16 @@ nav{
 
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color:dff6f0;">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="/">
-                <img src="{{ url_for('static', filename = 'images/svv.ico') }}" alt="LOGO">
+                <img id = "responsivelogo" src="{{ url_for('static', filename = 'images/kjsieit-logo.svg') }}" alt="LOGO">
+                <img class = "sis-desktop" src="{{ url_for('static', filename = 'images/svv.ico') }}" alt="LOGO">
 
             </a>
             <a class="navbar-brand" href="/">
-                <h5 id="sis">Requisition And Supply Management System</h5>
+                <!-- <h5 id="sis">Requisition And Supply Management System</h5> -->
 
-                <p class="sis-desktop">RSMS</p>
+                <!-- <p class="sis-desktop">RSMS</p> -->
             </a>
 
 
@@ -92,17 +93,32 @@ nav{
                             </li>                    
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('admin_summary') }}">Admin Summary</a>
-                            </li>    
+                            </li>  
+
                         {% endif %} 
+                            
+                        <li class="nav-item avatar dropdown mr-5 pr-5 sis">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                   
+                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+                                  alt="avatar image" height="35">
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{{ url_for('account') }}">Profile</a>
+                                <a href = "javascript:{document.getElementById('logout').submit()}" class="dropdown-item" href="#">Signout</a>                               
+                              </div>
+                        </li>
+                        
                                          
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('account') }}">Profile</a>
-                        </li>                    
-                        <li class="nav-item">
-                            <form action="{{ url_for('logout') }}" method="POST" class="form-inline my-2 my-lg-0">
-                                <button class="btn btn-danger my-2 my-sm-0 mybtn" type="submit">Signout</button>
+                        </li>    -->
+                                         
+                        
+                            <form action="{{ url_for('logout') }}" id = "logout" method="POST" class="form-inline my-2 my-lg-0">
+                                <input type="hidden">
                             </form>
-                        </li>                    
+                                           
                 </ul>
             </div>
             </div>
