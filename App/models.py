@@ -15,7 +15,8 @@ class User(db.Model, UserMixin):
     isAdmin = db.Column(db.Boolean, default = False)
     isSuperUser = db.Column(db.Boolean, default = False)
     requests = db.relationship('Request', backref='user', lazy=True)
-    
+    picture = db.Column(db.String(60), nullable=False, default='default.jpg')
+
     def __repr__(self):
         return str({
             'email' : self.email,

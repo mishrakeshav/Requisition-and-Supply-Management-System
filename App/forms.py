@@ -3,8 +3,10 @@ from wtforms import (
     StringField, PasswordField ,
     DateTimeField,
     IntegerField, SubmitField,
-    TextAreaField
+    TextAreaField,
     )
+
+from flask_wtf.file import FileField, FileAllowed
 
 # from wtforms.fields.html5  import DateField,TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
@@ -48,4 +50,5 @@ class ProfileForm(FlaskForm):
     last_name = StringField('Last Name', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Previous Password', validators = [DataRequired(), Length(min = 4,max=20)])
+    picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update Profile')

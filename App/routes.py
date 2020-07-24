@@ -10,7 +10,12 @@ from App.forms import (
 from App.models import (
     User, Stock, Request
 )
-import csv, os
+import csv
+import os
+import secrets
+from PIL import Image
+import functools
+
 
 
 from App import app, db, bcrypt
@@ -321,6 +326,10 @@ def profile():
             current_user.first_name = form.first_name.data
             current_user.last_name = form.last_name.data
             current_user.email = form.email.data
+            image_name = current_user.picture
+            if form.picture.data:
+                image_name = save_picture(form.picture.data)
+            current_user.picture = image_name
             db.session.commit()
             flash('Account was Updated', 'success')
     elif request.method == 'GET':
@@ -371,11 +380,11 @@ def logout():
 
 
 ############# utils ####################
-def save_picture(form_picture, folder):
+def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path , 'static/profile/' + folder , picture_fn)
+    picture_path = os.path.join(app.root_path , 'static/profile/' , picture_fn)
     i = Image.open(form_picture)
     i.save(picture_path)
     return picture_fn

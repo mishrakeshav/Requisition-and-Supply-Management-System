@@ -100,7 +100,7 @@ nav{
                         <li class="nav-item avatar dropdown mr-5 pr-5 sis">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    
-                                <img src="https://mdbootstrap.com/img/Photos/Avatars/avatar-5.jpg" class="rounded-circle z-depth-0"
+                                <img src="{{ url_for('static', filename = 'images/profile/' + current_user.picture) }}" class="rounded-circle z-depth-0"
                                   alt="avatar image" height="35">
                               </a>
                               <div class="dropdown-menu" aria-labelledby="navbarDropdown">

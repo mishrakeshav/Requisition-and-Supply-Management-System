@@ -66,12 +66,22 @@
                             {% for error in form.password.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}
-                    </div>
+                        </div>
                 {% else %}
                     {{ form.password(class = "form-control", placeholder = "Password") }}
                 {% endif %}
-               
             </div> 
+
+            <div class='form-group'>
+                {{ form.picture.label }}
+                {{ form.picture(class="form-control-file") }}
+                {% if form.picture.errors %}
+                    {% for error in form.picture.errors %}
+                        <span class="text-danger">{{ error }}</span><br>
+                    {% endfor %}
+                {% endif %}
+              </div>
+            
             <div class="form-group">
                 {{ form.submit(class = "btn btn-primary btn-block") }}
             </div>                                                              
