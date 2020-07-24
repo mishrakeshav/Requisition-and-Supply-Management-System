@@ -41,6 +41,7 @@
                                 <td>{{ element.qty }}</td>
                                 <td>{{element.date_applied.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                                 <td style="word-wrap: break-word">{{ element.users_comment }}</td>
+                                
                                 <td>
                                     
                                     <form action="{{ url_for('accept_request', req_id = element.id) }}" method = "POST">                                           
