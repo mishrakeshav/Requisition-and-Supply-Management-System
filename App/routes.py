@@ -39,9 +39,10 @@ def admin_request():
 @login_required
 def stocks():
     if not current_user.isAdmin: abort(403) 
+    categories = Category.query.all()
     if request.method == 'GET':
         stocks = Stock.query.all()
-        return render_template('stocks.html', stocks = stocks)
+        return render_template('stocks.html', stocks = stocks, categories = categories)
     else:
         stock = Stock.query.filter_by(id = request.form['id']).first()
         stock.avail = int(request.form['avail_text'] )
@@ -55,15 +56,20 @@ def stocks():
 @login_required
 def add_stocks():
     if not current_user.isAdmin: abort(403) 
-    err_flag = False
     form = request.form
-    if form['qty_req'].isnumeric() and form['qty'].isnumeric():
+    if form['qty_req'].isnumeric() and form['avail'].isnumeric() \
+        and form['quota'].isnumeric() and form['minimum_limit'].isnumeric()\
+        and form['maximum_limit'].isnumeric():
         stck = Stock(
-            item = form['item_name'],
+            item = form['name'],
+            category_id = int(form['category_id']),
             qty_prev = 0,
-            avail = int(form['qty']),
+            avail = int(form['avail']),
             qty_req = int(form['qty_req']),
-            qty_pres = 0
+            qty_pres = 0,
+            maximum_limit = int(form['maximum_limit']),
+            minimum_limit = int(form['minimum_limit']),
+            quota = int(form['quota'])
         )
         db.session.add(stck)
         db.session.commit()
@@ -72,6 +78,7 @@ def add_stocks():
         flash(f'Invalid Details', 'danger')
 
     return redirect(url_for('stocks'))
+
 
 @app.route('/admin/stock/download', methods = ['POST'])
 @login_required
@@ -330,6 +337,21 @@ def admin_category(category_id):
         quota.append(quota_left)
     return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
 
+@app.route('/admin/category/add', methods=['POST'])
+@login_required
+def add_category():
+    if not current_user.isAdmin: abort(403) 
+    form = request.form
+    cat = Category(
+        name=form['name'],
+        picture = save_picture(request.files['picture'], 'category')
+    )
+    db.session.add(cat)
+    db.session.commit()
+    flash(f'Category added Successfully', 'success')
+
+    return redirect(url_for('admin_categories'))
+
 @app.route('/user/request/summary')
 @login_required
 def user_summary():
@@ -361,7 +383,7 @@ def profile():
             current_user.email = form.email.data
             image_name = current_user.picture
             if form.picture.data:
-                image_name = save_picture(form.picture.data)
+                image_name = save_picture(form.picture.data, 'profile')
             current_user.picture = image_name
             db.session.commit()
             flash('Account was Updated', 'success')
@@ -397,7 +419,7 @@ def login():
             next_page = request.args.get('next')
             login_user(user)
             flash(f'Welcome {current_user.first_name}!', 'success')
-            return redirect(next_page) if next_page else  redirect(url_for('user_home'))
+            return redirect(next_page) if next_page else  redirect(url_for('home'))
         else:
             flash(f"Your login credentials don't match", 'danger')
     
@@ -413,11 +435,13 @@ def logout():
 
 
 ############# utils ####################
-def save_picture(form_picture):
+def save_picture(form_picture, folder):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    picture_path = os.path.join(app.root_path , 'static/images/profile/' , picture_fn)
+    picture_path = os.path.join(app.root_path , 'static/images/' + folder + "/" , picture_fn)
+    output_size = (250, 250)
     i = Image.open(form_picture)
+    i.thumbnail(output_size)
     i.save(picture_path)
     return picture_fn
