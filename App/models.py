@@ -24,8 +24,21 @@ class User(db.Model, UserMixin):
         })
 
 
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(255), nullable = False)
+    picture = Db.Column(db.String(60), nullable = False, default = 'default.jpg')
+    stocks = db.relationship('Stock', backref='category', lazy=True)
+
+    def __repr__(self):
+        return str({
+            'categoryName' : self.name,
+        })
+
+
 class Stock(db.Model):
     id = db.Column(db.Integer, primary_key = True)
+    category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable = False)
     item = db.Column(db.String(255), nullable = False)
     qty_prev = db.Column(db.Integer, nullable = False)
     avail = db.Column(db.Integer, nullable = False)

@@ -1,70 +1,74 @@
 from App import db
-from App.models import User, Stock, Request
+from App.models import User, Stock, Request, Category
 
 db.create_all()
 
-stock1 = Stock(
-    item = 'Box File',
-    qty_prev = 4, 
-    avail = 100, 
-    qty_req = 0, 
-    qty_pres = 0,
-    maximum_limit = 5,
-    minimum_limit=1,
-    quota = 20,
-)
+categories = [
 
-stock2 = Stock(
-    item = 'Register', 
-    qty_prev = 4, 
-    avail = 100, 
-    qty_req = 0, 
-    qty_pres = 0,
-    maximum_limit = 5,
-    minimum_limit=1,
-    quota = 20,
-)
+    Category(
+        id = 1,
+        name = 'Paper Products',
+    ),
 
-stock3 = Stock(
-    item = 'Whitener', 
-    qty_prev = 4,
-    avail = 100, 
-    qty_req = 0, 
-    qty_pres = 0,
-    maximum_limit = 5,
-    minimum_limit=1,
-    quota = 20,
-)
+    Category(
+        id = 2,
+        name = 'Writing Material'
+    ),
 
-stock4 = Stock(
-    item = 'Tissue Paper', 
-    qty_prev = 4, 
-    avail = 100, 
-    qty_req = 0, 
-    qty_pres = 0,
-    maximum_limit = 5,
-    minimum_limit=1,
-    quota = 20,
-)
+    Category(
+        id = 3,
+        name = 'Desk Item'
+    ),
 
-stock5 = Stock(
-    item = 'Chalk Box', 
-    qty_prev = 4, 
-    avail = 100, 
-    qty_req = 0, 
-    qty_pres = 0,
-    maximum_limit = 5,
-    minimum_limit=1,
-    quota = 20,
-)
 
-db.session.add(stock1)
-db.session.add(stock2)
-db.session.add(stock3)
-db.session.add(stock4)
-db.session.add(stock5)
+    Category(
+        id = 4,
+        name = 'File / Folder'
+    ),
 
-db.session.commit()
+
+    Category(
+        id = 5,
+        name = 'Art / Crafts'
+    ),
+
+    Category(
+        id = 6,
+        name = 'Cleaning Material'
+    ),
+
+    Category(
+        id = 7,
+        name = 'Coputer Pheripherals'
+    ),
+]
+
+
+stocks = [
+    Stock(
+        item = 'Box File',
+        category_id = 4,
+        qty_prev = 4, 
+        avail = 100, 
+        qty_req = 0, 
+        qty_pres = 0,
+        maximum_limit = 5,
+        minimum_limit=1,
+        quota = 20,
+    ),
+]
+
+
+
+for cat in categories:
+    db.session.add(cat)
+    db.session.commit()
+
+for stock in stocks:
+    db.session.add(stock)
+    db.session.commit()
+
+
 
 user = User(
     email = 'jaideep.more@somaiya.edu', 
@@ -99,41 +103,4 @@ password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm',
 db.session.add(user)
 db.session.commit()
 
-# req1 = Request(
-#     user_id = 1,
-#     stock_id= 1,
-#     qty = 3,
-#     users_comment = "Please Send immediately",
-#     admins_comment = "How Dare You"
-# )
 
-# req2 = Request(
-#     user_id = 1,
-#     stock_id= 3,
-#     qty = 3,
-#     users_comment = "Please Send immediately",
-#     admins_comment = "How Dare You"
-# )
-
-# req3 = Request(
-#     user_id = 2,
-#     stock_id= 2,
-#     qty = 3,
-#     users_comment = "Please Send immediately",
-#     admins_comment = "How Dare You"
-# )
-
-# req4 = Request(
-#     user_id = 3,
-#     stock_id= 1,
-#     qty = 3,
-#     users_comment = "Please Send immediately",
-#     admins_comment = "How Dare You"
-# )
-
-# db.session.add(req1)
-# db.session.add(req2)
-# db.session.add(req3)
-# db.session.add(req4)
-
-# db.session.commit()
