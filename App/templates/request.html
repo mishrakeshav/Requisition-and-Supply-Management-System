@@ -20,14 +20,15 @@
     </div>
     <div class="container d-flex justify-content-center">
         <div class="col-md-offset-2 custyle table-responsive">
-            <table id="request_table" class="table table-list-search table-striped custab" style="table-layout: fixed;"">
+            <table id="request_table" class="table table-list-search table-striped custab">
                 <thead>
                     <tr>
                         <th scope="row">Name</th>
                         <th scope="col">Item</th>
-                        <th scope="col">Quantity</th>
                         <th scope="col">Timestamp</th>
                         <th scope="col">Request Comment</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Make a admin</th>
                         <th scope="col" >Accept</th>
                         <th scope="col" >Reject</th>
                     </tr>
@@ -38,10 +39,14 @@
                             <tr>
                                 <td>{{ element.user.first_name + " " + element.user.last_name }}</td>
                                 <td>{{ element.stock.item }}</td>
-                                <td>{{ element.qty }}</td>
                                 <td>{{element.date_applied.strftime('%Y-%m-%d %H:%M:%S') }}</td>
                                 <td style="word-wrap: break-word">{{ element.users_comment }}</td>
-                                
+                                <form id = "form{{ element.id }}" action="">
+                                    <td><input name = "quantity" class = "form-control" type="number" value = "{{ element.qty }}"></td>
+                                    <td>
+                                        <textarea name="admincomment" id="" cols="30" rows="3" class="form-control"></textarea>
+                                    </td>
+                                </form>
                                 <td>
                                     
                                     <form action="{{ url_for('accept_request', req_id = element.id) }}" method = "POST">                                           
