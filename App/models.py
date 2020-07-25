@@ -27,7 +27,7 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(255), nullable = False)
-    picture = Db.Column(db.String(60), nullable = False, default = 'default.jpg')
+    picture = db.Column(db.String(60), nullable = False, default = 'default.jpg')
     stocks = db.relationship('Stock', backref='category', lazy=True)
 
     def __repr__(self):
