@@ -4,24 +4,32 @@
 
     <div class="row mt-5 d-flex justify-content-center">
         <div class="col-lg-8">
-            <div class="card bg-light border-dark">
-                <!-- <img src="..." class="card-img-top" alt="..."> -->
-                <div class="card-body">
-                    <h1 class="card-title display-4">{{ current_user.first_name + " " + current_user.last_name }}</h1>
-                    <p class="card-text"><strong>Email : </strong> {{ current_user.email }}</p>
-                    <p class="card-text">
-                        <strong>Account Type : </strong>
-                        {% if current_user.isAdmin %}
-                            Admin
-                        {% else %}
-                            User
-                        {% endif %}
-                    </p>
-                    <a href="{{ url_for('profile') }}" class="mt-2 mb-2 btn btn-dark btn-sm">Update Account</a>
-                    <br>
-                    <a href="{{ url_for('update_password') }}" class="mt-2 mb-2 btn btn-outline-dark btn-sm">Change Password</a>
-                    
+            <div class="card bg-light">
+                <div class="row p-2">
+                    <div class="col-lg-6 d-flex justify-content-center">
+                        <img src="{{ url_for('static', filename = 'images/profile/' + current_user.picture) }}" class="img-fluid rounded-circle mt-5 mb-5"  alt="...">
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card-body">
+                            <h1 class="card-title h1">{{ current_user.first_name + " " + current_user.last_name }}</h1>
+                            <p class="card-text"><strong>Email : </strong> {{ current_user.email }}</p>
+                            <p class="card-text">
+                                <strong>Account Type : </strong>
+                                {% if current_user.isAdmin %}
+                                    Admin
+                                {% else %}
+                                    User
+                                {% endif %}
+                            </p>
+                            <a href="{{ url_for('profile') }}" class="mt-2 mb-2 btn btn-dark btn-sm">Update Account</a>
+                            <br>
+                            <a href="{{ url_for('update_password') }}" class="mt-2 mb-2 btn btn-outline-dark btn-sm">Change Password</a>
+                            
+                        </div>
+
+                    </div>
                 </div>
+                
             </div>
         </div>
 
