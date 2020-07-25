@@ -56,8 +56,8 @@ nav{
             </a>
             <a class="navbar-brand" href="/">
                 <!-- <h5 id="sis">Requisition And Supply Management System</h5> -->
-
-                <!-- <p class="sis-desktop">RSMS</p> -->
+               
+                <p class="sis-desktop">KJSIEIT</p>
             </a>
 
 
@@ -65,12 +65,14 @@ nav{
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
+                <img src="{{ url_for('static', filename = 'images/profile/' + current_user.picture) }}" class="rounded-circle z-depth-0"
+                                  alt="avatar image" height="35">
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
                         <a class="nav-link" href="{{ url_for('home') }}">
-                            <p class="sis-desktop">Requisition And Supply Management System</p>
+                            <h5 class="sis-desktop">Requisition And Supply Management System</h5>
                             <span class="sr-only">(current)</span>
                         </a>
                     </li>  
@@ -96,8 +98,16 @@ nav{
                             </li>  
 
                         {% endif %} 
+                        <div class="sis-desktop">
+                            <li class="nav-item">
+                                <a href="{{ url_for('account') }}" class="nav-link" >Profile</a> 
+                            </li> 
+                            <li class="nav-item">
+                                <a href = "javascript:{document.getElementById('logout').submit()}" class="nav-link" >Signout</a> 
+                            </li> 
+                        </div>
                             
-                        <li class="nav-item avatar dropdown mr-5 pr-5 sis">
+                        <li class="nav-item avatar dropdown mr-5 pr-5" id = "sis">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                    
                                 <img src="{{ url_for('static', filename = 'images/profile/' + current_user.picture) }}" class="rounded-circle z-depth-0"
@@ -105,7 +115,9 @@ nav{
                               </a>
                               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ url_for('account') }}">Profile</a>
-                                <a href = "javascript:{document.getElementById('logout').submit()}" class="dropdown-item" href="#">Signout</a>                               
+                                <div class="dropdown-divider"></div>
+                                <a href = "javascript:{document.getElementById('logout').submit()}" class="dropdown-item" href="#">
+                                    Signout</a>                               
                               </div>
                         </li>
                         
@@ -129,7 +141,8 @@ nav{
                     {% if messages %}
                     <div class="p-2 m-5">
                             {% for category, message in messages %}
-                                <div class='alert alert-{{category}}'>
+                                <div class='alert alert-{{category}} alert-dismissible text-center'>
+                                    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
                                     {{ message }}
                                 </div>
                             {% endfor %}

@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="mt-3 p-3">
+        
+        <h1 class="text-center">Stock Categories</h1>
+        <div class="d-flex justify-content-center m-5">
+            <button class="btn btn-dark" data-toggle="modal" data-target="#addcategory"> <span class="fa fa-plus-circle"></span> Add category</button>
+        </div>
+        <div class="modal fade" id="addcategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <form action="">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Category Name</label>
+                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            
+                            <label for="exampleInputEmail1">Upload File</label>
+                            <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <small id="emailHelp" class="form-text text-muted">Make sure it looks nice in the page by order of taskmasters</small>
+                        </div>                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        <div class="row mt-5 d-flex justify-content-center">
+            {% for category in categories %}
+                <div class="col-lg-3 m-1">
+                    <div class="card mb-3">
+                        <a href="{{ url_for('admin_category', category_id = category.id) }}">
+                            <img src="{{ url_for('static', filename = 'images/profile/' + category.picture) }}" class="card-img-top" alt="...">
+                        </a>
+                            <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        
+    </div>
+{% endblock %}

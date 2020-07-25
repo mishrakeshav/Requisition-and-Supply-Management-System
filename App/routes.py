@@ -8,7 +8,7 @@ from App.forms import (
 )
 
 from App.models import (
-    User, Stock, Request
+    User, Stock, Request, Category
 )
 import csv
 import os
@@ -292,10 +292,43 @@ def request_received(request_id):
     flash('Request Updated')
     return redirect(url_for('user_summary'))
 
+@app.route('/categories')
+def categories():
+    cat = Category.query.all()
+    return render_template('categories.html', categories = cat)
 
+@app.route('/categories/<int:category_id>')
+def category(category_id):
+    stocks = Stock.query.filter_by(category_id = category_id).all()
+    quota = []
+    for stock in stocks:
+        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
+        temp = 0
+        for i in requests:
+            if i.status == 0 or i.status == 1:
+                temp += i.qty
+        quota_left = max(0, stock.quota - temp)
+        quota.append(quota_left)
+    return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
 
-    
+@app.route('/admin/categories')
+def admin_categories():
+    cat = Category.query.all()
+    return render_template('admin_categories.html', categories = cat)
 
+@app.route('/admin/categories/<int:category_id>')
+def admin_category(category_id):
+    stocks = Stock.query.filter_by(category_id = category_id).all()
+    quota = []
+    for stock in stocks:
+        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
+        temp = 0
+        for i in requests:
+            if i.status == 0 or i.status == 1:
+                temp += i.qty
+        quota_left = max(0, stock.quota - temp)
+        quota.append(quota_left)
+    return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
 
 @app.route('/user/request/summary')
 @login_required

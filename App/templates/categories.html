@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="mt-3 p-3">
+        
+        <h1 class="text-center">Categories</h1>
+        
+            
+        
+        <div class="row mt-5 d-flex justify-content-center">
+            {% for category in categories %}
+                <div class="col-lg-3 m-1">
+                    <div class="card mb-3">
+                        <a href="{{ url_for('category', category_id = category.id) }}">
+                            <img src="{{ url_for('static', filename = 'images/profile/' + category.picture) }}" class="card-img-top" alt="...">
+                        </a>
+                            <div class="card-body">
+                        <h5 class="card-title">{{ category.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+            
+            
+        
+        
+    </div>
+{% endblock %}
