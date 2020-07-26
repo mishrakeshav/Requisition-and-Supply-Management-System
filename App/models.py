@@ -67,5 +67,7 @@ class Request(db.Model):
     admins_comment = db.Column(db.Text, nullable = False, default='How dare you!')
     users_comment = db.Column(db.Text, nullable = False)
     received_comment = db.Column(db.Text, default = "No Comments")
+    processed_by = db.Column(db.String(255), nullable = False, default = 'No admin')
+
 
 
