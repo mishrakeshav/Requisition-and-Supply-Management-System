@@ -46,6 +46,38 @@ def stocks():
         return redirect(url_for('stocks'))
 
 
+@app.route('/admin/stocks/edit/<int:stock_id>', methods=['GET', 'POST'])
+def edit_stock(stock_id):
+    stock = Stock.query.get_or_404(stock_id)
+    form = EditStocks()
+    form.category.choices = [(cat.id, cat.name) for cat in Category.query.all()]
+    if form.validate_on_submit():
+        stock.item = form.stock_name.data 
+        stock.category_id = form.category.data
+        stock.avail = form.avail.data
+        stock.qty_req = form.quantity_req.data
+        stock.maximum_limit = form.maximum_limit.data
+        stock.minimum_limit = form.minimum_limit.data
+        stock.quota = form.quota.data
+
+        db.session.commit()
+        flash('Stock updated successfully', 'success')
+        return redirect(url_for('stocks'))
+
+    form.stock_name.data = stock.item
+    form.avail.data = stock.avail
+    form.quantity_req.data = stock.qty_req
+    form.maximum_limit.data = stock.maximum_limit
+    form.minimum_limit.data = stock.minimum_limit
+    form.quota.data = stock.quota
+
+    return render_template('edit_stocks.html', form = form)
+
+
+    
+
+
+
 @app.route('/admin/stocks/add', methods=['POST'])
 @login_required
 def add_stocks():

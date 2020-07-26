@@ -28,7 +28,7 @@
         <table id="reqstock_table" class="table table-list-search table-striped custab">
             <thead>
                 <tr>
-                    <th scope="row" style="width:5%;">Sr.no</th>
+                    <th scope="row" style="width:5%;">Item Id</th>
                     <th scope="col">Item Name</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Quota</th>
@@ -38,7 +38,7 @@
             <tbody>
                 {% for i in range(length) %}
                     <tr>
-                        <td>1</td>
+                        <td>{{stocks[i].id}}</td>
                         <td> {{stocks[i].item}} </td>
                         <td> {{stocks[i].avail}} </td>
                         <td> {{ quota[i] }} </td>

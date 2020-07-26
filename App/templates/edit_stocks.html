@@ -1,0 +1,114 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="row mt-5 d-flex justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-dark p-lg-5 p-3">
+                <h2>Edit {{ form.stock_name.data }}</h2>
+                    <form class="form-horizontal" method='POST'>
+                        {{ form.hidden_tag() }}
+
+                        <div class="form-group">
+                                    {{ form.stock_name.label(class="control-label") }}
+                                    {% if form.stock_name.errors %}
+                                        {{ form.stock_name(class="form-control is-invalid", placeholder="Quantity Required") }}
+                                        <div class = "invalid-feedback">
+                                            {% for error in form.stock_name.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.stock_name(class = "form-control", placeholder = 'Quantity Required') }}
+                                    {% endif %}
+                        </div>
+                        <div class="form-group">
+                                    {{ form.avail.label(class="control-label ") }}
+                                    {% if form.avail.errors %}
+                                        {{ form.avail(class="form-control is-invalid", placeholder="Request Message") }}
+                                        <div class = "invalid-feedback">
+                                            {% for error in form.avail.errors %}
+                                                <span>{{ error }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        {{ form.avail(class = "form-control", placeholder = 'Request Message') }}
+                                    {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.quantity_req.label(class="control-label ") }}
+                            {% if form.quantity_req.errors %}
+                                {{ form.quantity_req(class="form-control is-invalid", placeholder="Request Message") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.quantity_req.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.quantity_req(class = "form-control", placeholder = 'Request Message') }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.category.label(class="control-label ") }}
+                            {% if form.category.errors %}
+                                {{ form.category(class="form-control is-invalid", placeholder="Request Message") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.category.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.category(class = "form-control", placeholder = 'Request Message') }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.maximum_limit.label(class="control-label ") }}
+                            {% if form.maximum_limit.errors %}
+                                {{ form.maximum_limit(class="form-control is-invalid", placeholder="Request Message") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.maximum_limit.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.maximum_limit(class = "form-control", placeholder = 'Request Message') }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.minimum_limit.label(class="control-label ") }}
+                            {% if form.minimum_limit.errors %}
+                                {{ form.minimum_limit(class="form-control is-invalid", placeholder="Request Message") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.minimum_limit.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.minimum_limit(class = "form-control", placeholder = 'Request Message') }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            {{ form.quota.label(class="control-label ") }}
+                            {% if form.quota.errors %}
+                                {{ form.quota(class="form-control is-invalid", placeholder="Request Message") }}
+                                <div class = "invalid-feedback">
+                                    {% for error in form.quota.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.quota(class = "form-control", placeholder = 'Request Message') }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group">
+                            <div class='form-group'>
+                                {{ form.submit(class='btn btn-outline-info') }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+{% endblock content %}

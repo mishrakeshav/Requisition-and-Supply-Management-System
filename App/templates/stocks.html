@@ -81,10 +81,14 @@
                         <tr>
                             <th scope="row">Sr.No</th>
                             <th scope="col">Stationery Item</th>
+                            <th scope="col">Category</th>
                             <th scope="col">Qty<br>(previous sem)</th>
                             <th scope="col">Stock in hand</th >
                             <th scope="col">Quantity required</th >
                             <th scope="col">Qty<br>(present sem)</th >
+                            <th scope="col">Maximum Limit</th >
+                            <th scope="col">Minimum Limit</th >
+                            <th scope="col">Quota</th >
                             <th scope="col" class="text-center" >Action</th>
                         </tr>
                     </thead>
@@ -92,16 +96,18 @@
                         {% for element in stocks %}
                             <tr id="row{{ element.id }}">
 
-                                <td id="{{ element.id }}">{{ element.id }}</td>
-                                <td id="item{{ element.id  }}">{{ element.item }}</td>
+                                <td>{{ element.id }}</td>
+                                <td>{{ element.item }}</td>
+                                <td>{{ element.category.name }}</td>
                                 <td>{{ element.qty_prev }}</td>
-                                <td id="avail{{ element.id }}">{{ element.avail }}</td>
-                                <td id="qty-req{{ element.id }}">{{ element.qty_req }}</td>
+                                <td>{{ element.avail }}</td>
+                                <td>{{ element.qty_req }}</td>
                                 <td>{{ element.qty_pres }}</td>
+                                <td>{{ element.maximum_limit }}</td>
+                                <td>{{ element.minimum_limit }}</td>
+                                <td>{{ element.quota }}</td>
                                 <td>    
-                                    <button type="submit" class="btn btn-success" style="display: none;" id = "save_button{{ element.id }}"><i class="fas fa-check"></i> Save Changes   </button>
-                                    <input type="button" class="btn btn-outline-danger" id="edit_button{{ element.id }}" value="Edit items" class="edit"
-                                        onclick="edit_row('{{ element.id }}')">
+                                    <a href="{{ url_for('edit_stock', stock_id=element.id) }}" class="btn btn-outline-danger">Edit</a>
                                 </td>
                             </tr>
                         {% endfor %}

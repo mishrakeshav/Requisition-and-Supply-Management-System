@@ -4,12 +4,14 @@ from wtforms import (
     DateTimeField,
     IntegerField, SubmitField,
     TextAreaField,
+    SelectField,
     )
 
 from flask_wtf.file import FileField, FileAllowed
 
 # from wtforms.fields.html5  import DateField,TimeField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+
 
 
 
@@ -41,9 +43,14 @@ class RequestForm(FlaskForm):
 
 
 class EditStocks(FlaskForm):
-    stock_id = IntegerField('Stock Id', validators=[DataRequired()])
-    avail = IntegerField('Qty', validators=[DataRequired()])
-    quantity_req = IntegerField('Required Qty.', validators=[DataRequired()])
+    stock_name = StringField('Stock Name', validators=[DataRequired()])
+    avail = IntegerField('Quantity', validators=[DataRequired()])
+    quantity_req = IntegerField('Required Quantity.', validators=[DataRequired()])
+    category = SelectField('Category', coerce=int)
+    maximum_limit = IntegerField('Maximum Limit', validators=[DataRequired()])
+    minimum_limit = IntegerField('Minimum Limit', validators=[DataRequired()])
+    quota = IntegerField('Quota', validators=[DataRequired()])
+    submit = SubmitField('Confirm')
 
 class ProfileForm(FlaskForm):
     first_name = StringField('First Name', validators=[DataRequired()])

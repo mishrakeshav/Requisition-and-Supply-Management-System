@@ -81,7 +81,16 @@ nav{
                             <a class="nav-link" href="{{ url_for('home') }}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('user_home') }}">Make Request</a>
+                            <li class="nav-item avatar dropdown" id = "sis">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Make Request
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url_for('categories') }}">Categories</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ url_for('user_home') }}">See All Items</a>                               
+                                </div>
+                            </li>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url_for('user_summary') }}">Requests Log</a>
