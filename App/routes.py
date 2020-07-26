@@ -176,6 +176,7 @@ def accept_request(req_id):
         return redirect(url_for('admin_request'))
     req.qty = request_quantity
     req.status = 1
+    req.processed_by = current_user.email
     db.session.commit()
     flash('Request Accepted', 'success')
     return redirect(url_for('admin_request'))
