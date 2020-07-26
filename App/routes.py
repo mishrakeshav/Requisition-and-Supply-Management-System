@@ -256,16 +256,18 @@ def add_users():
         if user:
             flash(f"This email is already registered. Please try with another email id","info")
         else:
-            password = bcrypt.generate_password_hash(form.password.data)
+            password = secrets.token_hex(8)
+            hashed_password = bcrypt.generate_password_hash(password)
             user = User(
                 first_name = form.first_name.data, 
                 last_name = form.last_name.data,
                 email = form.email.data, 
-                password = password
+                password = hashed_password
                 )
             db.session.add(user)
             db.session.commit()
             flash(f"User Added","success")
+            send_create_user_email(user,password)
             return redirect(url_for('display_users'))
     return render_template('register.html',title = 'Register', form = form)
 
@@ -276,26 +278,27 @@ def view_user(user_id):
     user = User.query.get_or_404(user_id)
     return render_template('view_user.html', user = user)
 
-@app.route('/profile/update/password/<int:user_id>', methods = ['GET', 'POST'])
-@login_required
-def admin_update_password(user_id):
-    if not current_user.isAdmin: abort(403)
-    user = User.query.get_or_404(user_id)
-    form = UpdatePassword()
-    if form.validate_on_submit():
-        if not bcrypt.check_password_hash(current_user.password, form.prev_password.data): 
-            flash(f'Incorrect Password', 'danger')
-        else:
-            user.password = bcrypt.generate_password_hash(form.password.data)
-            db.session.commit()
-            flash(user.first_name + "'s Password was Updated", 'success')
-    return render_template('update_password.html', form = form, user = user)
+# @app.route('/profile/update/password/<int:user_id>', methods = ['GET', 'POST'])
+# @login_required
+# def admin_update_password(user_id):
+#     if not current_user.isAdmin: abort(403)
+#     user = User.query.get_or_404(user_id)
+#     form = UpdatePassword()
+#     if form.validate_on_submit():
+#         if not bcrypt.check_password_hash(current_user.password, form.prev_password.data): 
+#             flash(f'Incorrect Password', 'danger')
+#         else:
+#             user.password = bcrypt.generate_password_hash(form.password.data)
+#             db.session.commit()
+#             flash(user.first_name + "'s Password was Updated", 'success')
+#     return render_template('update_password.html', form = form, user = user)
 
 @app.route('/profile/delete/account/<int:user_id>', methods = ['POST'])
 @login_required
 def admin_delete_account(user_id):
     if not current_user.isAdmin: abort(403)
     user = User.query.get_or_404(user_id)
+    send_delete_account_email(user)
     db.session.delete(user)
     db.session.commit()
     flash("Account Deleted", 'success')
@@ -553,5 +556,38 @@ def send_reset_email(user):
     msg.body = f'''To reset your password visit the following link
 {url_for('reset_token', token = token, _external = True)}
 If you did not make this request then simply ignore this email and no changes will be made
+This url will expire in 30 min.
+
+This is an auto generated password. Please do not reply. 
+    '''
+    mail.send(msg)
+
+def send_create_user_email(user, password):
+    
+
+    msg = Message('Password for requisition and supply management system',
+                 sender = 'noreply@demo.com',
+                 recipients = [user.email])
+    msg.body = f'''Your account has been created on Requsition and supply management system. 
+You have been added as a user by {current_user.email} 
+You can login using the below credentials 
+Email : {user.email}
+Password : {password}
+Feel free to change the password after login in. 
+
+This is an auto generated password. Please do not reply. 
+    '''
+    mail.send(msg)
+
+def send_delete_account_email(user):
+
+    msg = Message('Account Delete on Requisition and supply management system',
+                 sender = 'noreply@demo.com',
+                 recipients = [user.email])
+    msg.body = f'''Your account was deleted on Requisition and supply managment System. 
+You account was deleted by {current_user.email} 
+
+
+This is an auto generated password. Please do not reply. 
     '''
     mail.send(msg)
