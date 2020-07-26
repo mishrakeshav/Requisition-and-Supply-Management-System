@@ -27,14 +27,8 @@ from flask_login import login_user, current_user, logout_user, login_required
 
 
 # ----------------- Admin routes ------------------
-@app.route('/admin/requests')
-@login_required
-def admin_request():
-    if not current_user.isAdmin: abort(403) 
-    request = Request.query.all()[::-1]
-    return render_template('request.html', requests = request) 
 
-
+### Admin Stock Routes ###
 @app.route('/admin/stocks', methods = ['GET','POST'])
 @login_required
 def stocks():
@@ -112,29 +106,82 @@ def reset():
     return send_file(path, as_attachment=True)
 
 
+### Admin Categories ###
+
+# view all the categories
+@app.route('/admin/categories')
+def admin_categories():
+    cat = Category.query.all()
+    return render_template('admin_categories.html', categories = cat)
+
+# view all the stocks in a category
+@app.route('/admin/categories/<int:category_id>')
+def admin_category(category_id):
+    stocks = Stock.query.filter_by(category_id = category_id).all()
+    quota = []
+    for stock in stocks:
+        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
+        temp = 0
+        for i in requests:
+            if i.status == 0 or i.status == 1:
+                temp += i.qty
+        quota_left = max(0, stock.quota - temp)
+        quota.append(quota_left)
+    return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
+
+# add a new category
+@app.route('/admin/category/add', methods=['POST'])
+@login_required
+def add_category():
+    if not current_user.isAdmin: abort(403) 
+    form = request.form
+    cat = Category(
+        name=form['name'],
+        picture = save_picture(request.files['picture'], 'category')
+    )
+    db.session.add(cat)
+    db.session.commit()
+    flash(f'Category added Successfully', 'success')
+
+    return redirect(url_for('admin_categories'))
 
 
+###Admin Request Routes  ###
+
+#display all requests
+@app.route('/admin/requests')
+@login_required
+def admin_request():
+    if not current_user.isAdmin: abort(403) 
+    request = Request.query.all()[::-1]
+    return render_template('request.html', requests = request) 
+
+#accept request
 @app.route('/admin/request/accept/<int:req_id>', methods = ['POST'])
 @login_required
-def accept_request(req_id):
-    if not current_user.isAdmin: abort(403) 
+def accept_request(req_id):    
+    if not current_user.isAdmin : abort(403)
+    request_quantity = request.form['request_quantity']
+    admin_comment = request.form['admincomment']
+
+    if not request_quantity.isnumeric():
+        flash('Quantity should be a number', 'danger')
+        return redirect(url_for('admin_request'))
+
     req  = Request.query.get_or_404(req_id)
-    if req.qty > req.stock.avail:
-        new_req = Request(user_id = req.user_id, stock_id = req.stock_id, qty = req.stock.avail, status = 1)
-        db.session.add(new_req)
-        req.qty = req.qty - req.stock.avail 
-        req.stock.qty_pres +=  req.stock.avail
-        req.stock.avail = 0
-    else:
-        req.stock.avail -= req.qty 
-        req.stock.qty_pres += req.qty
-        req.status = 1
-    req.processed_by = current_user.email
-    db.session.commit() 
-    flash('Request Accepted','success')
+    request_quantity = int(request_quantity)
+
+    if request_quantity > req.original_quantity and request_quantity > req.stock.avail:
+        flash('You cannot accept more than the user has requested or more than the available quantity', 'danger')
+        return redirect(url_for('admin_request'))
+    req.qty = request_quantity
+    req.status = 1
+    db.session.commit()
+    flash('Request Accepted', 'success')
     return redirect(url_for('admin_request'))
 
 
+#reject request
 @app.route('/admin/request/delete/<int:req_id>', methods = ['POST'])
 @login_required
 def reject_request(req_id):
@@ -146,6 +193,7 @@ def reject_request(req_id):
     return redirect(url_for('admin_request'))
 
 
+# view all the processed request
 @app.route('/admin/requests/summary')
 @login_required
 def admin_summary():
@@ -153,6 +201,9 @@ def admin_summary():
     requests = Request.query.all()[::-1]
     return render_template('admin_summary.html', requests = requests)
 
+
+
+### Admin user management ###
 
 @app.route('/admin/users')
 @login_required
@@ -244,6 +295,9 @@ def toggle_superuser(user_id):
 
 
 
+# User request routes 
+
+# View all the stocks
 @app.route('/user/home', methods=['GET', 'POST'])
 @login_required
 def user_home():
@@ -261,6 +315,7 @@ def user_home():
     return render_template("user.html", stocks = stocks, quota = quota, length = len(quota))
 
 
+# Make a request for a stock
 @app.route('/make/request/<int:stock_id>', methods=['GET', 'POST'])
 @login_required
 def make_request(stock_id):
@@ -278,7 +333,8 @@ def make_request(stock_id):
                 user_id = current_user.id,
                 stock_id=stock.id,
                 qty = form.quantity_req.data,
-                users_comment = form.message.data
+                users_comment = form.message.data,
+                original_quantity = form.quantity_req.data
             )
             db.session.add(request)
             db.session.commit()
@@ -289,6 +345,7 @@ def make_request(stock_id):
             flash('You cannot request more than the available quota', 'danger')
     return render_template('request_stock.html', form=form, stock=stock)
 
+# Confirm that you have received the item
 @app.route('/user/requests/received/<int:request_id>', methods=['POST'])
 @login_required
 def request_received(request_id):
@@ -300,11 +357,14 @@ def request_received(request_id):
     flash('Request Updated')
     return redirect(url_for('user_summary'))
 
+
+# View categories of the stocks
 @app.route('/categories')
 def categories():
     cat = Category.query.all()
     return render_template('categories.html', categories = cat)
 
+# view all the stocks of a category 
 @app.route('/categories/<int:category_id>')
 def category(category_id):
     stocks = Stock.query.filter_by(category_id = category_id).all()
@@ -319,45 +379,15 @@ def category(category_id):
         quota.append(quota_left)
     return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
 
-@app.route('/admin/categories')
-def admin_categories():
-    cat = Category.query.all()
-    return render_template('admin_categories.html', categories = cat)
-
-@app.route('/admin/categories/<int:category_id>')
-def admin_category(category_id):
-    stocks = Stock.query.filter_by(category_id = category_id).all()
-    quota = []
-    for stock in stocks:
-        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
-        temp = 0
-        for i in requests:
-            if i.status == 0 or i.status == 1:
-                temp += i.qty
-        quota_left = max(0, stock.quota - temp)
-        quota.append(quota_left)
-    return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
-
-@app.route('/admin/category/add', methods=['POST'])
-@login_required
-def add_category():
-    if not current_user.isAdmin: abort(403) 
-    form = request.form
-    cat = Category(
-        name=form['name'],
-        picture = save_picture(request.files['picture'], 'category')
-    )
-    db.session.add(cat)
-    db.session.commit()
-    flash(f'Category added Successfully', 'success')
-
-    return redirect(url_for('admin_categories'))
-
+# view the summary of all the requests that you have made
 @app.route('/user/request/summary')
 @login_required
 def user_summary():
     requests = User.query.get(current_user.id).requests[::-1]
     return render_template('summary.html', requests = requests)
+
+
+
 
 #---------------- General Routes --------------------
 
