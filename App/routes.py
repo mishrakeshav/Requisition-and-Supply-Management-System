@@ -151,6 +151,7 @@ def admin_categories():
 @app.route('/admin/categories/<int:category_id>')
 def admin_category(category_id):
     stocks = Stock.query.filter_by(category_id = category_id).all()
+    categories = Category.query.all()
     quota = []
     for stock in stocks:
         requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
@@ -160,7 +161,7 @@ def admin_category(category_id):
                 temp += i.qty
         quota_left = max(0, stock.quota - temp)
         quota.append(quota_left)
-    return render_template('stocks.html', stocks= stocks, quota = quota, length = len(quota))
+    return render_template('stocks.html', stocks= stocks, quota = quota, length = len(quota), categories=categories)
 
 # add a new category
 @app.route('/admin/category/add', methods=['POST'])
@@ -220,12 +221,13 @@ def accept_request(req_id):
     req  = Request.query.get_or_404(req_id)
     request_quantity = int(request_quantity)
 
-    if request_quantity > req.original_quantity and request_quantity > req.stock.avail:
+    if request_quantity > req.original_quantity or request_quantity > req.stock.avail:
         flash('You cannot accept more than the user has requested or more than the available quantity', 'danger')
         return redirect(url_for('admin_request'))
     req.qty = request_quantity
     req.status = 1
     req.processed_by = current_user.first_name + " " + current_user.last_name 
+    req.admins_comment = admin_comment
     db.session.commit()
     flash('Request Accepted', 'success')
     return redirect(url_for('admin_request'))
@@ -407,7 +409,7 @@ def request_received(request_id):
     req.accepted = True
     req.received_comment = str(request.form['textarea'])
     db.session.commit()
-    flash('Request Updated')
+    flash('Request Updated', 'success')
     return redirect(url_for('user_summary'))
 
 
