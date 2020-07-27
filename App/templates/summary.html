@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    
+    <div class="container">
     <div class="row head">
         <div class="mainhead col-md-12 row">
             <div class="col-md-6">
@@ -15,10 +15,11 @@
             </div>
         </div>
     </div>
+</div>
 
-    
-        <div class="m-5 custyle table-responsive">
-            <table id="summary_table" class="table table-hover">
+        
+        <div class="mt-4 col-md-offset-2 custyle table-responsive">
+            <table id="summary_table" class="table table-list-search custab table-hover">
                 <thead>
                     <tr>
                         <th scope="row">Request Id </th>
@@ -27,8 +28,8 @@
                             <th scope='col'> Name </th>
                         {% endif %} -->
                         <th scope="col">Item</th>
-                        <th scope="col">Requested Quantity</th>
-                        <th scope="col">Accepted Quantity</th>
+                        <th scope="col">Requested Qty</th>
+                        <th scope="col">Accepted Qty</th>
                         <th scope="col">Timestamp</th>
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" >Received</th>
@@ -83,6 +84,7 @@
                 </tbody>
             </table>
         </div>
+    </div>
     
 
 {% endblock content %}
