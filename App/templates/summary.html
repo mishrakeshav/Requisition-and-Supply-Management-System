@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="container-fluid">
+    
     <div class="row head">
         <div class="mainhead col-md-12 row">
             <div class="col-md-6">
@@ -16,23 +16,25 @@
         </div>
     </div>
 
-    </div>
-    <div class="container d-flex justify-content-center">
-        <div class="col-md-offset-2 custyle table-responsive">
-            <table id="summary_table" class="table table-list-search table-striped custab">
+    
+        <div class="m-5 custyle table-responsive">
+            <table id="summary_table" class="table table-hover">
                 <thead>
                     <tr>
                         <th scope="row">Request Id </th>
-                        {% if current_user.isAdmin %}
-                        <th scope='col'> User Id </th>
-                        <th scope='col'> Name </th>
-                        {% endif %}
+                        <!-- {% if current_user.isAdmin %}
+                            <th scope='col'> User Id </th>
+                            <th scope='col'> Name </th>
+                        {% endif %} -->
                         <th scope="col">Item</th>
-                        <th scope="col">Quantity</th>
+                        <th scope="col">Requested Quantity</th>
+                        <th scope="col">Accepted Quantity</th>
                         <th scope="col">Timestamp</th>
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" >Received</th>
                         <th scope="col" >Comment</th>
+                        <th scope="col">Processed By</th>
+                        <th scope="col">Admin's Comment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,11 +42,12 @@
                     <tr>
                         
                         <td>{{ element.id }}</td>
-                        {% if current_user.isAdmin %}
+                        <!-- {% if current_user.isAdmin %}
                         <td scope='col'>{{ element.user_id }}</td>
                         <td scope='col'>{{ element.user.first_name + " " + element.user.last_name }}</td>
-                        {% endif %}
+                        {% endif %} -->
                         <td>{{ element.stock.item }}</td>
+                        <td>{{ element.original_quantity }}</td>
                         <td>{{ element.qty }}</td>
                         <td>{{element.date_applied.strftime('%Y-%m-%d') }}</td>
                         <td class="text-center">
@@ -73,11 +76,13 @@
                                 {% endif %}
                             </form>
                         </td>
+                        <td>{{ element.processed_by }}</td>
+                        <td><Textarea disabled>{{ element.admins_comment }}</Textarea></td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-    </div>
+    
 
 {% endblock content %}

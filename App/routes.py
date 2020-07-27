@@ -209,7 +209,7 @@ def accept_request(req_id):
         return redirect(url_for('admin_request'))
     req.qty = request_quantity
     req.status = 1
-    req.processed_by = current_user.email
+    req.processed_by = current_user.first_name + " " + current_user.last_name 
     db.session.commit()
     flash('Request Accepted', 'success')
     return redirect(url_for('admin_request'))
@@ -536,7 +536,13 @@ def reset_token(token):
 
 
 ############# utils ####################
+
+# save the picture 
 def save_picture(form_picture, folder):
+    """
+    Input : picture and folder name 
+    output: picture location
+    """
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
@@ -547,6 +553,7 @@ def save_picture(form_picture, folder):
     i.save(picture_path)
     return picture_fn
 
+# reset request email
 def send_reset_email(user):
     token = user.get_reset_token()
 
@@ -562,6 +569,7 @@ This is an auto generated password. Please do not reply.
     '''
     mail.send(msg)
 
+# send create user email
 def send_create_user_email(user, password):
     
 
@@ -579,6 +587,7 @@ This is an auto generated password. Please do not reply.
     '''
     mail.send(msg)
 
+# send delete account email
 def send_delete_account_email(user):
 
     msg = Message('Account Delete on Requisition and supply management system',
@@ -586,7 +595,7 @@ def send_delete_account_email(user):
                  recipients = [user.email])
     msg.body = f'''Your account was deleted on Requisition and supply managment System. 
 You account was deleted by {current_user.email} 
-
+Please contact the admin if you think this was a mistake.
 
 This is an auto generated password. Please do not reply. 
     '''
