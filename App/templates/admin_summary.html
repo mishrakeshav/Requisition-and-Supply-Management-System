@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="container-fluid">
+    <div class="container">
     <div class="row head">
         <div class="mainhead col-md-12 row">
             <div class="col-md-6">
@@ -17,7 +17,6 @@
     </div>
 
     </div>
-    <div class="container d-flex justify-content-center">
         <div class="col-md-offset-2 custyle table-responsive">
             <table id="summary_table" class="table table-list-search table-striped custab">
                 <thead>
@@ -33,6 +32,8 @@
                         <th scope="col" class="text-center">Status</th>
                         <th scope="col" >Comment</th>
                         <th scope="col" >Received</th>
+                        <th scope="col"> Processed By </th>
+                        <th scope="col">Admins Comment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,11 +69,14 @@
                                 <h3 style="color: #454d66;"><i class="far fa-clock"></i></h3>
                             {% endif %}
                         </td>
+                        <td> {{element.processed_by}} </td>
+                        <td>
+                            <Textarea disabled>{{ element.admins_comment }}</Textarea>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-        </div>
     </div>
 
 {% endblock content %}

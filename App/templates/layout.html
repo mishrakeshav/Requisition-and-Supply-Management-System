@@ -101,8 +101,17 @@ nav{
                                 <a class="nav-link" href="{{ url_for('admin_request') }}">Requests</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ url_for('stocks') }}">Stocks</a>
-                            </li>                    
+                                <li class="nav-item avatar dropdown" id = "sis">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Stocks
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ url_for('admin_categories') }}">Categories</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ url_for('stocks') }}">See All Stocks</a>                               
+                                    </div>
+                                </li>
+                            </li>                   
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url_for('admin_summary') }}">Admin Summary</a>
                             </li>  
@@ -163,10 +172,8 @@ nav{
             
         </main>
     </header>
-    <div >
-        {% block content %}
-        {% endblock %}
-    </div>
+    {% block content %}
+    {% endblock %}
 
     
     

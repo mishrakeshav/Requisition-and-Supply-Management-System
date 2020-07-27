@@ -60,6 +60,11 @@ class ProfileForm(FlaskForm):
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
     submit = SubmitField('Update Profile')
 
+class EditCategoryForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    picture = FileField('Update Category Picture', validators=[FileAllowed(['jpg', 'png'])])
+    submit = SubmitField('Update Category')
+
 
 class RequestResetForm(FlaskForm):
     email = StringField('Email',

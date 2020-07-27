@@ -80,10 +80,10 @@ class Request(db.Model):
     date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
     status = db.Column(db.Integer, default = 0)
     accepted = db.Column(db.Boolean, default = False)
-    admins_comment = db.Column(db.Text, nullable = False, default='How dare you!')
+    admins_comment = db.Column(db.Text, nullable = False, default="No Comments")
     users_comment = db.Column(db.Text, nullable = False)
     received_comment = db.Column(db.Text, default = "No Comments")
-    processed_by = db.Column(db.String(255), nullable = False, default = 'No admin')
+    processed_by = db.Column(db.String(255), nullable = False, default = 'Not yet Processed')
 
 
 

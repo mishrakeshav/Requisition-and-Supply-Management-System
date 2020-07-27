@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+
+<div class="container d-flex justify-content-center mt-5">
+    <h4> Edit Category {{form.name.data}}</h4>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 p-md-5 p-lg-5 p-sm-3 ml-md-5">
+            <div class="card mb-4 box-shadow">
+                <img src="{{ url_for('static', filename = 'images/category/' + form.picture.data) }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5>{{ form.name.data }}</h5>
+                </div>
+            </div>
+        </div>
+    <div class="col-md-5 m-5">
+              
+        <form action="" method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(class = "form-control-label") }}
+                {% if form.name.errors %}
+                    {{ form.name(class = "form-control form-control-lg is-invalid", placeholder = "Category Name") }}
+                    <div class = "invalid-feedback">
+                        {% for error in form.name.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.name(class = "form-control form-control-lg", placeholder = "Category Name") }}
+                {% endif %}
+            </div>
+    
+            <div class='form-group'>
+              {{ form.picture.label }}
+              {{ form.picture(class="form-control-file m-2") }}
+              {% if form.picture.errors %}
+                  {% for error in form.picture.errors %}
+                      <span class="text-danger">{{ error }}</span><br>
+                  {% endfor %}
+              {% endif %}
+            </div>
+            <div class='form-group'>
+                {{ form.submit(class="btn btn-dark btn-sm mt-lg-1 mb-lg-1") }}
+            </div>
+          </form>
+          
+    </div>
+</div>
+
+
+
+{% endblock content %}

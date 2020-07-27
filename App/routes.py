@@ -4,7 +4,7 @@ from flask import (
 
 from App.forms import (
     LoginForm, EditStocks, RequestForm, ProfileForm, RegistrationForm,
-    UpdatePassword, RequestResetForm, ResetPasswordForm
+    UpdatePassword, RequestResetForm, ResetPasswordForm, EditCategoryForm
 )
 
 from App.models import (
@@ -160,7 +160,7 @@ def admin_category(category_id):
                 temp += i.qty
         quota_left = max(0, stock.quota - temp)
         quota.append(quota_left)
-    return render_template('user.html', stocks= stocks, quota = quota, length = len(quota))
+    return render_template('stocks.html', stocks= stocks, quota = quota, length = len(quota))
 
 # add a new category
 @app.route('/admin/category/add', methods=['POST'])
@@ -177,6 +177,22 @@ def add_category():
     flash(f'Category added Successfully', 'success')
 
     return redirect(url_for('admin_categories'))
+
+@app.route('/admin/category/edit/<int:category_id>', methods=['GET', 'POST'])
+def edit_category(category_id):
+    category = Category.query.get_or_404(category_id)
+    form = EditCategoryForm()
+    
+    if form.validate_on_submit():
+        if form.picture.data:
+            picture_name = save_picture(form.picture.data, "category")
+            category.picture = picture_name
+        category.name = form.name.data
+        db.session.commit()
+        flash('Category Details Updated Successfully!', 'success')
+    form.name.data = category.name
+    form.picture.data = category.picture
+    return render_template('edit_category.html', form = form)
 
 
 ###Admin Request Routes  ###
