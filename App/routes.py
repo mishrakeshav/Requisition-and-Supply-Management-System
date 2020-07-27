@@ -581,7 +581,7 @@ def send_reset_email(user):
 If you did not make this request then simply ignore this email and no changes will be made
 This url will expire in 30 min.
 
-This is an auto generated password. Please do not reply. 
+This is an auto generated mail. Please do not reply. 
     '''
     mail.send(msg)
 
@@ -599,7 +599,7 @@ Email : {user.email}
 Password : {password}
 Feel free to change the password after login in. 
 
-This is an auto generated password. Please do not reply. 
+This is an auto generated mail. Please do not reply. 
     '''
     mail.send(msg)
 
@@ -613,6 +613,6 @@ def send_delete_account_email(user):
 You account was deleted by {current_user.email} 
 Please contact the admin if you think this was a mistake.
 
-This is an auto generated password. Please do not reply. 
+This is an auto generated mail. Please do not reply. 
     '''
     mail.send(msg)
