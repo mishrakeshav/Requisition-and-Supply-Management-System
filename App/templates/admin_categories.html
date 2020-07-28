@@ -5,7 +5,7 @@
         
         <h1 class="text-center">Stock Categories</h1>
         <div class="d-flex justify-content-center m-5">
-            <button class="btn btn-dark" data-toggle="modal" data-target="#addcategory"> <span class="fa fa-plus-circle"></span> Add category</button>
+            <button class="btn bgcolor" data-toggle="modal" data-target="#addcategory"> <span class="fa fa-plus-circle"></span> Add category</button>
         </div>
         <div class="modal fade" id="addcategory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -45,9 +45,9 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ category.name }}</h5>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex flex-row-reverse bd-highlight mb-2 mr-2">
                             {% if current_user.isAdmin or current_user.isSuperUser%}
-                              <a href="{{ url_for('edit_category', category_id=category.id) }}" class="btn-sm btn-outline-danger">Edit</a>
+                              <a href="{{ url_for('edit_category', category_id=category.id) }}" class="btn-sm btn-danger pr-3 pl-3">Edit</a>
                             {% endif %}
                           </div>    
                     </div>

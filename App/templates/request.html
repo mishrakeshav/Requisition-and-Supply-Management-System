@@ -82,7 +82,7 @@
                                     </a>
                                 </td>
                                 <form id="deleteitem{{ element.id }}"  action="{{ url_for('reject_request', req_id = element.id) }}" method="POST">
-                                    <textarea  style = "display:none" name="admincomment" id="comment{{ element.id }}" cols="30" rows="10" ></textarea>
+                                    <textarea  class="d-none" name="admincomment" id="comment{{ element.id }}" cols="30" rows="10" ></textarea>
                                 </form>
                             </tr>
                         {% endif %}
