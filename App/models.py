@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     isAdmin = db.Column(db.Boolean, default = False)
     isSuperUser = db.Column(db.Boolean, default = False)
     requests = db.relationship('Request', backref='user', lazy=True)
+    # bills = db.relationship('Bill', backref='user', lazy=True)
     picture = db.Column(db.String(60), nullable=False, default='default.jpg')
 
     def get_reset_token(self,expires_sec = 1800):
@@ -77,13 +78,22 @@ class Request(db.Model):
     stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), nullable = False)
     original_quantity = db.Column(db.Integer, nullable = False)
     qty = db.Column(db.Integer, nullable = False)
-    date_applied = db.Column(db.DateTime, nullable = False, default = datetime.utcnow)
+    date_applied = db.Column(db.DateTime, nullable = False, default = datetime.now)
     status = db.Column(db.Integer, default = 0)
     accepted = db.Column(db.Boolean, default = False)
     admins_comment = db.Column(db.Text, nullable = False, default="No Comments")
     users_comment = db.Column(db.Text, nullable = False)
     received_comment = db.Column(db.Text, default = "No Comments")
     processed_by = db.Column(db.String(255), nullable = False, default = 'Not yet Processed')
+
+
+# class Bill(db.Model, UserMixin):
+#     id = db.Column(db.Integer, primary_key = True)
+#     bill_number = db.Column(db.Integer, nullable=False)
+#     cost = db.Column(db.Integer, nullable = False)
+#     was_updated_by = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+#     last_updated = db.Column(db.DateTime, nullable = False, default = datetime.now)
+#     picture = db.Column(db.String(60), nullable=False)
 
 
 

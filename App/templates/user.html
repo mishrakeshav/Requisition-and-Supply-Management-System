@@ -42,7 +42,7 @@
                         <td> {{stocks[i].item}} </td>
                         <td> {{stocks[i].avail}} </td>
                         <td> {{ quota[i] }} </td>
-                        <td><a href="{{ url_for('make_request', stock_id=stocks[i].id) }}"><button type="button" class="btn btn-primary")">Request</button></a></td>
+                        <td><a href="{{ url_for('make_request', stock_id=stocks[i].id) }}"><button type="button" class="btn bgcolor")">Request</button></a></td>
                     </tr>
                 {% endfor %}
             </tbody>
