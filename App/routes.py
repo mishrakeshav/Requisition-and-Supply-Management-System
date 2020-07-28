@@ -240,8 +240,10 @@ def reject_request(req_id):
     if not current_user.isAdmin: abort(403) 
     req  = Request.query.get_or_404(req_id)
     req.status = -1
+    req.admins_comment = request.form['admincomment']
+    req.processed_by = current_user.first_name + " " + current_user.last_name 
     db.session.commit()
-    flash('Request rejected','success')
+    flash('Request rejected','danger')
     return redirect(url_for('admin_request'))
 
 

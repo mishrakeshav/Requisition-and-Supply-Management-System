@@ -54,11 +54,12 @@
                                         required>
                                     </td>
                                     <td>
-                                        <textarea name="admincomment" id="" cols="30" rows="3" class="form-control"></textarea>
+                                        <form id="delete{{ element.id }}" method="POST" action="{{ url_for('reject_request', req_id = element.id) }}">
+                                            <textarea name="admincomment" id="" cols="30" rows="3" class="form-control"></textarea>
+                                        </form>
                                     </td>
                                 </form>
                                 <td>
-                                                                               
                                             {% if element.stock.avail == 0 %}
                                                 <button class='btn btn-success btn-xs' 
                                                 type = 'submit' disabled>
@@ -71,17 +72,15 @@
                                                     <span class="glyphicon glyphicon-edit"></span>
                                                     Send 
                                                 </a> 
-                                            {% endif %}   
+                                            {% endif %}
                                     </form>
                                         
                                 </td>
                                 <td>
-                                    <form action="{{ url_for('reject_request', req_id = element.id) }}" method = 'POST'>                                   
-                                        <button class="btn bgcolor"  type = "submit">
-                                                    <span class="glyphicon glyphicon-remove"></span>
-                                                    <i class="far fa-trash-alt"></i> Delete
-                                        </button>
-                                    </form>                                     
+                                    <a class="btn bgcolor" href="javascript:document.getElementById('delete{{ element.id }}').submit()">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                                <i class="far fa-trash-alt"></i> Delete
+                                    </a>
                                 </td>
                             </tr>
                         {% endif %}
