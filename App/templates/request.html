@@ -53,9 +53,8 @@
                                         {% endif %}
                                         required>
                                     </td>
-                                    <td>
-                                        <form id="delete{{ element.id }}" method="POST" action="{{ url_for('reject_request', req_id = element.id) }}">
-                                            <textarea name="admincomment" id="" cols="30" rows="3" class="form-control"></textarea>
+                                    <td>                                        
+                                            <textarea id = "admincomment{{ element.id }}" name="admincomment"  cols="30" rows="3" class="form-control" onkeyup=Copydata({{ element.id }});></textarea>
                                         </form>
                                     </td>
                                 </form>
@@ -67,21 +66,24 @@
                                                     Send 
                                                 </button> 
                                             {% else %}
-                                                <a href = "javascript:document.getElementById('form{{ element.id }}').submit()"class='btn btn-success btn-xs' 
-                                                    >
+                                                
+                                                <a href = "javascript:document.getElementById('form{{ element.id }}').submit()"class='btn btn-success btn-xs' type = "submit">
                                                     <span class="glyphicon glyphicon-edit"></span>
                                                     Send 
                                                 </a> 
                                             {% endif %}
-                                    </form>
+                                    
                                         
                                 </td>
                                 <td>
-                                    <a class="btn bgcolor" href="javascript:document.getElementById('delete{{ element.id }}').submit()">
+                                    <a class="btn bgcolor" href="javascript:document.getElementById('deleteitem{{ element.id }}').submit()">
                                                 <span class="glyphicon glyphicon-remove"></span>
                                                 <i class="far fa-trash-alt"></i> Delete
                                     </a>
                                 </td>
+                                <form id="deleteitem{{ element.id }}"  action="{{ url_for('reject_request', req_id = element.id) }}" method="POST">
+                                    <textarea  style = "display:none" name="admincomment" id="comment{{ element.id }}" cols="30" rows="10" ></textarea>
+                                </form>
                             </tr>
                         {% endif %}
                     {% endfor %}
@@ -89,5 +91,9 @@
             </table>
         </div>
     </div>
-
+<script>
+    function Copydata(val){
+        $("#comment" + val).val($("#admincomment" + val).val());
+      }
+</script>
 {% endblock content %}
