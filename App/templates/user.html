@@ -33,6 +33,7 @@
                     <th scope="col">Quantity</th>
                     <th scope="col">Quota</th>
                     <th scope="col">Action</th>
+                    <th scope="col">Special request</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,6 +44,11 @@
                         <td> {{stocks[i].avail}} </td>
                         <td> {{ quota[i] }} </td>
                         <td><a href="{{ url_for('make_request', stock_id=stocks[i].id) }}"><button type="button" class="btn bgcolor")">Request</button></a></td>
+                        {% if quota[i] == 0 %}
+                            <td><a href="{{ url_for('make_special_request', stock_id=stocks[i].id) }}"><button type="button" class="btn btn-dark")">Special Request</button></a></td>
+                        {% else %}
+                            <td><button class="btn btn-secondary " disabled>Special Request</button><td>
+                        {% endif %}
                     </tr>
                 {% endfor %}
             </tbody>

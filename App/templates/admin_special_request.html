@@ -1,0 +1,98 @@
+
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <div class="container-fluid">
+    <div class="row head">
+        <div class="mainhead col-md-12 row">
+            <div class="col-md-6">
+                <h3>Special Requests</h3>
+            </div>
+
+            <div class="col-md-3">
+                <input type="text" class=" form-control" id="request_input" onkeyup="search_requests()"
+                    placeholder="Search" /><span></span>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <div class="container d-flex justify-content-center">
+        <div class="col-md-offset-2 custyle table-responsive">
+            <table id="request_table" class="table table-list-search table-striped custab">
+                <thead>
+                    <tr>
+                        <th scope="row">Name</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Timestamp</th>
+                        <th scope="col">Requested Quantity</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Make a comment</th>
+                        <th scope="col" >Accept</th>
+                        <th scope="col" >Reject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for element in requests %}
+                        {% if element.status == 0 %}
+                            <tr>
+                                <td>{{ element.user.first_name + " " + element.user.last_name }}</td>
+                                <td>{{ element.stock.item }}</td>
+                                <td>{{element.date_applied.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+    
+                                <td>{{ element.original_quantity }}</td>
+                                <form id = "form{{ element.id }}" action="{{ url_for('accept_special_request', req_id = element.id) }}" method="POST">
+                                    <td>
+                                        <input name = "request_quantity" class = "form-control" type="number" 
+                                        {% if element.qty > element.stock.avail %}
+                                            value = "{{ element.stock.avail }}"
+                                        {% else %}
+                                            value = "{{ element.qty }}"
+                                        {% endif %}
+                                        required>
+                                    </td>
+                                    <td>                                        
+                                            <textarea id = "admincomment{{ element.id }}" name="admincomment"  cols="30" rows="3" class="form-control" onkeyup=Copydata({{ element.id }});></textarea>
+                                        </form>
+                                    </td>
+                                </form>
+                                <td>
+                                            {% if element.stock.avail == 0 %}
+                                                <button class='btn btn-success btn-xs' 
+                                                type = 'submit' disabled>
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    Send 
+                                                </button> 
+                                            {% else %}
+                                                
+                                                <a href = "javascript:document.getElementById('form{{ element.id }}').submit()"class='btn btn-success btn-xs' type = "submit">
+                                                    <span class="glyphicon glyphicon-edit"></span>
+                                                    Send 
+                                                </a> 
+                                            {% endif %}
+                                    
+                                        
+                                </td>
+                                <td>
+                                    <a class="btn bgcolor" href="javascript:document.getElementById('deleteitem{{ element.id }}').submit()">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                                <i class="far fa-trash-alt"></i> Delete
+                                    </a>
+                                </td>
+                                <form id="deleteitem{{ element.id }}"  action="{{ url_for('reject_special_request', req_id = element.id) }}" method="POST">
+                                    <textarea  class="d-none" name="admincomment" id="comment{{ element.id }}" cols="30" rows="10" ></textarea>
+                                </form>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script>
+    function Copydata(val){
+        $("#comment" + val).val($("#admincomment" + val).val());
+      }
+</script>
+{% endblock content %}

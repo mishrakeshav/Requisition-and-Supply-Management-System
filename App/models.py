@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     isAdmin = db.Column(db.Boolean, default = False)
     isSuperUser = db.Column(db.Boolean, default = False)
     requests = db.relationship('Request', backref='user', lazy=True)
+    special_requests = db.relationship('SpecialRequest', backref='user', lazy=True)
     # bills = db.relationship('Bill', backref='user', lazy=True)
     picture = db.Column(db.String(60), nullable=False, default='default.jpg')
 
@@ -64,6 +65,7 @@ class Stock(db.Model):
     maximum_limit = db.Column(db.Integer, nullable = False)
     quota = db.Column(db.Integer, nullable = False)
     requests = db.relationship('Request', backref='stock', lazy=True)
+    special_requests = db.relationship('SpecialRequest', backref='stock', lazy=True)
 
     def __repr__(self):
         return str({
@@ -95,5 +97,15 @@ class Request(db.Model):
 #     last_updated = db.Column(db.DateTime, nullable = False, default = datetime.now)
 #     picture = db.Column(db.String(60), nullable=False)
 
-
+class SpecialRequest(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable = False)
+    stock_id = db.Column(db.Integer, db.ForeignKey('stock.id'), nullable = False)
+    original_quantity = db.Column(db.Integer, nullable = False)
+    qty = db.Column(db.Integer, nullable = False)
+    date_applied = db.Column(db.DateTime, nullable = False, default = datetime.now)
+    status = db.Column(db.Integer, default = 0)
+    admins_comment = db.Column(db.Text, nullable = False, default="No Comments")
+    users_comment = db.Column(db.Text, nullable = False)
+    processed_by = db.Column(db.String(255), nullable = False, default = 'Not yet Processed')
 

@@ -8,7 +8,7 @@ from App.forms import (
 )
 
 from App.models import (
-    User, Stock, Request, Category
+    User, Stock, Request, Category, SpecialRequest
 )
 import csv
 import os
@@ -255,10 +255,107 @@ def admin_summary():
     requests = Request.query.all()[::-1]
     return render_template('admin_summary.html', requests = requests)
 
+### special requests ###
 
+# make a special request
+@app.route('/user/specialrequest/<int:stock_id>', methods=['GET', 'POST'])
+@login_required
+def make_special_request(stock_id):
+    form = RequestForm()
+    stock = Stock.query.get_or_404(stock_id)
+    if form.validate_on_submit():
+        requests = Request.query.filter_by(user_id = current_user.id, stock_id= stock.id).all()
+        temp = 0
+        for i in requests:
+            if i.status == 0 or i.status == 1:
+                temp += i.qty
+        quota_left = max(0, stock.quota - temp)
+        if quota_left == 0:
+            special_request = SpecialRequest(
+                user_id = current_user.id,
+                stock_id=stock.id,
+                qty = form.quantity_req.data,
+                users_comment = form.message.data,
+                original_quantity = form.quantity_req.data
+            )
+            db.session.add(special_request)
+            db.session.commit()
+            flash('Special request Made Successfully', 'success')
+            return redirect(url_for('user_home'))
+        else:
+            flash('Your quota has not exceeded the limit, you cannot make a special request', 'danger')
+            return redirect(url_for('user_home'))
+    return render_template('request_stock.html', form=form, stock=stock)
+
+# view all the special requests
+@app.route("/admin/specialrequests", methods = ['GET'])
+def admin_special_request():
+    if not current_user.isSuperUser: abort(403) 
+    request = SpecialRequest.query.filter_by(status = 0).all()[::-1]
+    return render_template('admin_special_request.html', requests = request) 
+
+
+# accept special requests
+@app.route('/admin/specialrequest/accept/<int:req_id>', methods = ['POST'])
+@login_required
+def accept_special_request(req_id):    
+    if not current_user.isSuperUser : abort(403)
+    request_quantity = request.form['request_quantity']
+    admin_comment = request.form['admincomment']
+
+    if not request_quantity.isnumeric():
+        flash('Quantity should be a number', 'danger')
+        return redirect(url_for('admin_request'))
+
+    special_request  = SpecialRequest.query.get_or_404(req_id)
+    request_quantity = int(request_quantity)
+
+    if request_quantity > special_request.original_quantity or request_quantity > special_request.stock.avail:
+        flash('You cannot accept more than the user has requested or more than the available quantity', 'danger')
+        return redirect(url_for('admin_special_request'))
+    special_request.qty = request_quantity
+    special_request.status = 1
+    special_request.processed_by = current_user.first_name + " " + current_user.last_name 
+    special_request.admins_comment = admin_comment
+    db.session.commit()
+    req = Request(
+                user_id = special_request.user_id,
+                stock_id=special_request.stock.id,
+                qty = special_request.qty,
+                users_comment = special_request.users_comment,
+                original_quantity = special_request.original_quantity,
+                date_applied = special_request.date_applied
+            )
+    db.session.add(req)
+    db.session.commit()
+    flash('Special Request Accepted', 'success')
+    return redirect(url_for('admin_special_request'))
+
+
+#reject special request
+@app.route('/admin/specialrequest/delete/<int:req_id>', methods = ['POST'])
+@login_required
+def reject_special_request(req_id):
+    if not current_user.isSuperUser: abort(403) 
+    req  = SpecialRequest.query.get_or_404(req_id)
+    req.status = -1
+    req.admins_comment = request.form['admincomment']
+    req.processed_by = current_user.first_name + " " + current_user.last_name 
+    db.session.commit()
+    flash('Special Request rejected','danger')
+    return redirect(url_for('admin_special_request'))
+
+# view all special requests summary
+@app.route('/admin/specialrequests/summary')
+@login_required
+def admin_special_summary():
+    if not current_user.isSuperUser: abort(403) 
+    requests = SpecialRequest.query.all()[::-1]
+    return render_template('admin_summary.html', requests = requests)
 
 ### Admin user management ###
 
+# display all users
 @app.route('/admin/users')
 @login_required
 def display_users():
@@ -266,6 +363,8 @@ def display_users():
     users = User.query.all()
     return render_template('display_users.html', users = users)
 
+
+# add a new user
 @app.route('/admin/users/add', methods = ['GET', 'POST'])
 @login_required
 def add_users():
@@ -291,6 +390,7 @@ def add_users():
             return redirect(url_for('display_users'))
     return render_template('register.html',title = 'Register', form = form)
 
+# view profile
 @app.route('/profile/<int:user_id>')
 @login_required
 def view_user(user_id):
@@ -313,6 +413,8 @@ def view_user(user_id):
 #             flash(user.first_name + "'s Password was Updated", 'success')
 #     return render_template('update_password.html', form = form, user = user)
 
+
+# delete account
 @app.route('/profile/delete/account/<int:user_id>', methods = ['POST'])
 @login_required
 def admin_delete_account(user_id):
@@ -324,6 +426,7 @@ def admin_delete_account(user_id):
     flash("Account Deleted", 'success')
     return redirect(url_for('display_users'))
 
+# toggle admin privileges
 @app.route('/profile/toggleadmin/<int:user_id>', methods = ['POST'])
 @login_required
 def toggle_admin(user_id):
@@ -334,6 +437,7 @@ def toggle_admin(user_id):
     flash("Account Updated", 'success')
     return redirect(url_for('view_user', user_id = user.id))
 
+# toggle superuser privileges
 @app.route('/profile/togglesuperuser/<int:user_id>', methods = ['POST'])
 @login_required
 def toggle_superuser(user_id):
@@ -396,9 +500,9 @@ def make_request(stock_id):
             db.session.add(request)
             db.session.commit()
             flash('Request Made Successfully', 'success')
-            print('Request Sucessful')
+            
         else:
-            print('Quota exceeded')
+            
             flash('You cannot request more than the available quota', 'danger')
     return render_template('request_stock.html', form=form, stock=stock)
 
@@ -442,6 +546,8 @@ def category(category_id):
 def user_summary():
     requests = User.query.get(current_user.id).requests[::-1]
     return render_template('summary.html', requests = requests)
+
+
 
 
 

@@ -6,7 +6,7 @@
         <div class="col-lg-8">
             <div class="card border-dark p-lg-5 p-3">
                 <h2>Request {{ stock.item }}</h2>
-                <p> Minimum Limit :{{ stock.minimum_limit }}  and Maximum Limit:{{ stock.maximum_limit }}  per order</p>
+                <p class="jumbotron"> Minimum Limit :{{ stock.minimum_limit }}  and Maximum Limit:{{ stock.maximum_limit }}  per order</p>
                     <form class="form-horizontal" method='POST'>
                         {{ form.hidden_tag() }}
 

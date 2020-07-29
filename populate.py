@@ -142,7 +142,7 @@ user = User(
     last_name = 'More', 
     password = b'$2b$12$SkeGMWqz.UGYxguj3j2LNOtN5nfvfRrqtS43dybKWJIBUtPR64Ezm',
     isAdmin = True,
-    isSuperUser = False,
+    isSuperUser = True,
 )
 db.session.add(user)
 db.session.commit()
