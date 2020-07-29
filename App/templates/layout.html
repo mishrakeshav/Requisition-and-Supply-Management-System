@@ -94,7 +94,16 @@ nav{
                             </li>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('user_summary') }}">Requests Log</a>
+                            <li class="nav-item avatar dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Request Log
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ url_for('user_summary') }}">Request Summary</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="{{ url_for('user_special_summary') }}">Special Request Summary</a>                               
+                                </div>
+                            </li>
                         </li>    
                         {% if current_user.isSuperUser %}
                             <li class="nav-item">

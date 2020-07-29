@@ -1,0 +1,132 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="container">
+
+		<div class="text-center" style="margin: 20px;">
+			<button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="margin: 5px;">
+			User Manual
+		  </button>
+		 </div>
+		<div class="collapse" id="collapseExample">
+			  <div class="card card-body">
+				<h6 style="text-align: center;"> These type of users are the lab staff and the teaching staff that will be able to make requests for the stationery items.</h6>
+				<p>
+					<span style="font-size: 20px;font-style: bold;">•Making a request:</span><br>
+						1.	Click on “Make a request” option either from the home page or from the Nav bar.To access items by category, click on “Categories” and to access all the items at once,click on “See all Items”.<br>
+						2.	Select the required category and search for the items required.<br>
+						3.	Select the item required by clicking on “Request” button.<br>
+						4.	Add the necessary item details.<br>
+						5.	Click on “Confirm Request” to confirm.<br>
+					<span style="font-size: 20px;font-style: bold;">•Requests Log:</span><br>
+						Once you have selected all the required items,click on “Requests Log” from the nav bar to view the summary of items requested.<br>
+					<span style="font-size: 20px;font-style: bold;">•Managing Profile:</span><br>
+					•	You can edit your profile details or reset your account password by clicking on your profile on the navbar.
+				</p>
+	
+			  </div>
+		</div> 
+		
+		<div class="text-center" style="margin: 20px;">
+			<button class="btn btn-warning" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample" style="margin: 5px; color: white;">
+			Admin Manual
+		  </button>
+		 </div>
+		<div class="collapse" id="collapseExample1">
+			  <div class="card card-body">
+				<h6 style="text-align: center;"> Along with having all the priveleges of the normal user,it is responsible for sanctioning all the requests made by the normal users.</h6>
+				<p>
+					<span style="font-size: 20px;font-style: bold;">•Making a request:</span><br>
+						1.	Click on “Make a request” option either from the home page or from the Nav bar.To access items by category, click on “Categories” and to access all the items at once,click on “See all Items”.<br>
+						2.	Select the required category and search for the items required.<br>
+						3.	Select the item required by clicking on “Request” button.<br>
+						4.	Add the necessary item details.<br>
+						5.	Click on “Confirm Request” to confirm.<br>
+					<span style="font-size: 20px;font-style: bold;">•Requests Log:</span><br>
+						Once you have selected all the required items,click on “Requests Log” from the nav bar to view the summary of items requested.<br>
+					<span style="font-size: 20px;font-style: bold;">•Sanctioning Requests:</span><br>
+					1.	To check for the users requests, click on “Requests” option on the navbar or from the home page.<br>
+					2.	To accept a user’s request, click on “Send” and to reject the request, click on “Delete”. Before accepting or deleting a request ,you can write a comment.<br>
+					3.	After accepting of deleting a request, you can check all the requests status by clicking on the “Requests Log” button.<br>
+					<span style="font-size: 20px;font-style: bold;">•Adding New Items/Categories of Items:</span><br>
+					1.	Click on “Stock-->1.Categories 2.See all items”.<br>
+					2.	To add a new category, select “Categories”.<br>
+					3.	Click on “Add category”.<br>
+					4.	Add Category name and choose a picture file to upload for the category.<br>
+					5.	To add a new item, select “See all items”.<br>
+					6.	Click on “Add a new item”.<br>
+					<span style="font-size: 20px;font-style: bold;">•Editing Existing Items/Categories of Items:</span><br>
+						To edit an item, click on the “Edit” option to manage all the following parameters:<br>
+						•Item Name<br>
+						•Quantity<br>
+						•Required Quantity<br>
+						•Category<br>
+						•Maximum Limit<br>
+						•Minimum Limit<br>
+						•Quota<br>
+					<span style="font-size: 20px;font-style: bold;">•Admin Summary:</span><br>
+						To view the summary of the requests  accepted or rejected, click on “Admin Summary”.<br>
+					<span style="font-size: 20px;font-style: bold;">•Managing Profile:</span><br>
+					•	You can edit your profile details or reset your account password by clicking on your profile on the navbar.
+				</p>
+	
+			  </div>
+		</div> 
+		
+	
+		
+	<div class="text-center" style="margin: 20px;">
+			<button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample" style="margin: 5px;">
+			Super User Manual
+		  </button>
+		 </div>
+		<div class="collapse" id="collapseExample2">
+			  <div class="card card-body">
+				<h6 style="text-align: center;"> Has all the priveleges of both Normal Users and the Admin. In addition,they can add new Users and also add/remove admin priveleges</h6>
+				<p>
+					<span style="font-size: 20px;font-style: bold;">•Making a request:</span><br>
+						1.	Click on “Make a request” option either from the home page or from the Nav bar.To access items by category, click on “Categories” and to access all the items at once,click on “See all Items”.<br>
+						2.	Select the required category and search for the items required.<br>
+						3.	Select the item required by clicking on “Request” button.<br>
+						4.	Add the necessary item details.<br>
+						5.	Click on “Confirm Request” to confirm.<br>
+					<span style="font-size: 20px;font-style: bold;">•Requests Log:</span><br>
+						Once you have selected all the required items,click on “Requests Log” from the nav bar to view the summary of items requested.<br>
+					<span style="font-size: 20px;font-style: bold;">•Sanctioning Requests:</span><br>
+					1.	To check for the users requests, click on “Requests” option on the navbar or from the home page.<br>
+					2.	To accept a user’s request, click on “Send” and to reject the request, click on “Delete”. Before accepting or deleting a request ,you can write a comment.<br>
+					3.	After accepting of deleting a request, you can check all the requests status by clicking on the “Requests Log” button.<br>
+					<span style="font-size: 20px;font-style: bold;">•Adding New Items/Categories of Items:</span><br>
+					1.	Click on “Stock-->1.Categories 2.See all items”.<br>
+					2.	To add a new category, select “Categories”.<br>
+					3.	Click on “Add category”.<br>
+					4.	Add Category name and choose a picture file to upload for the category.<br>
+					5.	To add a new item, select “See all items”.<br>
+					6.	Click on “Add a new item”.<br>
+					<span style="font-size: 20px;font-style: bold;">•Editing Existing Items/Categories of Items:</span><br>
+						To edit an item, click on the “Edit” option to manage all the following parameters:<br>
+						•Item Name<br>
+						•Quantity<br>
+						•Required Quantity<br>
+						•Category<br>
+						•Maximum Limit<br>
+						•Minimum Limit<br>
+						•Quota<br>
+					<span style="font-size: 20px;font-style: bold;">•Admin Summary:</span><br>
+						To view the summary of the requests  accepted or rejected, click on “Admin Summary”.<br>
+					<span style="font-size: 20px;font-style: bold;">•Managing Users:</span><br>
+					1.	To view all the admins and users on the website, go to the “Manage Users” section on the home page.<br>
+					2.	Click on “View users”.<br>
+					3.	To add a new user, click on “Add a new user”.<br>
+					4.	Enter First Name,Last Name and email id(Somaiya id only) of the respective admin.<br>
+					5.	To delete a user or add/remove admin priveleges, click on the “View” button.<br>
+					<span style="font-size: 20px;font-style: bold;">•Managing Profile:</span><br>
+					•	You can edit your profile details or reset your account password by clicking on your profile on the navbar.
+				</p>
+	
+			  </div>
+		</div> 
+	</div>
+
+
+{% endblock content %}

@@ -49,6 +49,7 @@ def stocks():
 
 @app.route('/admin/stocks/edit/<int:stock_id>', methods=['GET', 'POST'])
 def edit_stock(stock_id):
+    if not current_user.isAdmin: abort(403) 
     stock = Stock.query.get_or_404(stock_id)
     form = EditStocks()
     form.category.choices = [(cat.id, cat.name) for cat in Category.query.all()]
@@ -144,12 +145,14 @@ def reset():
 # view all the categories
 @app.route('/admin/categories')
 def admin_categories():
+    if not current_user.isAdmin: abort(403) 
     cat = Category.query.all()
     return render_template('admin_categories.html', categories = cat)
 
 # view all the stocks in a category
 @app.route('/admin/categories/<int:category_id>')
 def admin_category(category_id):
+    if not current_user.isAdmin: abort(403) 
     stocks = Stock.query.filter_by(category_id = category_id).all()
     categories = Category.query.all()
     quota = []
@@ -181,6 +184,7 @@ def add_category():
 
 @app.route('/admin/category/edit/<int:category_id>', methods=['GET', 'POST'])
 def edit_category(category_id):
+    if not current_user.isAdmin: abort(403) 
     category = Category.query.get_or_404(category_id)
     form = EditCategoryForm()
     
@@ -353,6 +357,14 @@ def admin_special_summary():
     requests = SpecialRequest.query.all()[::-1]
     return render_template('admin_summary.html', requests = requests)
 
+
+@app.route('/user/specialrequests/summary')
+@login_required
+def user_special_summary():
+    requests = SpecialRequest.query.filter_by(user_id = current_user.id).all()[::-1]
+    return render_template('user_special_summary.html', requests = requests)
+
+
 ### Admin user management ###
 
 # display all users
@@ -430,9 +442,13 @@ def admin_delete_account(user_id):
 @app.route('/profile/toggleadmin/<int:user_id>', methods = ['POST'])
 @login_required
 def toggle_admin(user_id):
-    if not current_user.isAdmin: abort(403)
+    if not current_user.isSuperUser: abort(403)
     user = User.query.get_or_404(user_id)
-    user.isAdmin = not user.isAdmin
+    if user.isAdmin:
+        user.isAdmin = False
+        user.isSuperUser = False
+    else:
+        user.isAdmin = True
     db.session.commit()
     flash("Account Updated", 'success')
     return redirect(url_for('view_user', user_id = user.id))
@@ -441,10 +457,13 @@ def toggle_admin(user_id):
 @app.route('/profile/togglesuperuser/<int:user_id>', methods = ['POST'])
 @login_required
 def toggle_superuser(user_id):
-    if not current_user.isAdmin: abort(403)
+    if not current_user.isSuperUser: abort(403)
     user = User.query.get_or_404(user_id)
-    user.isAdmin = not user.isAdmin
-    user.isSuperUser = not user.isSuperUser
+    if user.isSuperUser:
+        user.isSuperUser = False
+    else:
+        user.isSuperUser = True
+        user.isAdmin = True
     db.session.commit()
     flash("Account Updated", 'success')
     return redirect(url_for('view_user', user_id = user.id))
@@ -659,6 +678,12 @@ def reset_token(token):
         return redirect(url_for('login'))
     
     return render_template('reset_token.html',title = 'Reset Password', form = form)
+
+@app.route('/help')
+def help():
+    return render_template('help.html')
+
+
 
 
 ############# utils ####################

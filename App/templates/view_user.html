@@ -19,46 +19,43 @@
                             User
                         {% endif %}
                     </p>
-                    <div class="row">
-                        
-                        <div class="col-lg-3 m-2">                            
-                            <button type="button" class="mt-2 mb-2 btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAccount">
-                                Delete Account
-                            </button>
+                    {% if current_user.isSuperUser %}
+                        <div class="row">
+                            <div class="col-lg-3 m-2">                            
+                                <button type="button" class="mt-2 mb-2 btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteAccount">
+                                    Delete Account
+                                </button>
+                            </div>
+                            <div class="col-lg-3 m-1">
+                                    {% if user.isAdmin %}                                                               
+                                        <a href = "javascript:{document.getElementById('toggleadmin').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                            Remove Admin privileges
+                                        </a>                                   
+                                    {% else %}                                                                
+                                        <a href = "javascript:{document.getElementById('toggleadmin').submit()}"  class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                            Give Admin privileges
+                                        </a>                                    
+                                    {% endif %}
+                                    <form id = 'toggleadmin' action="{{ url_for('toggle_admin',user_id = user.id)  }}" method="POST">
+                                        <input type="hidden">
+                                    </form>
+                            </div>
+                            <div class="col-lg-3 m-1">                            
+                                    {% if user.isSuperUser %}
+                                        <a href = "javascript:{document.getElementById('togglesuperuser').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                            Remove superuser privileges
+                                        </a>
+                                    {% else %}
+                                        <a href = "javascript:{document.getElementById('togglesuperuser').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
+                                            Give superuser privileges 
+                                        </a>
+                                    {% endif %}
+                                    <form id = 'togglesuperuser' action="{{ url_for('toggle_superuser',user_id = user.id)  }}" method="POST">
+                                        <input type="hidden">
+                                    </form>
+                            </div>
                         </div>
-                        <div class="col-lg-3 m-1">
-                            {% if current_user.isAdmin %}
-                                {% if user.isAdmin %}                                                                
-                                    <a href = "javascript:{document.getElementById('toggleadmin').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
-                                        Remove Admin privileges
-                                    </a>                                   
-                                {% else %}                                                                
-                                    <a href = "javascript:{document.getElementById('toggleadmin').submit()}"  class="mt-2 mb-2 btn btn-secondary btn-sm">
-                                        Give Admin privileges
-                                    </a>                                    
-                                {% endif %}
-                                <form id = 'toggleadmin' action="{{ url_for('toggle_admin',user_id = user.id)  }}" method="POST">
-                                    <input type="hidden">
-                                </form>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-3 m-1">                            
-                            {% if current_user.isSuperUser %}
-                                {% if user.isSuperUser %}
-                                    <a href = "javascript:{document.getElementById('togglesuperuser').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
-                                        Remove superuser privileges
-                                    </a>
-                                {% else %}
-                                    <a href = "javascript:{document.getElementById('togglesuperuser').submit()}" class="mt-2 mb-2 btn btn-secondary btn-sm">
-                                        Give superuser privileges 
-                                    </a>
-                                {% endif %}
-                                <form id = 'togglesuperuser' action="{{ url_for('toggle_superuser',user_id = user.id)  }}" method="POST">
-                                    <input type="hidden">
-                                </form>
-                            {% endif %}
-                        </div>
-                    </div>
+                    {% endif %}
                     <br>
                     
                     <!-- Button trigger modal -->
