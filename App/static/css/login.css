@@ -62,3 +62,19 @@ body {
     background-color: #9d0b0b;
     color: white;
 }
+@media screen and (max-width: 600px) {
+    #deptname {
+      display: none;
+    } 
+    #clglogo {
+      display: none;
+    } 
+    
+    .responsive {
+        font-size: 1.5rem;
+    }
+    .clgname {
+        font-size: 1.5rem;
+    }
+}
+  

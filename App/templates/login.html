@@ -22,19 +22,19 @@
     <link href="{{ url_for('static', filename = 'css/login.css' )  }}" rel="stylesheet">
 </head>
 
-<body class="text-center">
+<body class="container">
     
-    <div class='card p-5'>
+    <div class='card p-5 text-center'>
         <div class="row">
             <div class="col-lg-6 p-3">
-                <img class="mb-1" src="{{ url_for('static', filename='images/svv.png') }}" alt="" width="102">
-                <h2 class="h4 mb-3  colors">KJ Somaiya Institute of Engineering and Information Technology</h2>
-                <h1 class="h5 mb-3 colors">Department of Information Technology</h1>
-                <h3 class="display-5 mb-3">Requisition and Supply Management System</h3>
+                <img id = "clglogo" class="mb-1 clgname" src="{{ url_for('static', filename='images/svv.png') }}" alt="" width="102">
+                <h2 class="h4 mb-3  colors responsive">KJ Somaiya Institute of Engineering and Information Technology</h2>
+                <h1 id = "deptname" class="h5 mb-3 colors responsive">Department of Information Technology</h1>
+                <h3 class="display-5 mb-3 responsive">Requisition and Supply Management System</h3>
                 
             </div>
-            <div class="col-lg-6 mt-1 p-3">
-                <h3 class="h2 mb-3">Login</h3>
+            <div class="col-lg-6 p-3">
+                <h3 class="h2 mb-3 responsive">Login</h3>
                 <form method = "POST" class="form-signin">                
             
                     {% with messages = get_flashed_messages(with_categories = true) %}
