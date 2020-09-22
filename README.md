@@ -34,23 +34,6 @@ Flask,Bootstrap,JavaScript,Python,MySQL,SQLite,HTML,CSS
 
 
 
-
-
-
-### Building
-
-If your project needs some additional steps for the developer to build the
-project after some code changes, state them here. for example:
-
-```shell
-pip install -r requirements.txt
-```
-
-
-```shell
-Give an example
-```
-
 ## Style guide
 
 Write code as per PEP8 standard
